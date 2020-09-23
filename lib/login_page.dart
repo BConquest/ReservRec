@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/dashboard.dart';
+import 'package:reservrec/signup.dart';
 import 'test_users.dart';
 
 class LoginPage extends StatefulWidget {
@@ -79,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup()));
           },
         ),
       ),
