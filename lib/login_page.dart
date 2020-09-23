@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:reservrec/dashboard.dart';
+import 'test_users.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -15,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
           tag: 'hero',
           child: SizedBox(
             height: 160,
-            child: Image.asset('assets/ac-logo.png'),
+            child: Image.asset('assets/logo.png'),
           )
       ),
     );
@@ -55,7 +57,24 @@ class _LoginPageState extends State<LoginPage> {
         height: 56,
         child: RaisedButton(
           child: Text('Login', style: TextStyle(color: Colors.white, fontSize: 20)),
-          color: Colors.black87,
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+          },
+        ),
+      ),
+    );
+
+    final buttonSignUp = Padding(
+      padding: EdgeInsets.only(bottom: 5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          child: Text('Sign-Up', style: TextStyle(color: Colors.white, fontSize: 20)),
+          color: Colors.red,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
@@ -71,9 +90,10 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: null
     );
 
-    return SafeArea(
+  return SafeArea(
         child: Scaffold(
           body: Center(
+
             child: ListView(
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -81,10 +101,19 @@ class _LoginPageState extends State<LoginPage> {
                 logo,
                 inputEmail,
                 inputPassword,
-                buttonLogin,
-                buttonForgotPassword
+                new ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    buttonMinWidth: 1000,
+                    children: <Widget> [
+                      buttonSignUp,
+                      buttonLogin,
+                    ]
+                ),
+                buttonForgotPassword,
               ],
             ),
+
           ),
         )
     );
