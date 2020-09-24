@@ -5,3 +5,6 @@ This should work.
 
 # About
 [bryant](./bryant.md)
+[zach](./zach.md)
+[phillip](./phillip.md)
+[ryan](./ryan.md)
