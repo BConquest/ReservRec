@@ -1,7 +1,6 @@
 # ReservRec
-This should work.
-
 ## Play any sport, any time.
+A Flutter application
 
 # About
 [bryant](./bryant.md)
@@ -9,6 +8,7 @@ This should work.
 [phillip](./phillip.md)
 [ryan](./ryan.md)
 
-# Project Goals
-We want to help connect players to create more enjoyable and memorable experiences on the field. By using our app, students across the nation can
-create, play, and enjoy any sport, any time.
+# Our Mission
+At ReservRec, we want to help connect students to create more enjoyable and memorable experiences on the field.
+Therefore we strive to make playing a sport possible no matter who or where you are.
+By using our app, students across the nation can create, enjoy, and play any sport, any time.
