@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:location/location.dart';
+import 'dart:math';
 
 class LocationPage extends StatefulWidget {
   @override
   _LocationPageState createState() => _LocationPageState();
-
 }
 
 class _LocationPageState extends State<LocationPage> {
@@ -17,6 +17,27 @@ class _LocationPageState extends State<LocationPage> {
   StreamSubscription<LocationData> locationSubscription;
   Location location = new Location();
   String error;
+
+  //from https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
+  double calcDistance(double lat0, double lat1, double lon0, double lon1) {
+    double distLat;
+    double distLon;
+    double lat0R = lat0 * (pi/180);
+    double lat1R = lat1 * (pi/180);
+    double a;
+    double c;
+    int rEarthMiles = 3956;
+
+    //degrees lat and lon to radians
+    distLat = (lat1 - lat0) * (pi/180);
+    distLon = (lon1 - lon0) * (pi/180);
+
+    //Haversine formula
+    a = pow(sin(distLat / 2.0), 2) + cos(lat0R) * cos(lat1R) * pow(sin(distLon / 2.0), 2);
+    c = 2 * asin(sqrt(a));
+
+    return (c * rEarthMiles);
+  }
 
   @override
   void initState() {
@@ -29,13 +50,15 @@ class _LocationPageState extends State<LocationPage> {
       });
     });
   }
+
+  // Button to Calc Distance between points
   Widget build(BuildContext context) {
     /*final buttonGetLocation = Padding(
       padding: EdgeInsets.only(bottom: 5),
       child: ButtonTheme(
         height: 56,
         child: RaisedButton(
-          child: Text('Verify Location', style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text('Get Distance', style: TextStyle(color: Colors.white, fontSize: 20)),
           color: Colors.red,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50)
@@ -47,12 +70,13 @@ class _LocationPageState extends State<LocationPage> {
         )
       )
     );*/
+
     final displayLocation = Padding(
         padding: EdgeInsets.all(10),
         child: RichText(
           textAlign: TextAlign.justify,
           text: TextSpan(
-              text: 'Lat/Lon:${currentLocation.latitude}/${currentLocation.longitude}',
+              text: 'Lat/Lon: ${currentLocation.latitude}/${currentLocation.longitude}\nDist = ${calcDistance(currentLocation.latitude, 30.22100, currentLocation.longitude, -90.02273)}',
               style: TextStyle(color: Colors.black, fontSize: 20)
           ),
         )
