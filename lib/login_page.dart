@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
           },
         ),
       ),

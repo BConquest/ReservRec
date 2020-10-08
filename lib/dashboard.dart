@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:reservrec/login_page.dart';
+import 'package:reservrec/post.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -46,6 +49,25 @@ class Dashboard extends StatelessWidget {
             ),
           ),
         )
+    );
+  }
+}
+
+class Feed extends StatelessWidget {
+  const Feed({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Home"),
+      ),
+      body: ListView.builder(
+        itemCount: 500,
+        itemBuilder: (BuildContext context, int index) {
+          return PostCard();
+        },
+      ),
     );
   }
 }
