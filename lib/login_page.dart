@@ -9,7 +9,7 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage>  {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
-          onPressed: () {
+          onPressed: (){
             if(loginUser(usernameController.text, passwordController.text)) {
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
             }
