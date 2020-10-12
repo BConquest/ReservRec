@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/dashboard.dart';
 import 'package:reservrec/signup.dart';
-import 'test_users.dart';
+import 'package:reservrec/user_functions.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,6 +10,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final logo = Padding(
@@ -27,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.only(bottom: 10),
       child: TextField(
         keyboardType: TextInputType.emailAddress,
+        controller: usernameController,
         decoration: InputDecoration(
             hintText: 'Email',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -41,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
       padding: EdgeInsets.only(bottom: 20),
       child: TextField(
         keyboardType: TextInputType.text,
+        controller: passwordController,
         obscureText: true,
         decoration: InputDecoration(
             hintText: 'Password',
@@ -63,7 +68,9 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+            if(loginUser(usernameController.text, passwordController.text)) {
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+            }
           },
         ),
       ),

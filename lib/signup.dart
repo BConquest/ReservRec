@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/dashboard.dart';
-import 'test_users.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -9,6 +8,11 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPController = TextEditingController();
+  final emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // TODO Change To be custom profile picture
@@ -27,6 +31,7 @@ class _SignupState extends State<Signup> {
       padding: EdgeInsets.all(5),
       child: TextField(
         keyboardType: TextInputType.name,
+        controller: usernameController,
         decoration: InputDecoration(
             hintText: 'Username',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -42,6 +47,7 @@ class _SignupState extends State<Signup> {
       child: TextField(
         keyboardType: TextInputType.text,
         obscureText: true,
+        controller: passwordController,
         decoration: InputDecoration(
             hintText: 'Password',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -57,6 +63,7 @@ class _SignupState extends State<Signup> {
       child: TextField(
         keyboardType: TextInputType.text,
         obscureText: true,
+        controller: confirmPController,
         decoration: InputDecoration(
             hintText: 'Confirm Password',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -71,6 +78,7 @@ class _SignupState extends State<Signup> {
       padding: EdgeInsets.all(5),
       child: TextField(
         keyboardType: TextInputType.emailAddress,
+        controller: emailController,
         decoration: InputDecoration(
             hintText: 'Email',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
