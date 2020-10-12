@@ -4,6 +4,8 @@ import 'package:reservrec/dashboard.dart';
 import 'package:reservrec/signup.dart';
 import 'package:reservrec/user_functions.dart';
 
+import 'package:csv/csv.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -67,8 +69,8 @@ class _LoginPageState extends State<LoginPage>  {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
-          onPressed: (){
-            if(loginUser(usernameController.text, passwordController.text)) {
+          onPressed: () async {
+            if(await loginUser(usernameController.text, passwordController.text)) {
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
             }
           },

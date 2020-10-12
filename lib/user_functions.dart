@@ -1,5 +1,12 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:reservrec/test_users.dart';
 import 'package:reservrec/main.dart';
+
+import 'package:csv/csv.dart';
+import 'package:path_provider/path_provider.dart';
 
 class User {
   final int    userid;
@@ -23,20 +30,44 @@ class User {
   }
 }
 
-loginUser(String username, String password) {
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
+
+  return directory.path;
+}
+
+Future<File> get _localFile async {
+  final path = await _localPath;
+  return File('$path/reservrec.csv');
+}
+
+Future<List> loadCSV() async {
+  final file = await _localFile;
+  final input = await file.readAsString();
+  final fields = input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
+  return fields;
+}
+
+Future<bool> loginUser(String username, String password) async {
   /*
   Todo
   Switch to grep from sqlite db
    */
+  final path = await _localPath;
+  print(path);
+
+  //var users = await loadCSV();
+  //print(users);
+
   if (testUsers[username] == password) {
     print("Login Successful");
-    return true;
+    return Future.value(true);
   } else {
     print("Login Failed");
     print(username);
     print(password);
     print(testUsers);
-    return false;
+    return Future.value(false);
   }
 }
 
@@ -51,7 +82,6 @@ bool newUser(String username, String password, String confirmPassword, String em
   Todo
   insert into sqlite;
    */
-
   return true;
 }
 
