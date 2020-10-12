@@ -35,8 +35,11 @@ void createTables() async {
         db.execute(
           "CREATE TABLE Users (user_id int NOT NULL PRIMARY KEY, username varchar(255) NOT NULL, password varchar(255) NOT NULL, email varchar(255), picture varbinary(8000), verified bit, school varchar(255))",
         );
-        return db.execute(
+        db.execute(
           "CREATE TABLE PostStatus(post_status_id int, status varchar(8), FOREIGN KEY (post_status_id) REFERENCES Posts(post_id))"
+        );
+        db.execute(
+          "insert into users values(1, \"bmconquest\", \"password\", \"bmconquest@crimson.ua.edu\", NULL, 1, \"University of Alabama\")"
         );
       },
       version: 1,
