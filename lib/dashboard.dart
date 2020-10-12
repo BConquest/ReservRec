@@ -12,7 +12,7 @@ class Dashboard extends StatelessWidget {
           tag: 'hero',
           child: SizedBox(
             height: 160,
-            child: Image.asset('assets/logo.png'),
+            child: Image.asset('assets/defaultuser.png'),
           )
       ),
     );
