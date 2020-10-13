@@ -39,7 +39,11 @@ Future<bool> loginUser(String email, String password, bool isInitialRead) async 
       Me.password = users[i][2];
       Me.picture = users[i][4];
       Me.school = users[i][6];
-      Me.verified = users[i][5];
+      if(users[i][5] == 1) {
+        Me.verified = true;
+      } else {
+        Me.verified = false;
+      }
       return Future.value(true);
     }
     print(users[i][3]);
