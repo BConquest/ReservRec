@@ -1,65 +1,7 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:csv/csv_settings_autodetection.dart';
-import 'package:reservrec/test_users.dart';
-import 'package:reservrec/main.dart';
-
-import 'package:csv/csv.dart';
-import 'package:path_provider/path_provider.dart';
-
-import 'package:flutter/services.dart' show rootBundle;
-
-class User {
-  final int    userid;
-  final String username;
-  final String password;
-  final String email;
-  final bool   verified;
-  final String picture;
-  final String school;
-
-  User({this.userid, this.username, this.password, this.email, this.verified, this.picture, this.school});
-
-  Map<String, dynamic> toMap() {
-    return {
-      'username': username,
-      'password': password,
-      'email': email,
-      'verified': verified,
-      'school': school,
-    };
-  }
-}
-
-Future<String> get _localPath async {
-  final directory = await getApplicationDocumentsDirectory();
-  return directory.path;
-}
-
-Future<File> get _localFile async {
-  final path = await _localPath;
-  return File('$path/assets/reservrec.csv');
-}
-
-Future<String> loadAsset() async {
-  return await rootBundle.loadString('assets/reservrec.csv');
-}
-
-Future<List> loadCSV() async {
-  String fileContents = await loadAsset();
-
-  const conv = const CsvToListConverter(eol: ';');
-  final res = conv.convert(fileContents);
-  return res;
-}
+import 'package:reservrec/file_functions.dart';
 
 Future<bool> loginUser(String username, String password) async {
-  /*
-  Todo
-  Switch to grep from sqlite db
-   */
   List path = await loadCSV();
 
   for (var i = 0; i < path.length; i++) {
