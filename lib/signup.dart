@@ -13,9 +13,21 @@ class _SignupState extends State<Signup> {
   final passwordController = TextEditingController();
   final confirmPController = TextEditingController();
   final emailController = TextEditingController();
+  var snackController = TextEditingController();
+  var message = "empty";
 
   @override
   Widget build(BuildContext context) {
+    final snackBar = SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            print("YO WHATS POPPING NERDS");
+          },
+        )
+    );
+
     // TODO Change To be custom profile picture
     final logo = Padding(
       padding: EdgeInsets.all(20),
@@ -101,8 +113,12 @@ class _SignupState extends State<Signup> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            if(await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text)) {
+            String message = await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
+            if(message == "true") {
               print("newUser");
+            } else {
+              message = snackController.text;
+              Scaffold.of(context).showSnackBar(snackBar);
             }
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
