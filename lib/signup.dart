@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:reservrec/dashboard.dart';
+import 'package:reservrec/login_page.dart';
 import 'package:reservrec/user_functions.dart';
 
 class Signup extends StatefulWidget {
@@ -104,7 +104,7 @@ class _SignupState extends State<Signup> {
             if(await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text)) {
               print("newUser");
             }
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
         ),
       ),

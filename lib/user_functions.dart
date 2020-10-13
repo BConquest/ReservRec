@@ -42,9 +42,13 @@ Future<bool> loginUser(String email, String password, bool isInitialRead) async 
 
 Future<bool> newUser(String username, String password, String confirmPassword, String email) async {
   if (!validPassword(password, confirmPassword)) {
+    print(password);
+    print(confirmPassword);
+    print("Invalid Password");
     return false;
   }
   if (!validEmail(email)) {
+    print("Invalid Email");
     return false;
   }
 
@@ -64,8 +68,9 @@ Future<bool> newUser(String username, String password, String confirmPassword, S
       picture: "default",
       school: "University of Alabama",
       verified: false);
+  print("TEMP");
   print(temp);
-  return true;
+  return Future.value(true);
 }
 
 bool validEmail(String email) {
@@ -87,7 +92,7 @@ bool validPassword(String password, String confirmPassword) {
   if (!verifyPassword(password, confirmPassword)) {
     return false;
   }
-  if (password.length < 8) {
+  if (password.length < 2) {
     return false;
   }
   return true;
