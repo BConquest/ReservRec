@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/dashboard.dart';
+import 'package:reservrec/file_functions.dart';
 import 'package:reservrec/signup.dart';
 import 'package:reservrec/user_functions.dart';
-
-import 'package:csv/csv.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -70,8 +69,16 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            if(await loginUser(usernameController.text, passwordController.text)) {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+            if (await isInitialRead("reservrec.csv")) {
+              print("isInitialRead = True");
+              if (await loginUser(usernameController.text, passwordController.text, true)) {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+              }
+            } else { // Not Initial Read
+              print("isInitialRead = False");
+              if (await loginUser(usernameController.text, passwordController.text, false)) {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+              }
             }
           },
         ),
@@ -88,7 +95,8 @@ class _LoginPageState extends State<LoginPage>  {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
-          onPressed: () {
+          onPressed: () async {
+            await writeInitialCSV("reservrec.csv");
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup()));
           },
         ),

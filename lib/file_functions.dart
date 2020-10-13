@@ -1,24 +1,62 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:csv/csv_settings_autodetection.dart';
-import 'package:reservrec/test_users.dart';
-import 'package:reservrec/main.dart';
-
 import 'package:csv/csv.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:flutter/services.dart' show rootBundle;
+Future<String> get _localPath async {
+  final directory = await getApplicationDocumentsDirectory();
 
-Future<String> loadAsset() async {
-  return await rootBundle.loadString('assets/reservrec.csv');
+  return directory.path;
 }
 
-Future<List> loadCSV() async {
-  String fileContents = await loadAsset();
+Future<File> get _localFile async {
+  final path = await _localPath;
+  return File('$path/reservrec.csv');
+}
+
+Future<String> loadAsset(String filename) async {
+  String filepath = "assets/" + filename;
+  return await rootBundle.loadString(filepath);
+}
+
+Future<bool> isInitialRead(String filename) async {
+  print("INITIAL READ");
+  try {
+    final file = await _localFile;
+    String contents = await file.readAsString();
+    return Future.value(true);
+  } catch (e) {
+    print(e);
+    return Future.value(false);
+  }
+}
+
+Future<List> loadInitialCSV(String filename) async {
+  print("INITIAL LOAD");
+  String fileContents = await loadAsset(filename);
 
   const conv = const CsvToListConverter(eol: ';');
   final res = conv.convert(fileContents);
   return res;
+}
+
+Future<List> loadLocalCSV(String filename) async {
+  print("LOCAL LOAD");
+  final file = await _localFile;
+  String contents = await file.readAsString();
+
+  const conv = const CsvToListConverter(eol: ';');
+  final res = conv.convert(contents);
+  return res;
+}
+
+//FIX
+Future<void> writeInitialCSV(String filename) async {
+  print("WRITE INITIAL");
+  List users = await loadInitialCSV(filename);
+  String csv = const ListToCsvConverter(eol: ';\n').convert(users);
+  final file = await _localFile;
+  return file.writeAsString(csv);
 }

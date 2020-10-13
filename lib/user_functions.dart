@@ -1,15 +1,19 @@
 import 'dart:async';
 import 'package:reservrec/file_functions.dart';
 
-Future<bool> loginUser(String username, String password) async {
-  List path = await loadCSV();
-
-  for (var i = 0; i < path.length; i++) {
-    if (path[i][1] == username && path[i][2] == password) {
+// isInitialRead = true then
+Future<bool> loginUser(String email, String password, bool isInitialRead) async {
+  List users;
+  if (isInitialRead) {
+    users = await loadInitialCSV("reservrec.csv");
+    writeInitialCSV("reservrec.csv");
+  } else {
+    users = await loadLocalCSV("reservrec.csv");
+  }
+  for (var i = 0; i < users.length; i++) {
+    if (users[i][3] == email && users[i][2] == password) {
       return Future.value(true);
     }
-    print(path[i][1]);
-    print(path[i][2]);
   }
   return Future.value(false);
 }
