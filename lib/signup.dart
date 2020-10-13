@@ -121,6 +121,23 @@ class _SignupState extends State<Signup> {
       ),
     );
 
+    final buttonBack = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          child: Text('Back', style: TextStyle(color: Colors.white, fontSize: 20)),
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () async {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+          },
+        ),
+      ),
+    );
+
     return SafeArea(
         child: Scaffold(
           body: Center(
@@ -134,6 +151,7 @@ class _SignupState extends State<Signup> {
                 inputConfirmPassword,
                 inputEmail,
                 buttonSignUp,
+                buttonBack,
               ],
             ),
 

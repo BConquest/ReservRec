@@ -63,7 +63,7 @@ class Feed extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: grabFeed(true),
+        future: grabFeed(),
         builder: (context, AsyncSnapshot snapshot) {
           print(snapshot.hasData);
           if(!snapshot.hasData) {

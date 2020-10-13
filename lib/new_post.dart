@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/dashboard.dart';
+import 'package:reservrec/feed_functions.dart';
 import 'package:reservrec/user_functions.dart';
 import 'package:reservrec/main.dart';
 
@@ -14,6 +15,8 @@ class NewPost extends StatefulWidget {
 class _NewPost extends State<NewPost> {
   final sportController = TextEditingController();
   final descriptionController = TextEditingController();
+  final locationController = TextEditingController();
+  final timeController = TextEditingController();
   final minController = TextEditingController();
   final maxController = TextEditingController();
 
@@ -64,6 +67,36 @@ class _NewPost extends State<NewPost> {
       ),
     );
 
+    final location = Padding(
+      padding: EdgeInsets.all(5),
+      child: TextField(
+        keyboardType: TextInputType.text,
+        controller: locationController,
+        decoration: InputDecoration(
+            hintText: 'Location of Sport Activity',
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.0)
+            )
+        ),
+      ),
+    );
+
+    final gameTime = Padding(
+      padding: EdgeInsets.all(5),
+      child: TextField(
+        keyboardType: TextInputType.datetime,
+        controller: timeController,
+        decoration: InputDecoration(
+            hintText: 'Time of Sport Activity',
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.0)
+            )
+        ),
+      ),
+    );
+
     final minPlayers = Padding(
       padding: EdgeInsets.all(5),
       child: TextField(
@@ -99,17 +132,13 @@ class _NewPost extends State<NewPost> {
       child: ButtonTheme(
         height: 56,
         child: RaisedButton(
-          child: Text('Sign-Up', style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text('Create Post', style: TextStyle(color: Colors.white, fontSize: 20)),
           color: Colors.red,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            if (await isInitialRead("/feed.csv") == false) {
-              await writeInitialCSV("feed.csv");
-            }
-            message = 'Frank';
-            //String message = await newUser(sportController.text, descriptionController.text, maxPlayers.text, minPlayers.text);
+            String message = await newPost(sportController.text, descriptionController.text, locationController.text, timeController.text, int.parse(maxController.text), int.parse(minController.text));
             if(message == "true") {
               print("newPost");
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
@@ -126,7 +155,7 @@ class _NewPost extends State<NewPost> {
       child: ButtonTheme(
         height: 56,
         child: RaisedButton(
-          child: Text('Sign-Up', style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text('Back', style: TextStyle(color: Colors.white, fontSize: 20)),
           color: Colors.red,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
@@ -148,6 +177,8 @@ class _NewPost extends State<NewPost> {
                 logo,
                 inputSport,
                 inputDescription,
+                location,
+                gameTime,
                 maxPlayers,
                 minPlayers,
                 buttonAddPost,

@@ -33,19 +33,24 @@ class PostModel {
   });
 }
 
-Future<List<PostModel>> grabFeed(bool isInitialRead) async {
+Future<List<PostModel>> grabFeed() async {
   List posts;
   List users = await loadLocalCSV("reservrec.csv");
-  if (isInitialRead) {
+  final isInit = await isInitialRead("/feed.csv");
+  final isInitF = (isInit == false);
+  print(isInitF);
+  if (isInitF) {
     posts = await loadInitialCSV("feed.csv");
     writeInitialCSV("feed.csv");
   } else {
-    posts = await loadLocalCSV("feed.csv");
+    posts = await loadLocalCSV("/feed.csv");
   }
+
+  print(posts);
 
   print(users[0][1]);
   return List.generate(
-    posts.length - 1,
+    posts.length,
         (i) {
       final id = posts[i][0];
       final auth = posts[i][1];
@@ -90,14 +95,14 @@ Future<String> newPost(String sport, String description, String location, String
     minPlayers: min
   );
   String newPostString = temp.id.toString() + ",";
-  newPostString = temp.author.toString() + ",";
+  newPostString += temp.author.toString() + ",";
   newPostString += temp.desc + ",";
   newPostString += temp.postTime + ",";
   newPostString += temp.gameTime + ",";
   newPostString += temp.sport + ",";
   newPostString += temp.loc + ",";
   newPostString += temp.maxPlayers.toString() + ",";
-  newPostString += temp.minPlayers.toString() + ",";
+  newPostString += temp.minPlayers.toString() + ";";
   print(newPostString);
   writeNewLine("/feed.csv", newPostString);
   return "true";
