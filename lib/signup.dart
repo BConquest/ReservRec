@@ -109,10 +109,7 @@ class _SignupState extends State<Signup> {
               print("newUser");
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
             } else {
-              message = snackController.text;
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('Invalid Input Information'),
-              ));
+              print(message);
             }
           },
         ),

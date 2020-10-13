@@ -24,8 +24,7 @@ Future<String> loadAsset(String filename) async {
 
 Future<bool> isInitialRead(String filename) async {
   final file = await localFile(filename);
-  // ignore: unrelated_type_equality_checks
-  return (true != file.exists());
+  return (Future.value(true) == file.exists());
 }
 
 Future<List> loadInitialCSV(String filename) async {
@@ -57,9 +56,11 @@ Future<void> writeInitialCSV(String filename) async {
 }
 
 Future<void> writeNewLine(String filename, String append) async {
+  print("HERE");
   List content = await loadInitialCSV(filename);
   String csv = const ListToCsvConverter(eol: ';\n').convert(content);
   final file = await localFile(filename);
-  final String c = csv + append;
+  final String c = csv + ';\n' +append;
+  print(c);
   file.writeAsString(c);
 }

@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage>  {
                   context, MaterialPageRoute(builder: (context) => Feed()));
             } else {
               print("Username or Password not Accepted");
-              Scaffold.of(context).showSnackBar(snackBar);
+              //Scaffold.of(context).showSnackBar(snackBar);
             }
           },
         ),
