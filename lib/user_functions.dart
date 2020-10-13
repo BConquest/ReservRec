@@ -8,6 +8,8 @@ import 'package:reservrec/main.dart';
 import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'package:flutter/services.dart' show rootBundle;
+
 class User {
   final int    userid;
   final String username;
@@ -32,18 +34,21 @@ class User {
 
 Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();
-
   return directory.path;
 }
 
 Future<File> get _localFile async {
   final path = await _localPath;
-  return File('$path/reservrec.csv');
+  return File('$path/assets/reservrec.csv');
+}
+
+Future<String> loadAsset() async {
+  return await rootBundle.loadString('assets/reservrec.csv');
 }
 
 Future<List> loadCSV() async {
   final file = await _localFile;
-  final input = await file.readAsString();
+  final input = file.openRead();
   final fields = input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
   return fields;
 }
@@ -53,7 +58,7 @@ Future<bool> loginUser(String username, String password) async {
   Todo
   Switch to grep from sqlite db
    */
-  final path = await _localPath;
+  String path = await loadAsset();
   print(path);
 
   //var users = await loadCSV();
