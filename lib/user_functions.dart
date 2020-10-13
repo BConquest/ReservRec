@@ -43,7 +43,7 @@ Future<File> get _localFile async {
 
 Future<List> loadCSV() async {
   final file = await _localFile;
-  final input = await file.readAsString();
+  final input = file.openRead();
   final fields = input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
   return fields;
 }
