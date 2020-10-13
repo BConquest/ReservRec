@@ -1,10 +1,14 @@
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:reservrec/login_page.dart';
+import 'package:reservrec/file_functions.dart';
+
+import 'feed_functions.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({Key key}) : super(key: key);
+  final PostModel postData;
+
+  const PostCard({Key key, this.postData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +19,15 @@ class PostCard extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.all(4.0),
           padding: const EdgeInsets.all(4.0),
-          child: Column(
-            children: <Widget>[
-              _Post(),
-              Divider(color: Colors.grey),
-              _PostDetails(),
-            ],
+          child: InheritedPostModel(
+            postData: postData,
+              child: Column(
+                children: <Widget>[
+                  _Post(),
+                  Divider(color: Colors.grey),
+                  _PostDetails(),
+                ],
+              )
           ),
         ),
       ),
@@ -29,7 +36,8 @@ class PostCard extends StatelessWidget {
 }
 
 class _Post extends StatelessWidget {
-  const _Post({Key key}) : super(key: key);
+  final PostModel postData;
+  const _Post({Key key, this.postData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +53,11 @@ class _PostTitleAndSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
     final TextStyle titleTheme = Theme.of(context).textTheme.title;
     final TextStyle summaryTheme = Theme.of(context).textTheme.body1;
-    final String title = "Test title";
-    final String summary = "Test summary";
+    final String title = postData.sport;
+    final String summary = postData.desc;
 
     return Expanded(
       flex: 3,
@@ -97,8 +106,10 @@ class _UserNameAndEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
     final TextStyle nameTheme = Theme.of(context).textTheme.subtitle;
     final TextStyle emailTheme = Theme.of(context).textTheme.body1;
+
 
     return Expanded(
       flex: 5,
@@ -108,9 +119,9 @@ class _UserNameAndEmail extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("Zack", style: nameTheme),
+            Text(postData.auth_name, style: nameTheme),
             SizedBox(height: 2.0),
-            Text("myemail@gmail.com", style: emailTheme),
+            Text(postData.auth_email, style: emailTheme),
           ],
         ),
       ),
@@ -137,10 +148,37 @@ class _PostTimeStamp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
     //final TextStyle timeTheme = TextThemes.dateStyle;
+    //final DateFormat formatter = DateFormat('MM-dd-yyyy');
+    //final String formatted = formatter.format(postData.gameTime);
     return Expanded(
         flex: 2,
-        child: Text("October 8th")//, style: timeTheme),
+        child: Text(postData.gameTime)//, style: timeTheme),
     );
+  }
+}
+
+// https://medium.com/@shakleenishfar/leaf-flutter-social-media-app-part-6-models-and-inherited-widgets-to-pass-data-a19c3699a56e
+
+class InheritedPostModel extends InheritedWidget {
+  final PostModel postData;
+  final Widget child;
+
+  InheritedPostModel({
+    Key key,
+    @required this.postData,
+    this.child,
+  }) : super(key: key, child: child);
+
+  static InheritedPostModel of(BuildContext context) {
+    // ignore: deprecated_member_use
+    return (context.inheritFromWidgetOfExactType(InheritedPostModel)
+    as InheritedPostModel);
+  }
+
+  @override
+  bool updateShouldNotify(InheritedPostModel oldWidget) {
+    return true;
   }
 }
