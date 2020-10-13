@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:csv/csv_settings_autodetection.dart';
 import 'package:reservrec/test_users.dart';
 import 'package:reservrec/main.dart';
 
@@ -47,10 +48,11 @@ Future<String> loadAsset() async {
 }
 
 Future<List> loadCSV() async {
-  final file = await _localFile;
-  final input = file.openRead();
-  final fields = input.transform(utf8.decoder).transform(new CsvToListConverter()).toList();
-  return fields;
+  String fileContents = await loadAsset();
+
+  const conv = const CsvToListConverter(eol: ';');
+  final res = conv.convert(fileContents);
+  return res;
 }
 
 Future<bool> loginUser(String username, String password) async {
@@ -58,22 +60,16 @@ Future<bool> loginUser(String username, String password) async {
   Todo
   Switch to grep from sqlite db
    */
-  String path = await loadAsset();
-  print(path);
+  List path = await loadCSV();
 
-  //var users = await loadCSV();
-  //print(users);
-
-  if (testUsers[username] == password) {
-    print("Login Successful");
-    return Future.value(true);
-  } else {
-    print("Login Failed");
-    print(username);
-    print(password);
-    print(testUsers);
-    return Future.value(false);
+  for (var i = 0; i < path.length; i++) {
+    if (path[i][1] == username && path[i][2] == password) {
+      return Future.value(true);
+    }
+    print(path[i][1]);
+    print(path[i][2]);
   }
+  return Future.value(false);
 }
 
 bool newUser(String username, String password, String confirmPassword, String email) {
