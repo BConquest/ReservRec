@@ -14,6 +14,8 @@ Future<bool> loginUser(String email, String password, bool isInitialRead) async 
     if (users[i][3] == email && users[i][2] == password) {
       return Future.value(true);
     }
+    print(users[i][3]);
+    print(users[i][2]);
   }
   return Future.value(false);
 }
