@@ -106,7 +106,7 @@ class _SignupState extends State<Signup> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            if (await isInitialRead("reservrec.csv") != false) {
+            if (await isInitialRead("/reservrec.csv") == false) {
               await writeInitialCSV("reservrec.csv");
             }
             String message = await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text);

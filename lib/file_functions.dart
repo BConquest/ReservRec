@@ -13,7 +13,7 @@ Future<String> get _localPath async {
 
 Future<File> localFile(String filename) async {
   final path = await _localPath;
-  String filePath = "$path" + filename;
+  String filePath = "$path/" + filename;
   return File(filePath);
 }
 
