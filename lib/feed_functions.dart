@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:reservrec/file_functions.dart';
+import 'package:reservrec/main.dart';
 
 class PostModel {
   final int id;
@@ -72,31 +73,32 @@ Future<List<PostModel>> grabFeed(bool isInitialRead) async {
           minPlayers: min);
     },
   );
-  /*List<PostModel> feed;
-  feed.insert(0, PostModel(
-      id: 1,
-      author: 1,
-      sport: "nuts",
-      desc: "balls",
-      loc: "ur m0m",
-      postTime: "today",
-      gameTime: "neVer",
-      maxPlayers: 2,
-      minPlayers: 1
-  ));
-  print(feed);
-  for (var i = 0; i < posts.length - 1; i++) {
-    print(i);
-    feed.add(PostModel(
-      id: posts[i][0],
-      author: posts[i][1],
-      sport: posts[i][5],
-      desc: posts[i][2],
-      loc: posts[i][6],
-      postTime: posts[i][3],
-      gameTime: posts[i][4],
-      maxPlayers: posts[i][7],
-      minPlayers: posts[i][8]
-    ));
-  }*/
+}
+
+Future<String> newPost(String sport, String description, String location, String gameTime, int min, int max) async {
+  List posts = await loadLocalCSV("feed.csv");
+
+  final temp = PostModel(
+    id: posts.length+1,
+    author: Me.userID,
+    sport: sport,
+    desc: description,
+    loc: location,
+    postTime: "10-13-2020",
+    gameTime: gameTime,
+    maxPlayers: max,
+    minPlayers: min
+  );
+  String newPostString = temp.id.toString() + ",";
+  newPostString = temp.author.toString() + ",";
+  newPostString += temp.desc + ",";
+  newPostString += temp.postTime + ",";
+  newPostString += temp.gameTime + ",";
+  newPostString += temp.sport + ",";
+  newPostString += temp.loc + ",";
+  newPostString += temp.maxPlayers.toString() + ",";
+  newPostString += temp.minPlayers.toString() + ",";
+  print(newPostString);
+  writeNewLine("/feed.csv", newPostString);
+  return "true";
 }
