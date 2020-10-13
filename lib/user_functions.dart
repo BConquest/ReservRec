@@ -91,8 +91,8 @@ Future<String> newUser(String username, String password, String confirmPassword,
       verified: false);
   String newUserString = temp.userID.toString() + ",";
   newUserString += temp.name + ",";
-  newUserString += temp.email + ",";
   newUserString += temp.password + ",";
+  newUserString += temp.email + ",";
   newUserString += "NULL" + ",";
   newUserString += "0" + ",";
   newUserString += temp.school + ";";
