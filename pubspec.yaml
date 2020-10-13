@@ -27,6 +27,7 @@ dependencies:
   sqflite:
   csv: ^4.0.3
   path_provider: ^1.6.18
+  crypto: ^2.1.5
 
 
   # The following adds the Cupertino Icons font to your application.
