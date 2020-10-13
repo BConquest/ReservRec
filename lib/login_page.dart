@@ -4,7 +4,6 @@ import 'package:reservrec/dashboard.dart';
 import 'package:reservrec/file_functions.dart';
 import 'package:reservrec/signup.dart';
 import 'package:reservrec/user_functions.dart';
-import 'package:flutter_just_toast/flutter_just_toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -73,9 +72,7 @@ class _LoginPageState extends State<LoginPage>  {
               if (await loginUser(usernameController.text, passwordController.text, await isInitialRead("reservrec.csv"))) {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
             } else {
-                Toast.show( message: "Your toast message",
-                    duration: Delay.SHORT,
-                    textColor: Colors.black);
+              print("else");
             }
           },
         ),
