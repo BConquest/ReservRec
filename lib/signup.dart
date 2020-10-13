@@ -4,6 +4,8 @@ import 'package:reservrec/login_page.dart';
 import 'package:reservrec/user_functions.dart';
 import 'package:reservrec/main.dart';
 
+import 'file_functions.dart';
+
 class Signup extends StatefulWidget {
   @override
   _SignupState createState() => _SignupState();
@@ -104,6 +106,9 @@ class _SignupState extends State<Signup> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+            if (await isInitialRead("reservrec.csv") != false) {
+              await writeInitialCSV("reservrec.csv");
+            }
             String message = await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
             if(message == "true") {
               print("newUser");

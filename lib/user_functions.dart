@@ -43,9 +43,10 @@ Future<bool> loginUser(String email, String password, bool isInitialRead) async 
   } else {
     users = await loadLocalCSV("reservrec.csv");
   }
-  print('Length of users: $users.length');
-  print('isInitialRead: $isInitialRead');
-  for (var i = 0; i < users.length; i++) {
+  print('users: $users');
+  print(users);
+  for (var i = 0; i < users.length-1; i++) {
+    print(users[i]);
     if (users[i][3] == email && users[i][2] == password) {
       Me.userID = users[i][0];
       Me.name = users[i][1];
@@ -60,8 +61,6 @@ Future<bool> loginUser(String email, String password, bool isInitialRead) async 
       }
       return Future.value(true);
     }
-    print(users[i][3]);
-    print(users[i][2]);
   }
   return Future.value(false);
 }
@@ -96,7 +95,7 @@ Future<String> newUser(String username, String password, String confirmPassword,
   newUserString += temp.password + ",";
   newUserString += "NULL" + ",";
   newUserString += "0" + ",";
-  newUserString += temp.school + ";\n";
+  newUserString += temp.school + ";";
   print(newUserString);
   writeNewLine("reservrec.csv", newUserString);
   return "true";

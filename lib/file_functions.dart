@@ -28,16 +28,13 @@ Future<bool> isInitialRead(String filename) async {
 }
 
 Future<List> loadInitialCSV(String filename) async {
-  print("INITIAL LOAD");
   String fileContents = await loadAsset(filename);
-  print(fileContents);
   const conv = const CsvToListConverter(eol: ';');
   final res = conv.convert(fileContents);
   return res;
 }
 
 Future<List> loadLocalCSV(String filename) async {
-  print("LOCAL LOAD");
   final file = await localFile(filename);
   String contents = await file.readAsString();
 
@@ -48,7 +45,6 @@ Future<List> loadLocalCSV(String filename) async {
 
 //FIX
 Future<void> writeInitialCSV(String filename) async {
-  print("WRITE INITIAL");
   List users = await loadInitialCSV(filename);
   String csv = const ListToCsvConverter(eol: ';\n').convert(users);
   final file = await localFile(filename);
@@ -56,11 +52,10 @@ Future<void> writeInitialCSV(String filename) async {
 }
 
 Future<void> writeNewLine(String filename, String append) async {
-  print("HERE");
-  List content = await loadInitialCSV(filename);
+  List content = await loadLocalCSV(filename);
   String csv = const ListToCsvConverter(eol: ';\n').convert(content);
   final file = await localFile(filename);
-  final String c = csv + ';\n' +append;
-  print(c);
+  final String c = csv + '\n' +append;
+  print('newString-> $c');
   file.writeAsString(c);
 }

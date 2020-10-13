@@ -106,7 +106,6 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            await writeInitialCSV("reservrec.csv");
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (context) => Signup()));
           },
