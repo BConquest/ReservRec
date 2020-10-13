@@ -58,21 +58,36 @@ class _LoginPageState extends State<LoginPage>  {
       ),
     );
 
+    final snackBar = SnackBar(
+        content: Text('Invalid Username or Password'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            print("YO WHATS POPPING NERDS");
+          },
+        )
+    );
+
     final buttonLogin = Padding(
       padding: EdgeInsets.only(bottom: 5),
       child: ButtonTheme(
         height: 56,
         child: RaisedButton(
-          child: Text('Login', style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text(
+              'Login', style: TextStyle(color: Colors.white, fontSize: 20)),
           color: Colors.red,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-              if (await loginUser(usernameController.text, passwordController.text, await isInitialRead("reservrec.csv"))) {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+            if (await loginUser(
+                usernameController.text, passwordController.text,
+                await isInitialRead("reservrec.csv"))) {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => Feed()));
             } else {
-              print("else");
+              print("Username or Password not Accepted");
+              Scaffold.of(context).showSnackBar(snackBar);
             }
           },
         ),
@@ -84,21 +99,24 @@ class _LoginPageState extends State<LoginPage>  {
       child: ButtonTheme(
         height: 56,
         child: RaisedButton(
-          child: Text('Sign-Up', style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text(
+              'Sign-Up', style: TextStyle(color: Colors.white, fontSize: 20)),
           color: Colors.red,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
             await writeInitialCSV("reservrec.csv");
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Signup()));
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => Signup()));
           },
         ),
       ),
     );
 
     final buttonForgotPassword = FlatButton(
-        child: Text('Forgot Password', style: TextStyle(color: Colors.grey, fontSize: 16),),
+        child: Text('Forgot Password',
+          style: TextStyle(color: Colors.grey, fontSize: 16),),
         onPressed: null
     );
 
