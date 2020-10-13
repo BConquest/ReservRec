@@ -75,12 +75,13 @@ Future<String> newUser(String username, String password, String confirmPassword,
   }
 
   List users;
-  if (await isInitialRead("reservrec.csv")) {
+  /*
+  if (await isInitialRead("reservrec.csv") == false) {
     users = await loadInitialCSV("reservrec.csv");
     writeInitialCSV("reservrec.csv");
   } else {
     users = await loadLocalCSV("reservrec.csv");
-  }
+  }*/
 
   final temp = User(
       userID: users.length+1,

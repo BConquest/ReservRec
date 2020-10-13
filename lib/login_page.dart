@@ -80,9 +80,10 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+            var isInit = (await isInitialRead("reservrec.csv") == false);
             if (await loginUser(
                 usernameController.text, passwordController.text,
-                await isInitialRead("reservrec.csv"))) {
+                isInit)) {
               Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => Feed()));
             } else {

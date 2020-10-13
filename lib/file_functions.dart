@@ -7,19 +7,20 @@ import 'package:path_provider/path_provider.dart';
 
 Future<String> get _localPath async {
   final directory = await getApplicationDocumentsDirectory();
-
   return directory.path;
 }
 
 Future<File> localFile(String filename) async {
   final path = await _localPath;
   String filePath = "$path/" + filename;
+  print("localFile -> $filePath");
   return File(filePath);
 }
 
 Future<String> loadAsset(String filename) async {
-  String filepath = "assets/" + filename;
-  return await rootBundle.loadString(filepath);
+  String filePath = "assets/" + filename;
+  print("loadAsset -> $filePath");
+  return await rootBundle.loadString(filePath);
 }
 
 Future<bool> isInitialRead(String filename) async {
@@ -29,6 +30,7 @@ Future<bool> isInitialRead(String filename) async {
 
 Future<List> loadInitialCSV(String filename) async {
   String fileContents = await loadAsset(filename);
+  print("loadInitialCSV -> called loadAsset");
   const conv = const CsvToListConverter(eol: ';');
   final res = conv.convert(fileContents);
   return res;
@@ -47,6 +49,7 @@ Future<List> loadLocalCSV(String filename) async {
 Future<void> writeInitialCSV(String filename) async {
   List users = await loadInitialCSV(filename);
   String csv = const ListToCsvConverter(eol: ';\n').convert(users);
+  print("writeInitialCSV -> $csv");
   final file = await localFile(filename);
   file.writeAsString(csv);
 }
