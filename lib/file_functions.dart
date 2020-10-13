@@ -11,9 +11,10 @@ Future<String> get _localPath async {
   return directory.path;
 }
 
-Future<File> get _localFile async {
+Future<File> localFile(String filename) async {
   final path = await _localPath;
-  return File('$path/reservrec.csv');
+  String filePath = "$path" + filename;
+  return File(filePath);
 }
 
 Future<String> loadAsset(String filename) async {
@@ -22,14 +23,15 @@ Future<String> loadAsset(String filename) async {
 }
 
 Future<bool> isInitialRead(String filename) async {
-  final file = await _localFile;
-  return file.exists();
+  final file = await localFile(filename);
+  // ignore: unrelated_type_equality_checks
+  return (true != file.exists());
 }
 
 Future<List> loadInitialCSV(String filename) async {
   print("INITIAL LOAD");
   String fileContents = await loadAsset(filename);
-
+  print(fileContents);
   const conv = const CsvToListConverter(eol: ';');
   final res = conv.convert(fileContents);
   return res;
@@ -37,7 +39,7 @@ Future<List> loadInitialCSV(String filename) async {
 
 Future<List> loadLocalCSV(String filename) async {
   print("LOCAL LOAD");
-  final file = await _localFile;
+  final file = await localFile(filename);
   String contents = await file.readAsString();
 
   const conv = const CsvToListConverter(eol: ';');
@@ -50,7 +52,7 @@ Future<void> writeInitialCSV(String filename) async {
   print("WRITE INITIAL");
   List users = await loadInitialCSV(filename);
   String csv = const ListToCsvConverter(eol: ';\n').convert(users);
-  final file = await _localFile;
+  final file = await localFile(filename);
   file.writeAsString(csv);
 
 }

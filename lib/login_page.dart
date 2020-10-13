@@ -4,6 +4,7 @@ import 'package:reservrec/dashboard.dart';
 import 'package:reservrec/file_functions.dart';
 import 'package:reservrec/signup.dart';
 import 'package:reservrec/user_functions.dart';
+import 'package:flutter_just_toast/flutter_just_toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -69,16 +70,12 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            if (await isInitialRead("reservrec.csv")) {
-              print("isInitialRead = True");
-              if (await loginUser(usernameController.text, passwordController.text, true)) {
+              if (await loginUser(usernameController.text, passwordController.text, await isInitialRead("reservrec.csv"))) {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
-              }
-            } else { // Not Initial Read
-              print("isInitialRead = False");
-              if (await loginUser(usernameController.text, passwordController.text, false)) {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
-              }
+            } else {
+                Toast.show( message: "Your toast message",
+                    duration: Delay.SHORT,
+                    textColor: Colors.black);
             }
           },
         ),
@@ -111,7 +108,6 @@ class _LoginPageState extends State<LoginPage>  {
   return SafeArea(
         child: Scaffold(
           body: Center(
-
             child: ListView(
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: 20),
