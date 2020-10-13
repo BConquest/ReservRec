@@ -25,7 +25,11 @@ Future<String> loadAsset(String filename) async {
 
 Future<bool> isInitialRead(String filename) async {
   final file = await localFile(filename);
-  return (Future.value(true) == file.exists());
+  if(await file.exists()) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 Future<List> loadInitialCSV(String filename) async {
@@ -45,10 +49,9 @@ Future<List> loadLocalCSV(String filename) async {
   return res;
 }
 
-//FIX
 Future<void> writeInitialCSV(String filename) async {
   List users = await loadInitialCSV(filename);
-  String csv = const ListToCsvConverter(eol: ';\n').convert(users);
+  String csv = const ListToCsvConverter(eol: ';').convert(users);
   print("writeInitialCSV -> $csv");
   final file = await localFile(filename);
   file.writeAsString(csv);
@@ -56,9 +59,9 @@ Future<void> writeInitialCSV(String filename) async {
 
 Future<void> writeNewLine(String filename, String append) async {
   List content = await loadLocalCSV(filename);
-  String csv = const ListToCsvConverter(eol: ';\n').convert(content);
+  String csv = const ListToCsvConverter(eol: ';').convert(content);
   final file = await localFile(filename);
-  final String c = csv + '\n' +append;
+  final String c = csv + ';\n' +append;
   print('newString-> $c');
   file.writeAsString(c);
 }

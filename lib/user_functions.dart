@@ -74,7 +74,7 @@ Future<String> newUser(String username, String password, String confirmPassword,
     return "Invalid Email";
   }
 
-  List users;
+  List users = await loadLocalCSV("reservrec.csv");
   /*
   if (await isInitialRead("reservrec.csv") == false) {
     users = await loadInitialCSV("reservrec.csv");
