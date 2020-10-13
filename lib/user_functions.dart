@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'package:reservrec/file_functions.dart';
+import 'package:reservrec/main.dart';
 
 class User {
-  final int userID;
-  final String name;
-  final String email;
-  final String password;
-  final String picture;
-  final String school;
-  final bool verified;
+  int userID;
+  String name;
+  String email;
+  String password;
+  String picture;
+  String school;
+  bool verified;
 
   User({
     this.userID,
@@ -32,6 +33,13 @@ Future<bool> loginUser(String email, String password, bool isInitialRead) async 
   }
   for (var i = 0; i < users.length; i++) {
     if (users[i][3] == email && users[i][2] == password) {
+      Me.userID = users[i][0];
+      Me.name = users[i][1];
+      Me.email = users[i][3];
+      Me.password = users[i][2];
+      Me.picture = users[i][4];
+      Me.school = users[i][6];
+      Me.verified = users[i][5];
       return Future.value(true);
     }
     print(users[i][3]);
