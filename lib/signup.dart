@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/dashboard.dart';
+import 'package:reservrec/user_functions.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -99,7 +100,10 @@ class _SignupState extends State<Signup> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
-          onPressed: () {
+          onPressed: () async {
+            if(await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text)) {
+              print("newUser");
+            }
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
           },
         ),

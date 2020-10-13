@@ -1,6 +1,26 @@
 import 'dart:async';
 import 'package:reservrec/file_functions.dart';
 
+class User {
+  final int userID;
+  final String name;
+  final String email;
+  final String password;
+  final String picture;
+  final String school;
+  final bool verified;
+
+  User({
+    this.userID,
+    this.name,
+    this.email,
+    this.password,
+    this.picture,
+    this.school,
+    this.verified,
+  });
+}
+
 // isInitialRead = true then
 Future<bool> loginUser(String email, String password, bool isInitialRead) async {
   List users;
@@ -20,17 +40,31 @@ Future<bool> loginUser(String email, String password, bool isInitialRead) async 
   return Future.value(false);
 }
 
-bool newUser(String username, String password, String confirmPassword, String email) {
+Future<bool> newUser(String username, String password, String confirmPassword, String email) async {
   if (!validPassword(password, confirmPassword)) {
     return false;
   }
   if (!validEmail(email)) {
     return false;
   }
-  /*
-  Todo
-  insert into sqlite;
-   */
+
+  List users;
+  if (await isInitialRead("reservrec.csv")) {
+    users = await loadInitialCSV("reservrec.csv");
+    writeInitialCSV("reservrec.csv");
+  } else {
+    users = await loadLocalCSV("reservrec.csv");
+  }
+
+  final temp = User(
+      userID: users.length,
+      name: username,
+      email: email,
+      password: password,
+      picture: "default",
+      school: "University of Alabama",
+      verified: false);
+  print(temp);
   return true;
 }
 
