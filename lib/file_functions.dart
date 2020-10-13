@@ -22,15 +22,8 @@ Future<String> loadAsset(String filename) async {
 }
 
 Future<bool> isInitialRead(String filename) async {
-  print("INITIAL READ");
-  try {
-    final file = await _localFile;
-    String contents = await file.readAsString();
-    return Future.value(true);
-  } catch (e) {
-    print(e);
-    return Future.value(false);
-  }
+  final file = await _localFile;
+  return file.exists();
 }
 
 Future<List> loadInitialCSV(String filename) async {
@@ -58,5 +51,6 @@ Future<void> writeInitialCSV(String filename) async {
   List users = await loadInitialCSV(filename);
   String csv = const ListToCsvConverter(eol: ';\n').convert(users);
   final file = await _localFile;
-  return file.writeAsString(csv);
+  file.writeAsString(csv);
+
 }
