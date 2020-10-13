@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:reservrec/feed_functions.dart';
 import 'package:reservrec/login_page.dart';
 import 'package:reservrec/post.dart';
+import 'package:reservrec/new_post.dart';
+
 import 'dart:async';
 
 class Dashboard extends StatelessWidget {
@@ -70,27 +72,51 @@ class Feed extends StatelessWidget {
             return Scaffold(
               appBar: AppBar(
                 title: Text("Home"),
+
               ),
               body: ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return PostCard(postData: snapshot.data[index]);
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return PostCard(postData: snapshot.data[index]);
+                          },
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.add),
+                    label: 'newpost',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.logout),
+                    label: 'logout',
+                  ),
+                ],
+                onTap: (int index) {
+                  if (index == 0) {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  NewPost()));
+                  } else {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  LoginPage()));
+                  }
                 },
               ),
             );
           }
         }
       )
-      /*appBar: AppBar(
-        title: Text("Home"),
-      ),
-      body: ListView.builder(
-        itemCount: 500,
-        itemBuilder: (BuildContext context, int index) async {
-          return await PostCard();
-        },
-      ),*/
     );
-
   }
 }
+/*
+                    MaterialButton(
+                      child: Text(
+                        'Add',
+                        style: TextStyle(color: Colors.white);
+                      ),
+                      onPressed: async (
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  NewPost()))
+                      ),
+                      onLongPress: (
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                      ),
+                    )
+ */
