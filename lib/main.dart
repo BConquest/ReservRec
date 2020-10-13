@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:reservrec/login_page.dart';
 
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:reservrec/user_functions.dart';
+
+User Me = User(
+    userID: -1,
+    name: "voidName",
+    email: "void@void.void",
+    password: "voidPw",
+    picture: "default",
+    school: "University of Alabama",
+    verified: false);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ReservRec Login Page',
       theme: ThemeData (
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: Scaffold(
         body: LoginPage(),

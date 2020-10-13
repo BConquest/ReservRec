@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:reservrec/dashboard.dart';
+import 'package:reservrec/login_page.dart';
+import 'package:reservrec/user_functions.dart';
+import 'package:reservrec/main.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -12,6 +14,8 @@ class _SignupState extends State<Signup> {
   final passwordController = TextEditingController();
   final confirmPController = TextEditingController();
   final emailController = TextEditingController();
+  var snackController = TextEditingController();
+  var message = "empty";
 
   @override
   Widget build(BuildContext context) {
@@ -99,19 +103,22 @@ class _SignupState extends State<Signup> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
-          onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Dashboard()));
+          onPressed: () async {
+            String message = await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
+            if(message == "true") {
+              print("newUser");
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            } else {
+              print(message);
+            }
           },
         ),
       ),
     );
 
-    // TODO Add School Drop Down Menu
-
     return SafeArea(
         child: Scaffold(
           body: Center(
-
             child: ListView(
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -121,7 +128,7 @@ class _SignupState extends State<Signup> {
                 inputPassword,
                 inputConfirmPassword,
                 inputEmail,
-                buttonSignUp
+                buttonSignUp,
               ],
             ),
 
