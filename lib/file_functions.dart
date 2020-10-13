@@ -54,5 +54,12 @@ Future<void> writeInitialCSV(String filename) async {
   String csv = const ListToCsvConverter(eol: ';\n').convert(users);
   final file = await localFile(filename);
   file.writeAsString(csv);
+}
 
+Future<void> writeNewLine(String filename, String append) async {
+  List content = await loadInitialCSV(filename);
+  String csv = const ListToCsvConverter(eol: ';\n').convert(content);
+  final file = await localFile(filename);
+  final String c = csv + append;
+  file.writeAsString(c);
 }

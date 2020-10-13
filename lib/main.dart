@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ReservRec Login Page',
       theme: ThemeData (
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: Scaffold(
         body: LoginPage(),

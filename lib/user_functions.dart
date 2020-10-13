@@ -20,6 +20,18 @@ class User {
     this.school,
     this.verified,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'userID': userID,
+      'name': name,
+      'email': email,
+      'password': password,
+      'picture': picture,
+      'school': school,
+      'verified': verified
+    };
+  }
 }
 
 // isInitialRead = true then
@@ -69,15 +81,21 @@ Future<String> newUser(String username, String password, String confirmPassword,
   }
 
   final temp = User(
-      userID: users.length,
+      userID: users.length+1,
       name: username,
       email: email,
       password: password,
       picture: "default",
       school: "University of Alabama",
       verified: false);
-  print("TEMP");
-  print(temp);
+  String newUserString = temp.userID.toString() + ",";
+  newUserString += temp.name + ",";
+  newUserString += temp.email + ",";
+  newUserString += temp.password + ",";
+  newUserString += "NULL" + ",";
+  newUserString += "0" + ",";
+  newUserString += temp.school + ";\n";
+  print(newUserString);
   return "true";
 }
 

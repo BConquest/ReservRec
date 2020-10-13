@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/login_page.dart';
 import 'package:reservrec/user_functions.dart';
+import 'package:reservrec/main.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -18,16 +19,6 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
-    final snackBar = SnackBar(
-        content: Text(message),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () {
-            print("YO WHATS POPPING NERDS");
-          },
-        )
-    );
-
     // TODO Change To be custom profile picture
     final logo = Padding(
       padding: EdgeInsets.all(20),
@@ -116,22 +107,21 @@ class _SignupState extends State<Signup> {
             String message = await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
             if(message == "true") {
               print("newUser");
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
             } else {
               message = snackController.text;
-              Scaffold.of(context).showSnackBar(snackBar);
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text('Invalid Input Information'),
+              ));
             }
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
         ),
       ),
     );
 
-    // TODO Add School Drop Down Menu
-
     return SafeArea(
         child: Scaffold(
           body: Center(
-
             child: ListView(
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: 20),
@@ -141,7 +131,7 @@ class _SignupState extends State<Signup> {
                 inputPassword,
                 inputConfirmPassword,
                 inputEmail,
-                buttonSignUp
+                buttonSignUp,
               ],
             ),
 
