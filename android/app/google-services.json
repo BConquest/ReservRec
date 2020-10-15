@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "488640883694",
+    "firebase_url": "https://reserverec-fc519.firebaseio.com",
+    "project_id": "reserverec-fc519",
+    "storage_bucket": "reserverec-fc519.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488640883694:android:ceaa1de07772fcbe043cff",
+        "android_client_info": {
+          "package_name": "com.cs495.reservrec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488640883694-0vs3gi1iabnh44uq2vsnohlh0thkhk7e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVAiCRZFFKI21jXCn2Ea-dvZi2O3Ho8-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488640883694-0vs3gi1iabnh44uq2vsnohlh0thkhk7e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
