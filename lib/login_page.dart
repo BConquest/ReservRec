@@ -5,6 +5,8 @@ import 'package:reservrec/file_functions.dart';
 import 'package:reservrec/signup.dart';
 import 'package:reservrec/user_functions.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -58,16 +60,6 @@ class _LoginPageState extends State<LoginPage>  {
       ),
     );
 
-    final snackBar = SnackBar(
-        content: Text('Invalid Username or Password'),
-        action: SnackBarAction(
-          label: 'Undo',
-          onPressed: () {
-            print("YO WHATS POPPING NERDS");
-          },
-        )
-    );
-
     final buttonLogin = Padding(
       padding: EdgeInsets.only(bottom: 5),
       child: ButtonTheme(
@@ -80,16 +72,16 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            var isInit = (await isInitialRead("reservrec.csv") == false);
-            if (await loginUser(
-                usernameController.text, passwordController.text,
-                isInit)) {
-              signInWithEmailAndPassword(usernameController.text, passwordController.text);
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Feed()));
+            final User user = await signInWithEmailAndPassword(usernameController.text, passwordController.text);
+            if (!user.emailVerified) {
+              await user.sendEmailVerification();
+              print("login_page.dart->buttonLogin email not verified");
+              return;
+            }
+            if (user == null) {
+              return;
             } else {
-              print("Username or Password not Accepted");
-              //Scaffold.of(context).showSnackBar(snackBar);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
             }
           },
         ),
@@ -118,7 +110,9 @@ class _LoginPageState extends State<LoginPage>  {
     final buttonForgotPassword = FlatButton(
         child: Text('Forgot Password',
           style: TextStyle(color: Colors.grey, fontSize: 16),),
-        onPressed: null
+        onPressed: () async {
+          print("TODO");
+        }
     );
 
   return SafeArea(

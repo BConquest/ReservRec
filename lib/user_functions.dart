@@ -37,9 +37,10 @@ class UserClass {
   }
 }
 
-void signInWithEmailAndPassword(String email, String password) async {
+Future<User> signInWithEmailAndPassword(String email, String password) async {
+  User user;
   try {
-    final User user = (await _auth.signInWithEmailAndPassword(
+    user = (await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     ))
@@ -48,6 +49,7 @@ void signInWithEmailAndPassword(String email, String password) async {
   } catch (e) {
     print(e);
   }
+  return user;
 }
 
 // isInitialRead = true then
