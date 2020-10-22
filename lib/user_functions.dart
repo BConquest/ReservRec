@@ -52,65 +52,25 @@ Future<User> signInWithEmailAndPassword(String email, String password) async {
   return user;
 }
 
-// isInitialRead = true then
-Future<bool> loginUser(String email, String password, bool isInitialRead) async {
-  List users;
-  if (isInitialRead) {
-    users = await loadInitialCSV("reservrec.csv");
-    writeInitialCSV("reservrec.csv");
-  } else {
-    users = await loadLocalCSV("reservrec.csv");
-  }
-  print('users: $users');
-  print(users);
-  print(users[5]);
-  for (var i = 0; i < users.length; i++) {
-    print(users[i]);
-    if (users[i][3] == email && users[i][2] == password) {
-      Me.userID = users[i][0];
-      Me.name = users[i][1];
-      Me.email = users[i][3];
-      Me.password = users[i][2];
-      Me.picture = users[i][4];
-      Me.school = users[i][6];
-      if(users[i][5] == 1) {
-        Me.verified = true;
-      } else {
-        Me.verified = false;
-      }
-      return Future.value(true);
-    }
-  }
-  return Future.value(false);
-}
-
-Future<String> newUser(String username, String password, String confirmPassword, String email) async {
+Future<User> signUpWithEmailAndPassword(String username, String password, String confirmPassword, String email) async {
+  User user;
   if (!validPassword(password, confirmPassword)) {
-    return "Invalid Password";
+    print("user_functions->signUpWithEmailAndPassword Invalid Password");
   }
   if (!validEmail(email)) {
-    return "Invalid Email";
+    print("user_functions->signUpWithEmailAndPassword Invalid Email");
   }
-
-  List users = await loadLocalCSV("reservrec.csv");
-  final temp = UserClass(
-      userID: users.length+1,
-      name: username,
+  try {
+    user = (await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
-      picture: "default",
-      school: "University of Alabama",
-      verified: false);
-  String newUserString = temp.userID.toString() + ",";
-  newUserString += temp.name + ",";
-  newUserString += temp.password + ",";
-  newUserString += temp.email + ",";
-  newUserString += "NULL" + ",";
-  newUserString += "0" + ",";
-  newUserString += temp.school + ";";
-  print(newUserString);
-  writeNewLine("/reservrec.csv", newUserString);
-  return "true";
+    ))
+        .user;
+    print(user);
+  } catch (e) {
+    print(e);
+  }
+  return user;
 }
 
 bool validEmail(String email) {

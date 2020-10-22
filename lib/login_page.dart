@@ -111,7 +111,8 @@ class _LoginPageState extends State<LoginPage>  {
         child: Text('Forgot Password',
           style: TextStyle(color: Colors.grey, fontSize: 16),),
         onPressed: () async {
-          print("TODO");
+          final FirebaseAuth _auth = FirebaseAuth.instance;
+          await _auth.sendPasswordResetEmail(email: usernameController.text);
         }
     );
 

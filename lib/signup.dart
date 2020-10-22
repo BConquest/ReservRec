@@ -5,6 +5,7 @@ import 'package:reservrec/user_functions.dart';
 import 'package:reservrec/main.dart';
 
 import 'file_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -106,16 +107,8 @@ class _SignupState extends State<Signup> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            if (await isInitialRead("/reservrec.csv") == false) {
-              await writeInitialCSV("reservrec.csv");
-            }
-            String message = await newUser(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
-            if(message == "true") {
-              print("newUser");
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
-            } else {
-              print(message);
-            }
+            final User user = await signUpWithEmailAndPassword(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
         ),
       ),
