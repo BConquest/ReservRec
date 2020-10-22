@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:reservrec/file_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/main.dart';
 
-class User {
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
+class UserClass {
   int userID;
   String name;
   String email;
@@ -11,7 +14,7 @@ class User {
   String school;
   bool verified;
 
-  User({
+  UserClass({
     this.userID,
     this.name,
     this.email,
@@ -31,6 +34,19 @@ class User {
       'school': school,
       'verified': verified
     };
+  }
+}
+
+void signInWithEmailAndPassword(String email, String password) async {
+  try {
+    final User user = (await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    ))
+        .user;
+    print(user);
+  } catch (e) {
+    print(e);
   }
 }
 
@@ -75,15 +91,7 @@ Future<String> newUser(String username, String password, String confirmPassword,
   }
 
   List users = await loadLocalCSV("reservrec.csv");
-  /*
-  if (await isInitialRead("reservrec.csv") == false) {
-    users = await loadInitialCSV("reservrec.csv");
-    writeInitialCSV("reservrec.csv");
-  } else {
-    users = await loadLocalCSV("reservrec.csv");
-  }*/
-
-  final temp = User(
+  final temp = UserClass(
       userID: users.length+1,
       name: username,
       email: email,

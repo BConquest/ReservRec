@@ -84,6 +84,7 @@ class _LoginPageState extends State<LoginPage>  {
             if (await loginUser(
                 usernameController.text, passwordController.text,
                 isInit)) {
+              signInWithEmailAndPassword(usernameController.text, passwordController.text);
               Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => Feed()));
             } else {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:reservrec/login_page.dart';
-
 import 'package:reservrec/user_functions.dart';
 
-User Me = User(
+UserClass Me = UserClass(
     userID: -1,
     name: "voidName",
     email: "void@void.void",
@@ -13,8 +13,9 @@ User Me = User(
     school: "University of Alabama",
     verified: false);
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
