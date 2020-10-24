@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:reservrec/file_functions.dart';
+import 'package:reservrec/src/file_functions.dart';
 
 import 'feed_functions.dart';
 

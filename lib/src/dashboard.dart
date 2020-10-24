@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:reservrec/feed_functions.dart';
-import 'package:reservrec/login_page.dart';
-import 'package:reservrec/post.dart';
-import 'package:reservrec/new_post.dart';
+import 'package:reservrec/src/feed_functions.dart';
+import 'package:reservrec/src/login_page.dart';
+import 'package:reservrec/src/post.dart';
+import 'package:reservrec/src/new_post.dart';
 
 import 'dart:async';
 

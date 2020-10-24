@@ -1,8 +1,8 @@
 // Thanks https://ptyagicodecamp.github.io/persisting-data-in-local-db-for-flutter-android-ios.html
 
 import 'dart:async';
-import 'package:reservrec/file_functions.dart';
-import 'package:reservrec/main.dart';
+import 'package:reservrec/src/file_functions.dart';
+import 'package:reservrec/src/main.dart';
 
 class PostModel {
   final int id;

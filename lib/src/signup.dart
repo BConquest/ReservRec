@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:reservrec/login_page.dart';
-import 'package:reservrec/user_functions.dart';
-import 'package:reservrec/main.dart';
+import 'package:reservrec/src/login_page.dart';
+import 'package:reservrec/src/user_functions.dart';
+import 'package:reservrec/src/main.dart';
 
 import 'file_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';

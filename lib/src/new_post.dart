@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:reservrec/dashboard.dart';
-import 'package:reservrec/feed_functions.dart';
-import 'package:reservrec/user_functions.dart';
-import 'package:reservrec/main.dart';
+import 'package:reservrec/src/dashboard.dart';
+import 'package:reservrec/src/feed_functions.dart';
+import 'package:reservrec/src/user_functions.dart';
+import 'package:reservrec/src/main.dart';
 
 import 'file_functions.dart';
 

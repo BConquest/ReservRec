@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:reservrec/main.dart';
+import 'package:reservrec/src/main.dart';
 
 class ProfileView extends StatefulWidget {
   @override

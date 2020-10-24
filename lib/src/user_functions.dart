@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:reservrec/file_functions.dart';
+import 'package:reservrec/src/file_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:reservrec/main.dart';
+import 'package:reservrec/src/main.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
