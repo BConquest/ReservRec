@@ -141,7 +141,7 @@ class _NewPost extends State<NewPost> {
             String message = await newPost(sportController.text, descriptionController.text, locationController.text, timeController.text, int.parse(maxController.text), int.parse(minController.text));
             if(message == "true") {
               print("newPost");
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
             } else {
               print(message);
             }
@@ -161,7 +161,7 @@ class _NewPost extends State<NewPost> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+              Navigator.pop(context);
           },
         ),
       ),

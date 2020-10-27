@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage>  {
             if (user == null) {
               return;
             } else {
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Feed()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
             }
           },
         ),
@@ -100,8 +100,7 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => Signup()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
           },
         ),
       ),

@@ -124,7 +124,7 @@ class _SignupState extends State<Signup> {
 
             repository.addUserC(hope_this_works); //hope this works
 
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
         ),
       ),
@@ -141,7 +141,7 @@ class _SignupState extends State<Signup> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            Navigator.pop(context);
           },
         ),
       ),
