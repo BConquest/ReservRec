@@ -37,17 +37,15 @@ class PostModel {
 }
 
 Future<List<PostModel>> grabFeed() async {
-  CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
-  QuerySnapshot snapshot = await postsCollection.get();
+  final CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
+  final QuerySnapshot snapshot = await postsCollection.get();
 
-  List<Post> posts;
-  for(int i = 0; i < snapshot.size; i++) {
-    Post tempPost = new Post(-1, -1);
-    tempPost = Post.fromJson(snapshot.docs[i].data());
-    print(tempPost);
-    print(i);
-    posts[i] = tempPost;  //the code always freezes whenever I try to add to posts and its driving me insane
-  }                       //doesn't matter if I do it this way or as posts.add(tempPost), it always halts here
+  List<Post> posts = new List();
+  snapshot.docs.forEach((document) async {
+    print(document.id);
+    posts.add(Post.fromJson(document.data()));
+    print("we did it");
+  });
 
   return List.generate(
     posts.length,
