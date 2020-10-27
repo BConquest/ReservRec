@@ -154,7 +154,7 @@ class _PostTimeStamp extends StatelessWidget {
     //final String formatted = formatter.format(postData.gameTime);
     return Expanded(
         flex: 2,
-        child: Text(postData.gameTime)//, style: timeTheme),
+        //child: Text(postData.gameTime)//, style: timeTheme),
     );
   }
 }

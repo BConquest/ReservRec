@@ -21,19 +21,58 @@ class Post {
   Map<String, dynamic> toJson() => _PostToJson(this);
   @override
   String toString() => "Post<$post_user_id, $post_id>";
+
+  void setUserId(int u){
+    this.post_user_id = u;
+  }
+
+  void setPostId(int u){
+    this.post_id = u;
+  }
+
+  void setDescription(String u){
+    this.post_description = u;
+  }
+
+  void setTimePosted(DateTime u){
+    this.post_time_posted = u;
+  }
+
+  void setTimeSet(DateTime u){
+    this.post_time_set = u;
+  }
+
+  void setSport(String u){
+    this.post_sport = u;
+  }
+
+  void setLocation(String u){
+    this.post_location = u;
+  }
+
+  void setMaxPeople(int u){
+    this.max_people = u;
+  }
+
+  void setMinPeople(int u){
+    this.min_people = u;
+  }
 }
 
 Post _PostFromJson(Map<dynamic, dynamic> json){
+  var posted = (json['time_posted'] as Timestamp).toDate();
+  var set = (json['time_set'] as Timestamp).toDate();
+
   return Post(
-    json['post_user_id'] as int,
     json['post_id'] as int,
-    post_description: ['post_description'] as String,
-    post_time_posted: ['post_time_posted'] as DateTime,
-    post_time_set: ['post_time_set'] as DateTime,
-    post_sport: ['post_sport'] as String,
-    post_location: ['post_location'] as String,
-    max_people: ['max_people'] as int,
-    min_people: ['min_people'] as int,
+    json['user_id'] as int,
+    post_description: json['description'] as String,
+    post_time_posted: posted,
+    post_time_set: set,
+    post_sport: json['sport'] as String,
+    post_location: json['location'] as String,
+    max_people: json['max_people'] as int,
+    min_people: json['min_people'] as int,
   );
 }
 

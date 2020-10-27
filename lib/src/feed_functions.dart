@@ -1,8 +1,11 @@
 // Thanks https://ptyagicodecamp.github.io/persisting-data-in-local-db-for-flutter-android-ios.html
 
 import 'dart:async';
+import 'package:reservrec/models/post.dart';
 import 'package:reservrec/src/file_functions.dart';
 import 'package:reservrec/src/main.dart';
+import 'package:reservrec/src/post.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
   final int id;
@@ -12,8 +15,8 @@ class PostModel {
   final String sport;
   final String desc;
   final String loc;
-  final String postTime;
-  final String gameTime;
+  final DateTime postTime;
+  final DateTime gameTime;
   final int maxPlayers;
   final int minPlayers;
 
@@ -34,35 +37,32 @@ class PostModel {
 }
 
 Future<List<PostModel>> grabFeed() async {
-  List posts;
-  List users = await loadLocalCSV("reservrec.csv");
-  final isInit = await isInitialRead("/feed.csv");
-  final isInitF = (isInit == false);
-  print(isInitF);
-  if (isInitF) {
-    posts = await loadInitialCSV("feed.csv");
-    writeInitialCSV("feed.csv");
-  } else {
-    posts = await loadLocalCSV("/feed.csv");
-  }
+  CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
+  QuerySnapshot snapshot = await postsCollection.get();
 
-  print(posts);
+  List<Post> posts;
+  for(int i = 0; i < snapshot.size; i++) {
+    Post tempPost = new Post(-1, -1);
+    tempPost = Post.fromJson(snapshot.docs[i].data());
+    print(tempPost);
+    print(i);
+    posts[i] = tempPost;  //the code always freezes whenever I try to add to posts and its driving me insane
+  }                       //doesn't matter if I do it this way or as posts.add(tempPost), it always halts here
 
-  print(users[0][1]);
   return List.generate(
     posts.length,
         (i) {
-      final id = posts[i][0];
-      final auth = posts[i][1];
-      final auth_n = users[auth-1][1];
-      final auth_e = users[auth-1][3];
-      final spo = posts[i][5];
-      final des = posts[i][2];
-      final loc = posts[i][6];
-      final pt = posts[i][3];
-      final gt = posts[i][4];
-      final max = posts[i][7];
-      final min = posts[i][8];
+      final id = posts[i].post_id;
+      final auth = 0;
+      final auth_n = "Name";
+      final auth_e = "Email";
+      final spo = posts[i].post_sport;
+      final des = posts[i].post_description;
+      final loc = posts[i].post_location;
+      final pt = posts[i].post_time_posted;
+      final gt = posts[i].post_time_set;
+      final max = posts[i].max_people;
+      final min = posts[i].min_people;
 
       return PostModel(
           id: id,
@@ -75,7 +75,8 @@ Future<List<PostModel>> grabFeed() async {
           postTime: pt,
           gameTime: gt,
           maxPlayers: max,
-          minPlayers: min);
+          minPlayers: min
+      );
     },
   );
 }
@@ -85,16 +86,17 @@ Future<String> newPost(String sport, String description, String location, String
 
   final temp = PostModel(
     id: posts.length+1,
-    author: Me.userID,
+    author: 0,
     sport: sport,
     desc: description,
     loc: location,
-    postTime: "10-13-2020",
-    gameTime: gameTime,
+    postTime: DateTime.now(),
+    gameTime: DateTime.now(),  //FIX, need to let people actually pick a time
     maxPlayers: max,
     minPlayers: min
   );
-  String newPostString = temp.id.toString() + ",";
+  // Old CSV Code
+  /*String newPostString = temp.id.toString() + ",";
   newPostString += temp.author.toString() + ",";
   newPostString += temp.desc + ",";
   newPostString += temp.postTime + ",";
@@ -104,6 +106,6 @@ Future<String> newPost(String sport, String description, String location, String
   newPostString += temp.maxPlayers.toString() + ",";
   newPostString += temp.minPlayers.toString() + ";";
   print(newPostString);
-  writeNewLine("/feed.csv", newPostString);
+  writeNewLine("/feed.csv", newPostString);*/
   return "true";
 }
