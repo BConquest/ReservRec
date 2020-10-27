@@ -5,8 +5,6 @@ import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/user_functions.dart';
 import 'package:reservrec/src/main.dart';
 
-import 'file_functions.dart';
-
 class NewPost extends StatefulWidget {
   @override
   _NewPost createState() => _NewPost();

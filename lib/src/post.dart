@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:reservrec/src/file_functions.dart';
 
 import 'feed_functions.dart';
 
@@ -54,8 +53,8 @@ class _PostTitleAndSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    final TextStyle titleTheme = Theme.of(context).textTheme.title;
-    final TextStyle summaryTheme = Theme.of(context).textTheme.body1;
+    final TextStyle titleTheme = Theme.of(context).textTheme.headline6;
+    final TextStyle summaryTheme = Theme.of(context).textTheme.bodyText2;
     final String title = postData.sport;
     final String summary = postData.desc;
 
@@ -107,8 +106,8 @@ class _UserNameAndEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    final TextStyle nameTheme = Theme.of(context).textTheme.subtitle;
-    final TextStyle emailTheme = Theme.of(context).textTheme.body1;
+    final TextStyle nameTheme = Theme.of(context).textTheme.subtitle2;
+    final TextStyle emailTheme = Theme.of(context).textTheme.bodyText2;
 
 
     return Expanded(
@@ -149,12 +148,11 @@ class _PostTimeStamp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    //final TextStyle timeTheme = TextThemes.dateStyle;
-    //final DateFormat formatter = DateFormat('MM-dd-yyyy');
-    //final String formatted = formatter.format(postData.gameTime);
+    final DateFormat formatter = DateFormat('MM-dd-yyyy');
+    final String formatted = formatter.format(postData.gameTime);
     return Expanded(
         flex: 2,
-        //child: Text(postData.gameTime)//, style: timeTheme),
+        child: Text(formatted)
     );
   }
 }
