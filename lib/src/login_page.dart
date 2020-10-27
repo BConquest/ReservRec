@@ -15,6 +15,16 @@ class _LoginPageState extends State<LoginPage>  {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  _displaySnackBar(BuildContext context, s) {
+    final snackBar = SnackBar(content: Text(s));
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  _clearInputs() {
+    usernameController.clear();
+    passwordController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     final logo = Padding(
@@ -27,8 +37,6 @@ class _LoginPageState extends State<LoginPage>  {
           )
       ),
     );
-
-    final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
 
     final inputEmail = Padding(
       padding: EdgeInsets.only(bottom: 10),
@@ -73,20 +81,21 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            Scaffold.of(context).showSnackBar(snackBar);
             final User user = await signInWithEmailAndPassword(usernameController.text, passwordController.text);
-            if (!user.emailVerified) {
-              await user.sendEmailVerification();
-              Scaffold.of(context).showSnackBar(snackBar);
-              print("login_page.dart->buttonLogin email not verified");
-              return;
-            }
             if (user == null) {
+              _displaySnackBar(context, "Username or Password Invalid");
               return;
             } else {
+              if (!user.emailVerified) {
+                await user.sendEmailVerification();
+                print("login_page.dart->buttonLogin email not verified");
+                _displaySnackBar(context, "Please verify your email");
+                return;
+              }
+              _clearInputs();
               Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
             }
-          },
+          }
         ),
       ),
     );
@@ -103,6 +112,7 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+            _clearInputs();
             Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
           },
         ),
@@ -113,34 +123,38 @@ class _LoginPageState extends State<LoginPage>  {
         child: Text('Forgot Password',
           style: TextStyle(color: Colors.grey, fontSize: 16),),
         onPressed: () async {
-          final FirebaseAuth _auth = FirebaseAuth.instance;
-          await _auth.sendPasswordResetEmail(email: usernameController.text);
+          _clearInputs();
+          //final FirebaseAuth _auth = FirebaseAuth.instance;
+          _displaySnackBar(context, "Invalid Email or Password");
+          //await _auth.sendPasswordResetEmail(email: usernameController.text);
         }
     );
 
   return SafeArea(
         child: Scaffold(
-          body: Center(
-            child: ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              children: <Widget>[
-                logo,
-                inputEmail,
-                inputPassword,
-                new ButtonBar(
-                    alignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    buttonMinWidth: 1000,
-                    children: <Widget> [
-                      buttonSignUp,
-                      buttonLogin,
-                    ]
+          body: Builder(
+            builder: (context) =>
+              Center(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  children: <Widget>[
+                    logo,
+                    inputEmail,
+                    inputPassword,
+                    new ButtonBar(
+                        alignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        buttonMinWidth: 1000,
+                        children: <Widget> [
+                          buttonSignUp,
+                          buttonLogin,
+                        ]
+                    ),
+                    buttonForgotPassword,
+                  ],
                 ),
-                buttonForgotPassword,
-              ],
-            ),
-
+              )
           ),
         )
     );
