@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:reservrec/models/user.dart';
 import 'package:reservrec/src/login_page.dart';
 import 'package:reservrec/src/user_functions.dart';
 import 'package:reservrec/src/main.dart';
 
 import 'file_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:reservrec/repository/dataRepository.dart';
+import 'package:reservrec/models/user.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -17,6 +20,7 @@ class _SignupState extends State<Signup> {
   final passwordController = TextEditingController();
   final confirmPController = TextEditingController();
   final emailController = TextEditingController();
+  final DataRepository repository = DataRepository();
   var snackController = TextEditingController();
   var message = "empty";
 
@@ -108,6 +112,17 @@ class _SignupState extends State<Signup> {
           ),
           onPressed: () async {
             final User user = await signUpWithEmailAndPassword(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
+            //need to somehow increment also idk why my constructor is stupid
+            UserC hope_this_works = new UserC(0);
+
+            hope_this_works.setUsername(usernameController.text);
+            hope_this_works.setPassword(passwordController.text);
+            hope_this_works.setEmail(emailController.text);
+            hope_this_works.setSchool("University of Alabama");
+            hope_this_works.setVerified(false);
+
+            repository.addUserC(hope_this_works); //hope this works
+
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
         ),

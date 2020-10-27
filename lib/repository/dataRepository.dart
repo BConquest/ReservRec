@@ -5,7 +5,7 @@ import 'package:reservrec/models/user.dart';
 
 class DataRepository {
 
-  final CollectionReference collection = FirebaseFirestore.instance.collection('user');
+  final CollectionReference collection = FirebaseFirestore.instance.collection('users');
 
   //the following "querysnapshot" gets real time updates. found this on a stack overflow webpage
 

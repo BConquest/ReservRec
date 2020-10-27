@@ -23,6 +23,28 @@ class UserC {
   Map<String, dynamic> toJson() => _UserCToJson(this);
   @override
   String toString() => "User<$user_id>";
+
+  //i feel like im in 4th grade making these stupid methods
+
+  void setUsername(String u){
+    this.user_username = u;
+  }
+
+  void setPassword(String u){
+    this.user_password = u;
+  }
+
+  void setEmail(String u){
+    this.user_email = u;
+  }
+
+  void setVerified(bool u){
+    this.verified = u;
+  }
+
+  void setSchool(String u){
+    this.school = u;
+  }
 }
 
 UserC _UserCFromJson(Map<dynamic, dynamic> json){
