@@ -9,6 +9,7 @@ import 'file_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/repository/dataRepository.dart';
 import 'package:reservrec/models/user.dart';
+import 'package:reservrec/src/hashing.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -116,7 +117,7 @@ class _SignupState extends State<Signup> {
             UserC hope_this_works = new UserC(0);
 
             hope_this_works.setUsername(usernameController.text);
-            hope_this_works.setPassword(passwordController.text);
+            hope_this_works.setPassword(Sha256(passwordController.text));
             hope_this_works.setEmail(emailController.text);
             hope_this_works.setSchool("University of Alabama");
             hope_this_works.setVerified(false);
