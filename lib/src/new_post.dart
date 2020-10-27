@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/src/dashboard.dart';
 import 'package:reservrec/src/feed_functions.dart';
-import 'package:reservrec/src/user_functions.dart';
-import 'package:reservrec/src/main.dart';
 
 class NewPost extends StatefulWidget {
   @override

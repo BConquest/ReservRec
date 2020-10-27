@@ -3,8 +3,6 @@
 import 'dart:async';
 import 'package:reservrec/models/post.dart';
 import 'package:reservrec/src/file_functions.dart';
-import 'package:reservrec/src/main.dart';
-import 'package:reservrec/src/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {

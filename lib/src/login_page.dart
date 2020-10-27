@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/src/dashboard.dart';
-import 'package:reservrec/src/file_functions.dart';
 import 'package:reservrec/src/signup.dart';
 import 'package:reservrec/src/user_functions.dart';
 
@@ -28,6 +27,8 @@ class _LoginPageState extends State<LoginPage>  {
           )
       ),
     );
+
+    final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
 
     final inputEmail = Padding(
       padding: EdgeInsets.only(bottom: 10),
@@ -72,9 +73,11 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+            Scaffold.of(context).showSnackBar(snackBar);
             final User user = await signInWithEmailAndPassword(usernameController.text, passwordController.text);
             if (!user.emailVerified) {
               await user.sendEmailVerification();
+              Scaffold.of(context).showSnackBar(snackBar);
               print("login_page.dart->buttonLogin email not verified");
               return;
             }

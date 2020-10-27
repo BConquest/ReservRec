@@ -5,8 +5,6 @@ import 'package:reservrec/src/login_page.dart';
 import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
 
-import 'dart:async';
-
 class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

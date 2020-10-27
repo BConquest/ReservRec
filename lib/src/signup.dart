@@ -3,12 +3,9 @@ import 'package:flutter/painting.dart';
 import 'package:reservrec/models/user.dart';
 import 'package:reservrec/src/login_page.dart';
 import 'package:reservrec/src/user_functions.dart';
-import 'package:reservrec/src/main.dart';
 
-import 'file_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/repository/dataRepository.dart';
-import 'package:reservrec/models/user.dart';
 import 'package:reservrec/src/hashing.dart';
 
 class Signup extends StatefulWidget {
