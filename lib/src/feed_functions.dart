@@ -48,17 +48,17 @@ Future<List<PostModel>> grabFeed() async {
   return List.generate(
     posts.length,
         (i) {
-      final id = posts[i].post_id;
+      final id = posts[i].postId;
       final auth = 0;
       final auth_n = "Name";
       final auth_e = "Email";
-      final spo = posts[i].post_sport;
-      final des = posts[i].post_description;
-      final loc = posts[i].post_location;
-      final pt = posts[i].post_time_posted;
-      final gt = posts[i].post_time_set;
-      final max = posts[i].max_people;
-      final min = posts[i].min_people;
+      final spo = posts[i].postSport;
+      final des = posts[i].postDescription;
+      final loc = posts[i].postLocation;
+      final pt = posts[i].postTimePosted;
+      final gt = posts[i].postTimeSet;
+      final max = posts[i].maxPeople;
+      final min = posts[i].minPeople;
 
       return PostModel(
           id: id,

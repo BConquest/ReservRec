@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:reservrec/src/post_page.dart';
 
 import 'feed_functions.dart';
 
@@ -11,25 +11,34 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 6 / 3,
-      child: Card(
-        elevation: 2,
-        child: Container(
-          margin: const EdgeInsets.all(4.0),
-          padding: const EdgeInsets.all(4.0),
-          child: InheritedPostModel(
-            postData: postData,
-              child: Column(
-                children: <Widget>[
-                  _Post(),
-                  Divider(color: Colors.grey),
-                  _PostDetails(),
-                ],
-              )
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (BuildContext context) {
+            return PostPage(postData: postData);
+          }
+        ));
+      },
+      child: AspectRatio(
+        aspectRatio: 6 / 3,
+        child: Card(
+          elevation: 2,
+          child: Container(
+            margin: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(4.0),
+            child: InheritedPostModel(
+              postData: postData,
+                child: Column(
+                  children: <Widget>[
+                    _Post(),
+                    Divider(color: Colors.grey),
+                    _PostDetails(),
+                  ],
+                )
+            ),
           ),
         ),
-      ),
+      )
     );
   }
 }

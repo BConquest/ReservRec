@@ -1,61 +1,61 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  int post_user_id; //foreign key
-  int post_id;
-  String post_description;
-  DateTime post_time_posted;
-  DateTime post_time_set;
-  String post_sport;
-  String post_location;
-  int max_people;
-  int min_people;
+  int postUserId; //foreign key
+  int postId;
+  String postDescription;
+  DateTime postTimePosted;
+  DateTime postTimeSet;
+  String postSport;
+  String postLocation;
+  int maxPeople;
+  int minPeople;
 
   //camel case is wack
 
   DocumentReference reference;
-  Post(this.post_user_id, this.post_id, {this.post_description, this.post_time_posted, this.post_time_set, this.post_sport, this.post_location, this.max_people, this.min_people});
+  Post(this.postUserId, this.postId, {this.postDescription, this.postTimePosted, this.postTimeSet, this.postSport, this.postLocation, this.maxPeople, this.minPeople});
 
   factory Post.fromJson(Map<dynamic, dynamic> json) => _PostFromJson(json);
 
   Map<String, dynamic> toJson() => _PostToJson(this);
   @override
-  String toString() => "Post<$post_user_id, $post_id>";
+  String toString() => "Post<$postUserId, $postId>";
 
   void setUserId(int u){
-    this.post_user_id = u;
+    this.postUserId = u;
   }
 
   void setPostId(int u){
-    this.post_id = u;
+    this.postId = u;
   }
 
   void setDescription(String u){
-    this.post_description = u;
+    this.postDescription = u;
   }
 
   void setTimePosted(DateTime u){
-    this.post_time_posted = u;
+    this.postTimePosted = u;
   }
 
   void setTimeSet(DateTime u){
-    this.post_time_set = u;
+    this.postTimeSet = u;
   }
 
   void setSport(String u){
-    this.post_sport = u;
+    this.postSport = u;
   }
 
   void setLocation(String u){
-    this.post_location = u;
+    this.postLocation = u;
   }
 
   void setMaxPeople(int u){
-    this.max_people = u;
+    this.maxPeople = u;
   }
 
   void setMinPeople(int u){
-    this.min_people = u;
+    this.minPeople = u;
   }
 }
 
@@ -66,25 +66,25 @@ Post _PostFromJson(Map<dynamic, dynamic> json){
   return Post(
     json['post_id'] as int,
     json['user_id'] as int,
-    post_description: json['description'] as String,
-    post_time_posted: posted,
-    post_time_set: set,
-    post_sport: json['sport'] as String,
-    post_location: json['location'] as String,
-    max_people: json['max_people'] as int,
-    min_people: json['min_people'] as int,
+    postDescription: json['description'] as String,
+    postTimePosted: posted,
+    postTimeSet: set,
+    postSport: json['sport'] as String,
+    postLocation: json['location'] as String,
+    maxPeople: json['max_people'] as int,
+    minPeople: json['min_people'] as int,
   );
 }
 
 Map<String, dynamic> _PostToJson(Post instance) =>
     <String, dynamic> {
-      'user_id': instance.post_user_id,
-      'post_id': instance.post_id,
-      'description': instance.post_description,
-      'time_posted': instance.post_time_posted,
-      'time_set': instance.post_time_set,
-      'sport': instance.post_sport,
-      'location': instance.post_location,
-      'max_people': instance.max_people,
-      'min_people': instance.min_people,
+      'post_user_id': instance.postUserId,
+      'post_id': instance.postId,
+      'post_description': instance.postDescription,
+      'post_time_posted': instance.postTimePosted,
+      'post_time_set': instance.postTimeSet,
+      'post_sport': instance.postSport,
+      'post_location': instance.postLocation,
+      'max_people': instance.maxPeople,
+      'min_people': instance.minPeople,
     };
