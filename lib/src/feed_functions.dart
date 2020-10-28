@@ -78,30 +78,12 @@ Future<List<PostModel>> grabFeed() async {
 }
 
 Future<String> newPost(String sport, String description, String location, String gameTime, int min, int max) async {
-  List posts = await loadLocalCSV("feed.csv");
+  final CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
+  QuerySnapshot query = await postsCollection.orderBy("post_id").limitToLast(1).get();          //grabs post with greatest id
+  int newID = 1 + Post.fromJson(query.docs.first.data()).post_id;                               //extracts id and increments, though this creates issues with more than one app adding posts at the same time
+  print("newID: $newID");
 
-  final temp = PostModel(
-    id: posts.length+1,
-    author: 0,
-    sport: sport,
-    desc: description,
-    loc: location,
-    postTime: DateTime.now(),
-    gameTime: DateTime.now(),  //FIX, need to let people actually pick a time
-    maxPlayers: max,
-    minPlayers: min
-  );
-  // Old CSV Code
-  /*String newPostString = temp.id.toString() + ",";
-  newPostString += temp.author.toString() + ",";
-  newPostString += temp.desc + ",";
-  newPostString += temp.postTime + ",";
-  newPostString += temp.gameTime + ",";
-  newPostString += temp.sport + ",";
-  newPostString += temp.loc + ",";
-  newPostString += temp.maxPlayers.toString() + ",";
-  newPostString += temp.minPlayers.toString() + ";";
-  print(newPostString);
-  writeNewLine("/feed.csv", newPostString);*/
+  Post tempPost = new Post(0, newID, post_sport: sport, post_description: description, post_location: location, post_time_set: DateTime.now(), post_time_posted: DateTime.now(), min_people: min, max_people: max);
+  postsCollection.add(tempPost.toJson());
   return "true";
 }

@@ -78,13 +78,13 @@ Post _PostFromJson(Map<dynamic, dynamic> json){
 
 Map<String, dynamic> _PostToJson(Post instance) =>
     <String, dynamic> {
-      'post_user_id': instance.post_user_id,
+      'user_id': instance.post_user_id,
       'post_id': instance.post_id,
-      'post_description': instance.post_description,
-      'post_time_posted': instance.post_time_posted,
-      'post_time_set': instance.post_time_set,
-      'post_sport': instance.post_sport,
-      'post_location': instance.post_location,
+      'description': instance.post_description,
+      'time_posted': instance.post_time_posted,
+      'time_set': instance.post_time_set,
+      'sport': instance.post_sport,
+      'location': instance.post_location,
       'max_people': instance.max_people,
       'min_people': instance.min_people,
     };
