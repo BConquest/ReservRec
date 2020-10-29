@@ -81,7 +81,7 @@ class _PostTitleAndSummary extends StatelessWidget {
             SizedBox(height: 2.0),
             Text(summary, style: summaryTheme),
             SizedBox(height: 2.0),
-            Text('At + $location', style: locationTheme),
+            Text('At $location', style: locationTheme),
           ],
         ),
       ),
