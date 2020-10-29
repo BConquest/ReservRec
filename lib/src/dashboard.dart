@@ -1,63 +1,41 @@
 
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/login_page.dart';
 import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
 
-class Dashboard extends StatelessWidget {
+class Feed extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    final avatar = Padding(
-      padding: EdgeInsets.all(20),
-      child: Hero(
-          tag: 'hero',
-          child: SizedBox(
-            height: 160,
-            child: Image.asset('assets/defaultuser.png'),
-          )
-      ),
-    );
-
-    final description = Padding(
-      padding: EdgeInsets.all(10),
-      child: RichText(
-        textAlign: TextAlign.justify,
-        text: TextSpan(
-            text: 'Anim ad ex officia nulla anim ipsum ut elit minim id non ad enim aute. Amet enim adipisicing excepteur ea fugiat excepteur enim veniam veniam do quis magna. Cupidatat quis exercitation ut ipsum dolor ipsum. Qui commodo nostrud magna consectetur. Nostrud culpa laboris Lorem aliqua non ut veniam culpa deserunt laborum occaecat officia.',
-            style: TextStyle(color: Colors.black, fontSize: 20)
-        ),
-      ),
-    );
-    final buttonLogout = FlatButton(
-        child: Text('Logout', style: TextStyle(color: Colors.black87, fontSize: 16),),
-        onPressed: () {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
-        }
-    );
-
-    return SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              children: <Widget>[
-                avatar,
-                description,
-                buttonLogout
-              ],
-            ),
-          ),
-        )
-    );
+  State<StatefulWidget> createState() {
+    return _FeedState();
   }
 }
 
-class Feed extends StatelessWidget {
-  const Feed({Key key}) : super(key: key);
+class _FeedState extends State<Feed> {
+  //@override
+  //_FeedState({Key key}) : super(key: key);
 
-  @override
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  void _onRefresh() async{
+    // monitor network fetch
+    await grabFeed();
+    setState(() {
+      grabFeed();
+    });
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async{
+    // monitor network fetch
+    await grabFeed();
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    _refreshController.loadComplete();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
@@ -72,11 +50,18 @@ class Feed extends StatelessWidget {
                 title: Text("Home"),
 
               ),
-              body: ListView.builder(
+              body: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                controller: _refreshController,
+                onRefresh: _onRefresh,
+                onLoading: _onLoading,
+                child: ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
                             return PostCard(postData: snapshot.data[index]);
                           },
+                )
               ),
               bottomNavigationBar: BottomNavigationBar(
                 items: const <BottomNavigationBarItem>[
@@ -104,17 +89,3 @@ class Feed extends StatelessWidget {
     );
   }
 }
-/*
-                    MaterialButton(
-                      child: Text(
-                        'Add',
-                        style: TextStyle(color: Colors.white);
-                      ),
-                      onPressed: async (
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  NewPost()))
-                      ),
-                      onLongPress: (
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                      ),
-                    )
- */
