@@ -73,6 +73,7 @@ Future<User> signUpWithEmailAndPassword(String username, String password, String
   } catch (e) {
     print("user_functions->signUpWithEmailAndPassword $e");
     createUserMessage = e.toString();
+    return user;
   }
   return user;
 }
