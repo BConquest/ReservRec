@@ -85,6 +85,18 @@ bool validEmail(String email) {
   return false;
 }
 
+bool verifyUsername(String username) {
+  if (username.length < 3 || username.length > 10) {
+    return false;
+  }
+  for (int i = 0; i < username.length; i++) {
+    if (!username[i].startsWith(RegExp(r'[A-Za-z0-9]'))) {
+      return false;
+    }
+  }
+  return true;
+}
+
 bool verifyPassword(String password, String confirmPassword) {
   if (password == confirmPassword) {
     return true;

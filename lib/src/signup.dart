@@ -8,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/repository/dataRepository.dart';
 import 'package:reservrec/src/hashing.dart';
 
+//import 'package:image_picker/image_picker.dart';
+
 class Signup extends StatefulWidget {
   @override
   _SignupState createState() => _SignupState();
@@ -49,15 +51,23 @@ class _SignupState extends State<Signup> {
 
     final inputUsername = Padding(
       padding: EdgeInsets.all(5),
+
       child: TextField(
         keyboardType: TextInputType.name,
         controller: usernameController,
+        onChanged: (String username) {
+          if (!verifyUsername(username)) {
+            print("Username invalid");
+          } else {
+            print("Username Valid");
+          }
+        },
         decoration: InputDecoration(
             hintText: 'Username',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)
-            )
+            ),
         ),
       ),
     );
@@ -166,6 +176,31 @@ class _SignupState extends State<Signup> {
       ),
     );
 
+    String dropdownValue = 'University of Alabama';
+    final school = DropdownButton<String>(
+        value: dropdownValue,
+        icon: Icon(Icons.arrow_downward),
+        iconSize: 24,
+        elevation: 16,
+        style: TextStyle(color: Colors.deepPurple),
+        underline: Container(
+          height: 2,
+          color: Colors.deepPurpleAccent,
+        ),
+        onChanged: (String newValue) {
+          setState(() {
+            dropdownValue = newValue;
+          });
+        },
+        items: <String>['University of Alabama', 'One', 'Two', 'Free', 'Four']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+      );
+
     final key = new GlobalKey<ScaffoldState>();
     return new Scaffold(
       key: key,
@@ -181,6 +216,7 @@ class _SignupState extends State<Signup> {
                       inputPassword,
                       inputConfirmPassword,
                       inputEmail,
+                      school,
                       new ButtonBar(
                           alignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
