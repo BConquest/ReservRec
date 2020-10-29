@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage>  {
               if (!user.emailVerified) {
                 await user.sendEmailVerification();
                 print("login_page.dart->buttonLogin email not verified");
-                _displaySnackBar(context, "Please verify your email");
+                _displaySnackBar(context, "Your email has not been verified.");
                 return;
               }
               _clearInputs();
