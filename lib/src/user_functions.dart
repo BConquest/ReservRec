@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+var createUserMessage = "";
 
 class UserClass {
   int userID;
@@ -54,10 +56,13 @@ Future<User> signUpWithEmailAndPassword(String username, String password, String
   User user;
   if (!validPassword(password, confirmPassword)) {
     print("user_functions->signUpWithEmailAndPassword Invalid Password");
+    createUserMessage = "Invalid Password";
   }
   if (!validEmail(email)) {
     print("user_functions->signUpWithEmailAndPassword Invalid Email");
+    createUserMessage = "Invalid Email";
   }
+
   try {
     user = (await _auth.createUserWithEmailAndPassword(
       email: email,
@@ -66,7 +71,8 @@ Future<User> signUpWithEmailAndPassword(String username, String password, String
         .user;
     print(user);
   } catch (e) {
-    print(e);
+    print("user_functions->signUpWithEmailAndPassword $e");
+    createUserMessage = e.toString();
   }
   return user;
 }

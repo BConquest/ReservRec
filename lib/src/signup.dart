@@ -19,8 +19,19 @@ class _SignupState extends State<Signup> {
   final confirmPController = TextEditingController();
   final emailController = TextEditingController();
   final DataRepository repository = DataRepository();
-  var snackController = TextEditingController();
-  var message = "empty";
+
+  _clearInputs() {
+    usernameController.clear();
+    passwordController.clear();
+    confirmPController.clear();
+    emailController.clear();
+  }
+
+  _displaySnackBar(BuildContext context, s) {
+    final snackBar = SnackBar(content: Text(s));
+    print(snackBar);
+    //Scaffold.of(context).showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,17 +121,24 @@ class _SignupState extends State<Signup> {
           ),
           onPressed: () async {
             final User user = await signUpWithEmailAndPassword(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
+
+            //if (user == Null as User) {
+              _displaySnackBar(context, createUserMessage);
+              return;
+            //}
+            user.sendEmailVerification();
             //need to somehow increment also idk why my constructor is stupid
-            UserC hope_this_works = new UserC(0);
+            UserC linkUser = new UserC(0);
 
-            hope_this_works.setUsername(usernameController.text);
-            hope_this_works.setPassword(Sha256(passwordController.text));
-            hope_this_works.setEmail(emailController.text);
-            hope_this_works.setSchool("University of Alabama");
-            hope_this_works.setVerified(false);
+            linkUser.setUsername(usernameController.text);
+            linkUser.setPassword(Sha256(passwordController.text));
+            linkUser.setEmail(emailController.text);
+            linkUser.setSchool("University of Alabama");
+            linkUser.setVerified(false);
 
-            repository.addUserC(hope_this_works); //hope this works
+            repository.addUserC(linkUser); //hope this works
 
+            _clearInputs();
             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
         ),
@@ -138,31 +156,43 @@ class _SignupState extends State<Signup> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+            _clearInputs();
+            _displaySnackBar(context, "hey");
             Navigator.pop(context);
           },
         ),
       ),
     );
 
-    return SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              children: <Widget>[
-                logo,
-                inputUsername,
-                inputPassword,
-                inputConfirmPassword,
-                inputEmail,
-                buttonSignUp,
-                buttonBack,
-              ],
-            ),
-
+    final key = new GlobalKey<ScaffoldState>();
+    return new Scaffold(
+      key: key,
+          body: new Builder(
+              builder: (BuildContext cont) {
+                 return Center(
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    children: <Widget>[
+                      logo,
+                      inputUsername,
+                      inputPassword,
+                      inputConfirmPassword,
+                      inputEmail,
+                      new ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          buttonMinWidth: 1000,
+                          children: <Widget>[
+                            buttonSignUp,
+                            buttonBack,
+                          ]
+                      ),
+                    ],
+                  ),
+                );
+              }
           ),
-        )
     );
   }
 }
