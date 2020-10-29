@@ -60,31 +60,31 @@ class Post {
 }
 
 Post _PostFromJson(Map<dynamic, dynamic> json){
-  var posted = (json['time_posted'] as Timestamp).toDate();
-  var set = (json['time_set'] as Timestamp).toDate();
+  var posted = (json["time_posted"] as Timestamp).toDate();
+  var set = (json["time_set"] as Timestamp).toDate();
 
   return Post(
-    json['post_id'] as int,
-    json['user_id'] as int,
-    postDescription: json['description'] as String,
+    json["post_id"] as int,
+    json["user_id"] as int,
+    postDescription: json["description"] as String,
     postTimePosted: posted,
     postTimeSet: set,
-    postSport: json['sport'] as String,
-    postLocation: json['location'] as String,
-    maxPeople: json['max_people'] as int,
-    minPeople: json['min_people'] as int,
+    postSport: json["sport"] as String,
+    postLocation: json["location"] as String,
+    maxPeople: json["max_people"] as int,
+    minPeople: json["min_people"] as int,
   );
 }
 
 Map<String, dynamic> _PostToJson(Post instance) =>
     <String, dynamic> {
-      'user_id': instance.postUserId,
-      'post_id': instance.postId,
-      'description': instance.postDescription,
-      'time_posted': instance.postTimePosted,
-      'time_set': instance.postTimeSet,
-      'sport': instance.postSport,
-      'location': instance.postLocation,
-      'people': instance.maxPeople,
-      'people': instance.minPeople,
+      "user_id": instance.postUserId,
+      "post_id": instance.postId,
+      "description": instance.postDescription,
+      "time_posted": instance.postTimePosted,
+      "time_set": instance.postTimeSet,
+      "sport": instance.postSport,
+      "location": instance.postLocation,
+      "max_people": instance.maxPeople,
+      "min_people": instance.minPeople,
     };
