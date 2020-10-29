@@ -122,10 +122,12 @@ class _SignupState extends State<Signup> {
           onPressed: () async {
             final User user = await signUpWithEmailAndPassword(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
 
-            //if (user == Null as User) {
-              _displaySnackBar(context, createUserMessage);
+            if (user == null) {
+              //_displaySnackBar(context, createUserMessage);
+              print("signup.dart->final buttonSignUp $createUserMessage");
               return;
-            //}
+            }
+
             user.sendEmailVerification();
             //need to somehow increment also idk why my constructor is stupid
             UserC linkUser = new UserC(0);
