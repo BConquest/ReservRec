@@ -64,8 +64,10 @@ class _PostTitleAndSummary extends StatelessWidget {
     final PostModel postData = InheritedPostModel.of(context).postData;
     final TextStyle titleTheme = Theme.of(context).textTheme.headline6;
     final TextStyle summaryTheme = Theme.of(context).textTheme.bodyText2;
+    final TextStyle locationTheme = Theme.of(context).textTheme.caption;
     final String title = postData.sport;
     final String summary = postData.desc;
+    final String location = postData.loc;
 
     return Expanded(
       flex: 3,
@@ -78,6 +80,8 @@ class _PostTitleAndSummary extends StatelessWidget {
             Text(title, style: titleTheme),
             SizedBox(height: 2.0),
             Text(summary, style: summaryTheme),
+            SizedBox(height: 2.0),
+            Text('At + $location', style: locationTheme),
           ],
         ),
       ),
