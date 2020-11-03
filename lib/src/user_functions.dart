@@ -118,9 +118,13 @@ bool validPassword(String password, String confirmPassword) {
   return true;
 }
 
-void signInWithUsernameAndPassword(String username, String password) async {
-  firestoreInstance.collection("users").where("user_username", isEqualTo: username).get().then((value){
-    value.docs.forEach((element) {print(element.data);}
+Future<String> signInWithUsernameAndPassword(String username, String password) async {
+  String email;
+  await firestoreInstance.collection("users").where("user_username", isEqualTo: username).get().then((value){
+    value.docs.forEach((element) {
+      //print(element.data()["user_email"]);
+      email = element.data()["user_email"];}
     );
   });
+  return email;
 }

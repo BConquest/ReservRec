@@ -81,12 +81,30 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+            String email;
             final User user = await signInWithEmailAndPassword(usernameController.text, passwordController.text);
             if (user == null) {
-              signInWithUsernameAndPassword(usernameController.text, passwordController.text);
-              _displaySnackBar(context, "Username or Password Invalid");
-              return;
-            } else {
+              final String temp = await signInWithUsernameAndPassword(usernameController.text, passwordController.text);
+              print(temp);
+              if(temp == null) {
+                _displaySnackBar(context, "Username or Password Invalid");
+                return;
+              }
+              email = temp;
+              print(email);
+              final User user1 = await signInWithEmailAndPassword(email, passwordController.text);
+              if (user1 == null) {
+                _displaySnackBar(context, "Username or Password Invalid");
+                return;
+              }
+              if (!user1.emailVerified) {
+                await user1.sendEmailVerification();
+                print("login_page.dart->buttonLogin email not verified");
+                _displaySnackBar(context, "Your email has not been verified.");
+                return;
+              }
+            }
+            else {
               if (!user.emailVerified) {
                 await user.sendEmailVerification();
                 print("login_page.dart->buttonLogin email not verified");
