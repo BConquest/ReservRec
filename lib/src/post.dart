@@ -31,6 +31,7 @@ class PostCard extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     _Post(),
+                    _PostTimeStamp(),
                     Divider(color: Colors.grey),
                     _PostDetails(),
                   ],
@@ -51,7 +52,9 @@ class _Post extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       flex: 3,
-      child: Row(children: <Widget>[_PostImage(), _PostTitleAndSummary()]),
+      child: Row(
+          children: <Widget>[_PostImage(), _PostTitleAndSummary()]
+      )
     );
   }
 }
@@ -62,15 +65,15 @@ class _PostTitleAndSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    final TextStyle titleTheme = Theme.of(context).textTheme.headline6;
-    final TextStyle summaryTheme = Theme.of(context).textTheme.bodyText2;
-    final TextStyle locationTheme = Theme.of(context).textTheme.caption;
+    final TextStyle titleTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.6, fontSizeDelta: 1.5, fontWeightDelta: 1);
+    final TextStyle summaryTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.1, fontSizeDelta: 1, fontWeightDelta: 0);
+    final TextStyle locationTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: .9, fontSizeDelta: 1, fontWeightDelta: -1);
     final String title = postData.sport;
     final String summary = postData.desc;
     final String location = postData.loc;
 
-    return Expanded(
-      flex: 3,
+    return Align(
+      alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.only(left: 4.0),
         child: Column(
@@ -81,7 +84,7 @@ class _PostTitleAndSummary extends StatelessWidget {
             SizedBox(height: 2.0),
             Text(summary, style: summaryTheme),
             SizedBox(height: 2.0),
-            Text('At $location', style: locationTheme),
+            Text('at $location', style: locationTheme),
           ],
         ),
       ),
@@ -94,7 +97,7 @@ class _PostImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(flex: 2, child: Image.asset("assets/logo.png"));
+    return Align(alignment: Alignment.centerLeft, child: Image.asset("assets/logo.png"));
   }
 }
 
@@ -107,7 +110,7 @@ class _PostDetails extends StatelessWidget {
       children: <Widget>[
         _UserImage(),
         _UserNameAndEmail(),
-        _PostTimeStamp(),
+        _PostAttendance(),
       ],
     );
   }
@@ -119,8 +122,8 @@ class _UserNameAndEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    final TextStyle nameTheme = Theme.of(context).textTheme.subtitle2;
-    final TextStyle emailTheme = Theme.of(context).textTheme.bodyText2;
+    final TextStyle nameTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1, fontSizeDelta: 1, fontWeightDelta: 1);
+    final TextStyle emailTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: .9, fontSizeDelta: 1, fontWeightDelta: 0);
 
 
     return Expanded(
@@ -161,10 +164,26 @@ class _PostTimeStamp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    final DateFormat formatter = DateFormat('MM-dd-yyyy');
+    final DateFormat formatter = DateFormat('h:mm a on MM-dd-yyyy');
     final String formatted = formatter.format(postData.gameTime);
+    return Align(
+        alignment: Alignment.bottomRight,
+        child: Text(formatted)
+    );
+  }
+}
+
+class _PostAttendance extends StatelessWidget {
+  const _PostAttendance({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
+    //final int coming = postData.currentPlayers;
+    final int max = postData.maxPlayers;
+    final String formatted = "1 / $max players";//"$"
     return Expanded(
-        flex: 2,
+      flex: 2,
         child: Text(formatted)
     );
   }
