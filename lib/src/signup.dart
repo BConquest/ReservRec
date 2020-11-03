@@ -199,25 +199,23 @@ class _SignupState extends State<Signup> {
         }).toList(),
       ); */
 
+    List<String> list = new List();
+    Map dropDownItemsMap = new Map();
+
     final school = new DropdownButtonHideUnderline(
-      child: new FutureBuilder<List<String>>(
+      child: new FutureBuilder(
         future: getSchools(),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasData) {
-            List<DropdownMenuItem> list;
-            //listItemNames.clear();
-            Map dropDownItemsMap = new Map();
-
+          } else {
             snapshot.data.forEach((branchItem) {
               //listItemNames.add(branchItem.itemName);
               int index = snapshot.data.indexOf(branchItem);
               dropDownItemsMap[index] = branchItem;
 
-              list.add(new DropdownMenuItem(
-                  child: snapshot.data[index],
-                  value: index));
+              list.add(snapshot.data[index].toString());
+              print(list);
             });
 
             return DropdownButton(
@@ -228,10 +226,18 @@ class _SignupState extends State<Signup> {
                 underline: Container(
                   height: 2,
                 ),
-              items: list
+              onChanged: (String newValue) {
+                  setState(() {
+                    dropdownValue = newValue;
+                  });
+              },
+              items: list.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value)
+                  );
+                }).toList(),
             );
-          } else {
-            return CircularProgressIndicator();
           }
         },
       ),
