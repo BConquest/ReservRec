@@ -130,3 +130,14 @@ Future<String> signInWithUsernameAndPassword(String username, String password) a
   });
   return email;
 }
+
+Future<List<String>> getSchools() async {
+  List<String> schools;
+  await firestoreInstance.collection("schools").get().then((value){
+    value.docs.forEach((element) {
+      print(element.data()["name"]);
+      schools.add(element.data()["name"]);}
+    );
+  });
+  return schools;
+}

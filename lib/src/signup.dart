@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/models/user.dart';
@@ -9,6 +10,8 @@ import 'package:reservrec/repository/dataRepository.dart';
 import 'package:reservrec/src/hashing.dart';
 
 //import 'package:image_picker/image_picker.dart';
+
+final firestoreInstance = FirebaseFirestore.instance;
 
 class Signup extends StatefulWidget {
   @override
@@ -177,7 +180,7 @@ class _SignupState extends State<Signup> {
     );
 
 
-    final school = DropdownButton<String>(
+    /*DropdownButton(
         value: dropdownValue,
         icon: Icon(Icons.arrow_downward),
         iconSize: 24,
@@ -190,14 +193,50 @@ class _SignupState extends State<Signup> {
             dropdownValue = newValue;
           });
         },
-        items: <String>['University of Alabama', 'One', 'Two', 'Free', 'Four']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
+
+        items: list
           );
         }).toList(),
-      );
+      ); */
+
+    final school = new DropdownButtonHideUnderline(
+      child: new FutureBuilder<List<String>>(
+        future: getSchools(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            print("snapshot error");
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData) {
+            List<DropdownMenuItem> list;
+            //listItemNames.clear();
+            Map dropDownItemsMap = new Map();
+
+            snapshot.data.forEach((branchItem) {
+              //listItemNames.add(branchItem.itemName);
+              int index = snapshot.data.indexOf(branchItem);
+              dropDownItemsMap[index] = branchItem;
+
+              list.add(new DropdownMenuItem(
+                  child: snapshot.data[index],
+                  value: index));
+            });
+
+            return DropdownButton(
+                value: dropdownValue,
+                icon: Icon(Icons.arrow_downward),
+                iconSize: 24,
+                elevation: 16,
+                underline: Container(
+                  height: 2,
+                ),
+              items: list
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
+    );
 
     final key = new GlobalKey<ScaffoldState>();
     return new Scaffold(
