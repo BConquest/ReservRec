@@ -7,6 +7,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final firestoreInstance = FirebaseFirestore.instance;
 
 var createUserMessage = "";
+String dropdownValue = 'University of Alabama';
 
 class UserClass {
   int userID;
@@ -57,6 +58,7 @@ Future<User> signInWithEmailAndPassword(String email, String password) async {
 
 Future<User> signUpWithEmailAndPassword(String username, String password, String confirmPassword, String email) async {
   User user;
+  print(dropdownValue);
   if (!validPassword(password, confirmPassword)) {
     print("user_functions->signUpWithEmailAndPassword Invalid Password");
     createUserMessage = "Invalid Password";

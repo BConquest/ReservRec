@@ -17,8 +17,6 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  String dropdownValue = 'University of Alabama';
-
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPController = TextEditingController();
@@ -185,10 +183,8 @@ class _SignupState extends State<Signup> {
         icon: Icon(Icons.arrow_downward),
         iconSize: 24,
         elevation: 16,
-        style: TextStyle(color: Colors.deepPurple),
         underline: Container(
           height: 2,
-          color: Colors.deepPurpleAccent,
         ),
         onChanged: (String newValue) {
           setState(() {
