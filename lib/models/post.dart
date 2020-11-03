@@ -64,8 +64,8 @@ Post _PostFromJson(Map<dynamic, dynamic> json){
   var set = (json["time_set"] as Timestamp).toDate();
 
   return Post(
-    json["post_id"] as String,
-    json["user_id"] as int,
+    json["user_id"] as String,
+    json["post_id"] as int,
     postDescription: json["description"] as String,
     postTimePosted: posted,
     postTimeSet: set,
