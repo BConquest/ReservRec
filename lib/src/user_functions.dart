@@ -132,7 +132,7 @@ Future<String> signInWithUsernameAndPassword(String username, String password) a
 }
 
 Future<List<String>> getSchools() async {
-  List<String> schools;
+  List<String> schools = new List();
   await firestoreInstance.collection("schools").get().then((value){
     value.docs.forEach((element) {
       print(element.data()["name"]);

@@ -203,8 +203,8 @@ class _SignupState extends State<Signup> {
       child: new FutureBuilder<List<String>>(
         future: getSchools(),
         builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            print("snapshot error");
+          if (!snapshot.hasData) {
+            print("fuck u");
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             List<DropdownMenuItem> list;
