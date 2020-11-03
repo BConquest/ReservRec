@@ -83,6 +83,7 @@ class _LoginPageState extends State<LoginPage>  {
           onPressed: () async {
             final User user = await signInWithEmailAndPassword(usernameController.text, passwordController.text);
             if (user == null) {
+              signInWithUsernameAndPassword(usernameController.text, passwordController.text);
               _displaySnackBar(context, "Username or Password Invalid");
               return;
             } else {

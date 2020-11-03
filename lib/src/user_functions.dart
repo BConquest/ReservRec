@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final firestoreInstance = FirebaseFirestore.instance;
+
 var createUserMessage = "";
 
 class UserClass {
@@ -113,4 +116,11 @@ bool validPassword(String password, String confirmPassword) {
     return false;
   }
   return true;
+}
+
+void signInWithUsernameAndPassword(String username, String password) async {
+  firestoreInstance.collection("users").where("user_username", isEqualTo: username).get().then((value){
+    value.docs.forEach((element) {print(element.data);}
+    );
+  });
 }

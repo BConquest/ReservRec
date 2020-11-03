@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final firestoreInstance = FirebaseFirestore.instance;
 
 class UserC {
   //I think it's a good idea to separate the User class and their functions so I can add all of the json stuff we need
