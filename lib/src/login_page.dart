@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/src/dashboard.dart';
+import 'package:reservrec/src/forgotPassword.dart';
 import 'package:reservrec/src/signup.dart';
 import 'package:reservrec/src/user_functions.dart';
 
@@ -146,6 +147,7 @@ class _LoginPageState extends State<LoginPage>  {
           //final FirebaseAuth _auth = FirebaseAuth.instance;
           _displaySnackBar(context, "Invalid Email or Password");
           //await _auth.sendPasswordResetEmail(email: usernameController.text);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
         }
     );
 
