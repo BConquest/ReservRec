@@ -204,7 +204,6 @@ class _SignupState extends State<Signup> {
         future: getSchools(),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
-            print("fuck u");
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             List<DropdownMenuItem> list;
