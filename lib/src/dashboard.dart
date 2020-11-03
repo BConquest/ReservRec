@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:reservrec/src/feed_functions.dart';
-import 'package:reservrec/src/login_page.dart';
 import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Feed extends StatefulWidget {
   @override
@@ -74,11 +73,13 @@ class _FeedState extends State<Feed> {
                     label: 'logout',
                   ),
                 ],
-                onTap: (int index) {
+                onTap: (int index) async {
                   if (index == 0) {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  NewPost()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewPost()));
                   } else {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  LoginPage()));
+                    final FirebaseAuth auth = FirebaseAuth.instance;
+                    await auth.signOut();
+                    Navigator.pop(context);
                   }
                 },
               ),
