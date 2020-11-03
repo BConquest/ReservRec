@@ -2,6 +2,71 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:reservrec/src/dashboard.dart';
 import 'package:reservrec/src/feed_functions.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
+class CustomPicker extends CommonPickerModel {
+  String digits(int value, int length) {
+    return '$value'.padLeft(length, "0");
+  }
+
+  CustomPicker({DateTime currentTime, LocaleType locale}) : super(locale: locale) {
+    this.currentTime = currentTime ?? DateTime.now();
+    this.setLeftIndex(this.currentTime.hour);
+    this.setMiddleIndex(this.currentTime.minute);
+    this.setRightIndex(this.currentTime.second);
+  }
+
+  @override
+  String leftStringAtIndex(int index) {
+    if (index >= 0 && index < 24) {
+      return this.digits(index, 2);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  String middleStringAtIndex(int index) {
+    if (index >= 0 && index < 60) {
+      return this.digits(index, 2);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  String rightStringAtIndex(int index) {
+    if (index >= 0 && index < 60) {
+      return this.digits(index, 2);
+    } else {
+      return null;
+    }
+  }
+
+  @override
+  String leftDivider() {
+    return "|";
+  }
+
+  @override
+  String rightDivider() {
+    return "|";
+  }
+
+  @override
+  List<int> layoutProportions() {
+    return [1, 2, 1];
+  }
+
+  @override
+  DateTime finalTime() {
+    return currentTime.isUtc
+        ? DateTime.utc(currentTime.year, currentTime.month, currentTime.day,
+        this.currentLeftIndex(), this.currentMiddleIndex(), this.currentRightIndex())
+        : DateTime(currentTime.year, currentTime.month, currentTime.day, this.currentLeftIndex(),
+        this.currentMiddleIndex(), this.currentRightIndex());
+  }
+}
 
 class NewPost extends StatefulWidget {
   @override
@@ -12,7 +77,6 @@ class _NewPost extends State<NewPost> {
   final sportController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
-  final timeController = TextEditingController();
   final minController = TextEditingController();
   final maxController = TextEditingController();
 
@@ -20,6 +84,7 @@ class _NewPost extends State<NewPost> {
   @override
   Widget build(BuildContext context) {
     var message;
+    var gameTimeSet;
 
     // TODO Change To be custom profile picture
     final logo = Padding(
@@ -78,21 +143,6 @@ class _NewPost extends State<NewPost> {
       ),
     );
 
-    final gameTime = Padding(
-      padding: EdgeInsets.all(5),
-      child: TextField(
-        keyboardType: TextInputType.datetime,
-        controller: timeController,
-        decoration: InputDecoration(
-            hintText: 'Time of Sport Activity',
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0)
-            )
-        ),
-      ),
-    );
-
     final minPlayers = Padding(
       padding: EdgeInsets.all(5),
       child: TextField(
@@ -134,7 +184,7 @@ class _NewPost extends State<NewPost> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            String message = await newPost(sportController.text, descriptionController.text, locationController.text, timeController.text, int.parse(maxController.text), int.parse(minController.text));
+            String message = await newPost(sportController.text, descriptionController.text, locationController.text, gameTimeSet, int.parse(maxController.text), int.parse(minController.text));
             if(message == "true") {
               print("newPost");
               Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
@@ -159,6 +209,30 @@ class _NewPost extends State<NewPost> {
           onPressed: () async {
               Navigator.pop(context);
           },
+        ),
+      ),
+    );
+
+    final gameTime = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () {
+            DatePicker.showDateTimePicker(context, showTitleActions: true, onChanged: (date) {
+              print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+            }, onConfirm: (date) {
+              print('confirm $date');
+              gameTimeSet = date;
+            }, currentTime: DateTime.now());
+          },
+          child: Text(
+              'show time picker',
+              style: TextStyle(color: Colors.white, fontSize: 20)),
         ),
       ),
     );
