@@ -84,7 +84,9 @@ class _NewPost extends State<NewPost> {
   @override
   Widget build(BuildContext context) {
     var message;
-    var gameTimeSet;
+    DateTime gameTimeSet;
+    DateTime gameTimeTemp;
+    DateTime gameDayTemp;
 
     // TODO Change To be custom profile picture
     final logo = Padding(
@@ -173,6 +175,54 @@ class _NewPost extends State<NewPost> {
       ),
     );
 
+    final gameDay = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () {
+            DatePicker.showDatePicker(context, showTitleActions: true, onChanged: (date) {
+              print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+            }, onConfirm: (date) {
+              print('confirm $date');
+              gameDayTemp = date;
+            }, currentTime: DateTime.now());
+          },
+          child: Text(
+              'Show Time Picker',
+              style: TextStyle(color: Colors.white, fontSize: 20)),
+        ),
+      ),
+    );
+
+    final gameTime = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () {
+            DatePicker.showTime12hPicker(context, showTitleActions: true, onChanged: (date) {
+              print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+            }, onConfirm: (date) {
+              print('confirm $date');
+              gameTimeTemp = date;
+            }, currentTime: DateTime.now());
+          },
+          child: Text(
+              'Show Time Picker',
+              style: TextStyle(color: Colors.white, fontSize: 20)),
+        ),
+      ),
+    );
+
     final buttonAddPost = Padding(
       padding: EdgeInsets.all(5),
       child: ButtonTheme(
@@ -184,6 +234,7 @@ class _NewPost extends State<NewPost> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+            gameTimeSet = new DateTime(gameDayTemp.year, gameDayTemp.month, gameDayTemp.day, gameTimeTemp.hour, gameTimeTemp.minute);
             String message = await newPost(sportController.text, descriptionController.text, locationController.text, gameTimeSet, int.parse(maxController.text), int.parse(minController.text));
             if(message == "true") {
               print("newPost");
@@ -213,30 +264,6 @@ class _NewPost extends State<NewPost> {
       ),
     );
 
-    final gameTime = Padding(
-      padding: EdgeInsets.all(5),
-      child: ButtonTheme(
-        height: 56,
-        child: RaisedButton(
-          color: Colors.red,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50)
-          ),
-          onPressed: () {
-            DatePicker.showDateTimePicker(context, showTitleActions: true, onChanged: (date) {
-              print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-            }, onConfirm: (date) {
-              print('confirm $date');
-              gameTimeSet = date;
-            }, currentTime: DateTime.now());
-          },
-          child: Text(
-              'show time picker',
-              style: TextStyle(color: Colors.white, fontSize: 20)),
-        ),
-      ),
-    );
-
     return SafeArea(
         child: Scaffold(
           body: Center(
@@ -248,9 +275,10 @@ class _NewPost extends State<NewPost> {
                 inputSport,
                 inputDescription,
                 location,
-                gameTime,
                 maxPlayers,
                 minPlayers,
+                gameTime,
+                gameDay,
                 buttonAddPost,
                 buttonBack,
               ],
