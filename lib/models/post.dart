@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
-  int postUserId; //foreign key
+  String postUserId; //foreign key
   int postId;
   String postDescription;
   DateTime postTimePosted;
@@ -22,7 +22,7 @@ class Post {
   @override
   String toString() => "Post<$postUserId, $postId>";
 
-  void setUserId(int u){
+  void setUserId(String u){
     this.postUserId = u;
   }
 
@@ -64,7 +64,7 @@ Post _PostFromJson(Map<dynamic, dynamic> json){
   var set = (json["time_set"] as Timestamp).toDate();
 
   return Post(
-    json["post_id"] as int,
+    json["post_id"] as String,
     json["user_id"] as int,
     postDescription: json["description"] as String,
     postTimePosted: posted,

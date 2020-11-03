@@ -5,6 +5,7 @@ import 'package:reservrec/src/login_page.dart';
 import 'package:reservrec/src/user_functions.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reservrec/repository/dataRepository.dart';
 import 'package:reservrec/src/hashing.dart';
 
@@ -139,8 +140,8 @@ class _SignupState extends State<Signup> {
             }
 
             user.sendEmailVerification();
-            //need to somehow increment also idk why my constructor is stupid
-            UserC linkUser = new UserC(0);
+            String uid = user.uid;
+            UserC linkUser = new UserC(uid);
 
             linkUser.setUsername(usernameController.text);
             linkUser.setPassword(Sha256(passwordController.text));
@@ -148,7 +149,7 @@ class _SignupState extends State<Signup> {
             linkUser.setSchool("University of Alabama");
             linkUser.setVerified(false);
 
-            repository.addUserC(linkUser); //hope this works
+            repository.addUserC(linkUser);
 
             _clearInputs();
             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));

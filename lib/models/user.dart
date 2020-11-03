@@ -5,7 +5,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class UserC {
   //I think it's a good idea to separate the User class and their functions so I can add all of the json stuff we need
-  int userId;
+  String userId;
   String userUsername;
   String userPassword;
   String userEmail;
@@ -46,7 +46,7 @@ class UserC {
 
 UserC _UserCFromJson(Map<dynamic, dynamic> json){
   return UserC(
-    json['user_id'] as int,
+    json['user_id'] as String,
     userUsername: json['user_username'] as String,
     userPassword: json['user_password'] as String,
     userEmail: json['user_email'] as String,
