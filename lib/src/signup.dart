@@ -5,7 +5,6 @@ import 'package:reservrec/src/login_page.dart';
 import 'package:reservrec/src/user_functions.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reservrec/repository/dataRepository.dart';
 import 'package:reservrec/src/hashing.dart';
 
