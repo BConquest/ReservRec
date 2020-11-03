@@ -112,8 +112,8 @@ class _LoginPageState extends State<LoginPage>  {
                 return;
               }
               _clearInputs();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
             }
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
           }
         ),
       ),
