@@ -4,6 +4,9 @@ import 'dart:async';
 import 'package:reservrec/models/post.dart';
 import 'package:reservrec/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class PostModel {
   final int id;
@@ -92,7 +95,7 @@ Future<String> newPost(String sport, String description, String location, DateTi
   int newID = 1 + Post.fromJson(query.docs.first.data()).postId;                              //extracts id and increments, though this creates issues with more than one app adding posts at the same time
   print("newID: $newID");
 
-  Post tempPost = new Post("0", newID, postSport: sport, postDescription: description, postLocation: location, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min);
+  Post tempPost = new Post(_auth.currentUser.uid, newID, postSport: sport, postDescription: description, postLocation: location, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min);
   postsCollection.add(tempPost.toJson());
   return "true";
 }
