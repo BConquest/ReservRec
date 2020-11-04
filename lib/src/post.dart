@@ -72,8 +72,7 @@ class _PostTitleAndSummary extends StatelessWidget {
     final String summary = postData.desc;
     final String location = postData.loc;
 
-    return Align(
-      alignment: Alignment.centerLeft,
+    return Flexible(
       child: Padding(
         padding: const EdgeInsets.only(left: 4.0),
         child: Column(
@@ -82,7 +81,7 @@ class _PostTitleAndSummary extends StatelessWidget {
           children: <Widget>[
             Text(title, style: titleTheme),
             SizedBox(height: 2.0),
-            Text(summary, style: summaryTheme),
+            Text(summary, overflow: TextOverflow.ellipsis,style: summaryTheme),
             SizedBox(height: 2.0),
             Text('at $location', style: locationTheme),
           ],

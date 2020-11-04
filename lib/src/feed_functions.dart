@@ -2,11 +2,12 @@
 
 import 'dart:async';
 import 'package:reservrec/models/post.dart';
+import 'package:reservrec/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
   final int id;
-  final int author;
+  final String author;
   final String auth_name;
   final String auth_email;
   final String sport;
@@ -44,22 +45,31 @@ Future<List<PostModel>> grabFeed() async {
     print("we did it");
   });
 
+  // Begin spaghetti code, brought to you by Zack Withers (#2 Gayball player in the world btw)
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
+  final QuerySnapshot ss = await userCollection.get();
+
+  List<UserC> users = new List();
+  ss.docs.forEach((document) async {
+    users.add(UserC.fromJson(document.data()));
+  });
+
   return List.generate(
     posts.length,
         (i) {
-      final id = posts[i].postId;
-      final auth = 0;
-      final auth_n = "Name";
-      final auth_e = "Email";
-      final spo = posts[i].postSport;
-      final des = posts[i].postDescription;
-      final loc = posts[i].postLocation;
-      final pt = posts[i].postTimePosted;
-      final gt = posts[i].postTimeSet;
-      final max = posts[i].maxPeople;
-      final min = posts[i].minPeople;
+          final id = posts[i].postId;
+          final auth = posts[i].postUserId;
+          final auth_n = users[users.indexWhere((element) => (element.userId == posts[i].postUserId))].userUsername;
+          final auth_e = users[users.indexWhere((element) => (element.userId == posts[i].postUserId))].userEmail;
+          final spo = posts[i].postSport;
+          final des = posts[i].postDescription;
+          final loc = posts[i].postLocation;
+          final pt = posts[i].postTimePosted;
+          final gt = posts[i].postTimeSet;
+          final max = posts[i].maxPeople;
+          final min = posts[i].minPeople;
 
-      return PostModel(
+          return PostModel(
           id: id,
           author: auth,
           auth_name: auth_n,
