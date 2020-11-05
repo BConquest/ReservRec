@@ -33,7 +33,7 @@ Future<User> signUpWithEmailAndPassword(String username, String password, String
     return user;
   }
   if (!validPassword(password, confirmPassword)) {
-    createUserMessage = "Invalid Password";
+    createUserMessage = "Invalid Password.";
     return user;
   }
 
