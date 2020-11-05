@@ -39,7 +39,7 @@ class PostModel {
 
 Future<List<PostModel>> grabFeed() async {
   final CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
-  final QuerySnapshot snapshot = await postsCollection.orderBy('time_set', descending: true).get();
+  final QuerySnapshot snapshot = await postsCollection.orderBy('time_posted', descending: true).get();
 
   List<Post> posts = new List();
   snapshot.docs.forEach((document) async {
