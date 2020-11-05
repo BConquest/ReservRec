@@ -1,45 +1,12 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firestoreInstance = FirebaseFirestore.instance;
 
 var createUserMessage = "";
 String dropdownValue = 'University of Alabama';
-
-class UserClass {
-  int userID;
-  String name;
-  String email;
-  String password;
-  String picture;
-  String school;
-  bool verified;
-
-  UserClass({
-    this.userID,
-    this.name,
-    this.email,
-    this.password,
-    this.picture,
-    this.school,
-    this.verified,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'userID': userID,
-      'name': name,
-      'email': email,
-      'password': password,
-      'picture': picture,
-      'school': school,
-      'verified': verified
-    };
-  }
-}
 
 Future<User> signInWithEmailAndPassword(String email, String password) async {
   User user;
@@ -86,8 +53,11 @@ Future<User> signUpWithEmailAndPassword(String username, String password, String
 
 Future<bool> validEmail(String email) async {
   List validEmailEndings = await getEmails(dropdownValue);
-  if (email.endsWith("@crimson.ua.edu")) {
-    return true;
+
+  for (var i = 0; i < validEmailEndings.length; i++) {
+    if (email.endsWith(validEmailEndings[i])) {
+      return true;
+    }
   }
   return false;
 }
@@ -143,15 +113,15 @@ Future<List<String>> getSchools() async {
 }
 
 Future<List<String>> getEmails(String school) async {
-  CollectionReference schools = FirebaseFirestore.instance.collection('schools');
+  CollectionReference schools =  FirebaseFirestore.instance.collection('schools')
+                                .doc(dropdownValue)
+                                .collection("validEmails");
 
-  schools.collection("schools").doc(school).collection("domains").get();
-  FirebaseFirestore.instance
-      .collection('schools')
-      .get()
-      .then((QuerySnapshot querySnapshot) => {
-        querySnapshot.docs.contains(element)
-      });
-  print(schools);
-  //  return schools;
+  List<String> emails = new List();
+  await schools.get().then((value) {
+    value.docs.forEach((element) {
+      emails.add(element.data()["domain"]);
+    });
+  });
+  return emails;
 }

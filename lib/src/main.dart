@@ -2,16 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:reservrec/src/login_page.dart';
-import 'package:reservrec/src/user_functions.dart';
-
-UserClass Me = UserClass(
-    userID: -1,
-    name: "voidName",
-    email: "void@void.void",
-    password: "voidPw",
-    picture: "default",
-    school: "University of Alabama",
-    verified: false);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

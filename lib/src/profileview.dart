@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:reservrec/src/main.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -34,7 +33,6 @@ class _ProfileViewPage extends State<ProfileView> {
         keyboardType: TextInputType.name,
         controller: usernameController,
         decoration: InputDecoration(
-            hintText: Me.name,
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)
@@ -51,7 +49,6 @@ class _ProfileViewPage extends State<ProfileView> {
         obscureText: true,
         controller: passwordController,
         decoration: InputDecoration(
-            hintText: Me.password,
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)
@@ -67,7 +64,6 @@ class _ProfileViewPage extends State<ProfileView> {
         keyboardType: TextInputType.emailAddress,
         controller: emailController,
         decoration: InputDecoration(
-            hintText: Me.email,
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)

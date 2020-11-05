@@ -139,6 +139,7 @@ class _SignupState extends State<Signup> {
             }
 
             user.sendEmailVerification();
+            user.updateProfile();
             String uid = user.uid;
             UserC linkUser = new UserC(uid);
 
