@@ -62,13 +62,6 @@ class _SignupState extends State<Signup> {
       child: TextField(
         keyboardType: TextInputType.name,
         controller: usernameController,
-        onChanged: (String username) {
-          if (!verifyUsername(username)) {
-            print("Username invalid");
-          } else {
-            print("Username Valid");
-          }
-        },
         decoration: InputDecoration(
             hintText: 'Username',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -152,7 +145,7 @@ class _SignupState extends State<Signup> {
             linkUser.setUsername(usernameController.text);
             linkUser.setPassword(Sha256(passwordController.text));
             linkUser.setEmail(emailController.text);
-            linkUser.setSchool("University of Alabama");
+            linkUser.setSchool(getDropDownValue());
             linkUser.setVerified(false);
 
             repository.addUserC(linkUser);
@@ -183,26 +176,6 @@ class _SignupState extends State<Signup> {
       ),
     );
 
-
-    /*DropdownButton(
-        value: dropdownValue,
-        icon: Icon(Icons.arrow_downward),
-        iconSize: 24,
-        elevation: 16,
-        underline: Container(
-          height: 2,
-        ),
-        onChanged: (String newValue) {
-          setState(() {
-            dropdownValue = newValue;
-          });
-        },
-
-        items: list
-          );
-        }).toList(),
-      ); */
-
     List<String> list = new List();
     Map dropDownItemsMap = new Map();
 
@@ -219,7 +192,6 @@ class _SignupState extends State<Signup> {
               dropDownItemsMap[index] = branchItem;
 
               list.add(snapshot.data[index].toString());
-              print(list);
             });
 
             return DropdownButton(

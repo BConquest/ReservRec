@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firestoreInstance = FirebaseFirestore.instance;
@@ -49,23 +49,25 @@ Future<User> signInWithEmailAndPassword(String email, String password) async {
       password: password,
     ))
         .user;
-    print(user);
   } catch (e) {
     print(e);
   }
   return user;
 }
 
+String getDropDownValue() {
+  return dropdownValue;
+}
+
 Future<User> signUpWithEmailAndPassword(String username, String password, String confirmPassword, String email) async {
   User user;
-  print(dropdownValue);
-  if (!validPassword(password, confirmPassword)) {
-    print("user_functions->signUpWithEmailAndPassword Invalid Password");
-    createUserMessage = "Invalid Password";
-  }
-  if (!validEmail(email)) {
-    print("user_functions->signUpWithEmailAndPassword Invalid Email");
+  if (!(await validEmail(email))) {
     createUserMessage = "Invalid Email";
+    return user;
+  }
+  if (!validPassword(password, confirmPassword)) {
+    createUserMessage = "Invalid Password";
+    return user;
   }
 
   try {
@@ -74,7 +76,6 @@ Future<User> signUpWithEmailAndPassword(String username, String password, String
       password: password,
     ))
         .user;
-    print(user);
   } catch (e) {
     print("user_functions->signUpWithEmailAndPassword $e");
     createUserMessage = e.toString();
@@ -83,7 +84,8 @@ Future<User> signUpWithEmailAndPassword(String username, String password, String
   return user;
 }
 
-bool validEmail(String email) {
+Future<bool> validEmail(String email) async {
+  List validEmailEndings = await getEmails(dropdownValue);
   if (email.endsWith("@crimson.ua.edu")) {
     return true;
   }
@@ -124,7 +126,6 @@ Future<String> signInWithUsernameAndPassword(String username, String password) a
   String email;
   await firestoreInstance.collection("users").where("user_username", isEqualTo: username).get().then((value){
     value.docs.forEach((element) {
-      //print(element.data()["user_email"]);
       email = element.data()["user_email"];}
     );
   });
@@ -135,9 +136,22 @@ Future<List<String>> getSchools() async {
   List<String> schools = new List();
   await firestoreInstance.collection("schools").get().then((value){
     value.docs.forEach((element) {
-      print(element.data()["name"]);
       schools.add(element.data()["name"]);}
     );
   });
   return schools;
+}
+
+Future<List<String>> getEmails(String school) async {
+  CollectionReference schools = FirebaseFirestore.instance.collection('schools');
+
+  schools.collection("schools").doc(school).collection("domains").get();
+  FirebaseFirestore.instance
+      .collection('schools')
+      .get()
+      .then((QuerySnapshot querySnapshot) => {
+        querySnapshot.docs.contains(element)
+      });
+  print(schools);
+  //  return schools;
 }
