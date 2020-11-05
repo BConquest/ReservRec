@@ -7,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-
 class PostModel {
   final int id;
   final String author;
@@ -43,12 +42,14 @@ Future<List<PostModel>> grabFeed() async {
 
   List<Post> posts = new List();
   snapshot.docs.forEach((document) async {
-    print(document.id);
     posts.add(Post.fromJson(document.data()));
-    print("we did it");
   });
 
-  // Begin spaghetti code, brought to you by Zack Withers (#2 Gayball player in the world btw)
+  posts.sort((a, b) {
+    return a.postTimeSet.toString().toLowerCase().compareTo(b.postTimeSet.toString().toLowerCase());
+  });
+
+  // Begin spaghetti code, brought to you by Zack Withers (#0 Gayball player in the world btw)
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
   final QuerySnapshot ss = await userCollection.get();
 
@@ -62,8 +63,8 @@ Future<List<PostModel>> grabFeed() async {
         (i) {
           final id = posts[i].postId;
           final auth = posts[i].postUserId;
-          final auth_n = users[users.indexWhere((element) => (element.userId == posts[i].postUserId))].userUsername;
-          final auth_e = users[users.indexWhere((element) => (element.userId == posts[i].postUserId))].userEmail;
+          final authN = users[users.indexWhere((element) => (element.userId == posts[i].postUserId))].userUsername;
+          final authE = users[users.indexWhere((element) => (element.userId == posts[i].postUserId))].userEmail;
           final spo = posts[i].postSport;
           final des = posts[i].postDescription;
           final loc = posts[i].postLocation;
@@ -75,8 +76,8 @@ Future<List<PostModel>> grabFeed() async {
           return PostModel(
           id: id,
           author: auth,
-          auth_name: auth_n,
-          auth_email: auth_e,
+          auth_name: authN,
+          auth_email: authE,
           sport: spo,
           desc: des,
           loc: loc,
