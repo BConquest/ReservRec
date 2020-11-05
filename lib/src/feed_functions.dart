@@ -68,14 +68,13 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   } else if (sortMethodIndex == 1) {
     posts.sort((a, b) {
       //TODO change to curPlayers
-      return a.maxPeople.toString().toLowerCase().compareTo(b.maxPeople.toString().toLowerCase());
+      return a.maxPeople.compareTo(b.maxPeople);
     });
   } else {
     posts.sort((a, b) {
       //TODO change to curPlayers
       return a.maxPeople.toString().toLowerCase().compareTo(b.maxPeople.toString().toLowerCase());
     });
-    posts = posts.reversed;
   }
   print (sortMethodIndex);
 

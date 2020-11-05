@@ -81,7 +81,10 @@ class _FeedState extends State<Feed> {
                   if (index == 0) {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewPost()));
                   } else if (index == 1) {
-                    grabFeed(cycleFunction());
+                    await grabFeed(cycleFunction());
+                    setState(() {
+
+                    });
                   } else {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     await auth.signOut();
