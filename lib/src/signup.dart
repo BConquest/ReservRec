@@ -25,6 +25,8 @@ class _SignupState extends State<Signup> {
   final emailController = TextEditingController();
   final DataRepository repository = DataRepository();
 
+  var userPicture = 'https://i.imgur.com/DfGZewB.png';
+
   _clearInputs() {
     usernameController.clear();
     passwordController.clear();
@@ -47,7 +49,9 @@ class _SignupState extends State<Signup> {
           tag: 'hero',
           child: SizedBox(
             height: 160,
-            child: Image.asset('assets/defaultuser.png'),
+            child: Image.network(
+              userPicture
+            )
           )
       ),
     );
