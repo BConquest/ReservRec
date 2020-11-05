@@ -20,9 +20,9 @@ class _FeedState extends State<Feed> {
 
   void _onRefresh() async{
     // monitor network fetch
-    await grabFeed();
+    await grabFeed(getSortIndex());
     setState(() {
-      grabFeed();
+      grabFeed(getSortIndex());
     });
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
@@ -30,7 +30,7 @@ class _FeedState extends State<Feed> {
 
   void _onLoading() async{
     // monitor network fetch
-    await grabFeed();
+    await grabFeed(getSortIndex());
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     _refreshController.loadComplete();
   }
@@ -38,7 +38,7 @@ class _FeedState extends State<Feed> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: grabFeed(),
+        future: grabFeed(getSortIndex()),
         builder: (context, AsyncSnapshot snapshot) {
           print(snapshot.hasData);
           if(!snapshot.hasData) {
@@ -69,6 +69,10 @@ class _FeedState extends State<Feed> {
                     label: 'newpost',
                   ),
                   BottomNavigationBarItem(
+                    icon: Icon(Icons.sort_rounded),
+                    label: 'sort',
+                  ),
+                  BottomNavigationBarItem(
                     icon: Icon(Icons.logout),
                     label: 'logout',
                   ),
@@ -76,6 +80,11 @@ class _FeedState extends State<Feed> {
                 onTap: (int index) async {
                   if (index == 0) {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewPost()));
+                  } else if (index == 1) {
+                    await grabFeed(cycleFunction());
+                    setState(() {
+
+                    });
                   } else {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     await auth.signOut();

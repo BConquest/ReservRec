@@ -7,6 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+var sortIndex = 0;
+final List sortMethod = ['time', 'people', 'location'];
+
 class PostModel {
   final int id;
   final String author;
@@ -36,7 +39,20 @@ class PostModel {
   });
 }
 
-Future<List<PostModel>> grabFeed() async {
+int getSortIndex() {
+  return sortIndex;
+}
+
+int cycleFunction() {
+  if (sortIndex == sortMethod.length - 1) {
+    sortIndex = 0;
+  } else {
+    sortIndex += 1;
+  }
+  return sortIndex;
+}
+
+Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   final CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
   final QuerySnapshot snapshot = await postsCollection.orderBy('time_posted', descending: true).get();
 
@@ -45,9 +61,22 @@ Future<List<PostModel>> grabFeed() async {
     posts.add(Post.fromJson(document.data()));
   });
 
-  posts.sort((a, b) {
-    return a.postTimeSet.toString().toLowerCase().compareTo(b.postTimeSet.toString().toLowerCase());
-  });
+  if (sortMethodIndex == 0) {
+    posts.sort((a, b) {
+      return a.postTimeSet.toString().toLowerCase().compareTo(b.postTimeSet.toString().toLowerCase());
+    });
+  } else if (sortMethodIndex == 1) {
+    posts.sort((a, b) {
+      //TODO change to curPlayers
+      return a.maxPeople.compareTo(b.maxPeople);
+    });
+  } else {
+    posts.sort((a, b) {
+      //TODO change to curPlayers
+      return a.maxPeople.toString().toLowerCase().compareTo(b.maxPeople.toString().toLowerCase());
+    });
+  }
+  print (sortMethodIndex);
 
   // Begin spaghetti code, brought to you by Zack Withers (#0 Gayball player in the world btw)
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
