@@ -79,11 +79,11 @@ class _PostTitleAndSummary extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(title, style: titleTheme),
+            Text(title, overflow: TextOverflow.ellipsis, style: titleTheme),
             SizedBox(height: 2.0),
-            Text(summary, overflow: TextOverflow.ellipsis,style: summaryTheme),
+            Text(summary, overflow: TextOverflow.ellipsis, style: summaryTheme),
             SizedBox(height: 2.0),
-            Text('at $location', style: locationTheme),
+            Text('at $location', overflow: TextOverflow.ellipsis, style: locationTheme),
           ],
         ),
       ),
@@ -180,7 +180,7 @@ class _PostAttendance extends StatelessWidget {
     final PostModel postData = InheritedPostModel.of(context).postData;
     //final int coming = postData.currentPlayers;
     final int max = postData.maxPlayers;
-    final String formatted = "1 / $max players";//"$"
+    final String formatted = "1 / $max players";//"$coming / $max players"
     return Expanded(
       flex: 2,
         child: Text(formatted)
