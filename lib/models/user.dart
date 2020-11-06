@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
 final firestoreInstance = FirebaseFirestore.instance;
 
 class UserC {
@@ -12,9 +11,10 @@ class UserC {
   String userEmail;
   bool verified;
   String school;
+  String photoURL;
 
   DocumentReference reference;
-  UserC(this.userId, {this.userUsername, this.userPassword, this.userEmail, this.verified, this.school, this.reference});
+  UserC(this.userId, {this.userUsername, this.userPassword, this.userEmail, this.verified, this.school, this.reference, this.photoURL});
 
   factory UserC.fromJson(Map<dynamic, dynamic> json) => _UserCFromJson(json);
 
@@ -43,6 +43,10 @@ class UserC {
   void setSchool(String u){
     this.school = u;
   }
+
+  void setPhotoURL(String u) {
+    this.photoURL = u;
+  }
 }
 
 UserC _UserCFromJson(Map<dynamic, dynamic> json){
@@ -53,6 +57,7 @@ UserC _UserCFromJson(Map<dynamic, dynamic> json){
     userEmail: json['user_email'] as String,
     verified: json['verified'] as bool,
     school: json['school'] as String,
+    photoURL: json['photoURL'] as String
   );
 }
 
@@ -64,4 +69,5 @@ Map<String, dynamic> _UserCToJson(UserC instance) =>
       'user_email': instance.userEmail,
       'verified': instance.verified,
       'school': instance.school,
+      'photoURL': instance.photoURL,
   };

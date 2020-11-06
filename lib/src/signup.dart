@@ -9,8 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/repository/dataRepository.dart';
 import 'package:reservrec/src/hashing.dart';
 
-//import 'package:image_picker/image_picker.dart';
-
 final firestoreInstance = FirebaseFirestore.instance;
 
 class Signup extends StatefulWidget {
@@ -25,7 +23,11 @@ class _SignupState extends State<Signup> {
   final emailController = TextEditingController();
   final DataRepository repository = DataRepository();
 
-  var userPicture = 'https://i.imgur.com/DfGZewB.png';
+  List userPicture = ['https://i.imgur.com/DfGZewB.png',
+                      'https://i.imgur.com/TwDP9Af.png',
+                      'https://i.imgur.com/PkUksZr.png',
+                      'https://i.imgur.com/V8V8yB8.png'];
+  var userPictureIndex = 0;
 
   _clearInputs() {
     usernameController.clear();
@@ -50,7 +52,7 @@ class _SignupState extends State<Signup> {
           child: SizedBox(
             height: 160,
             child: Image.network(
-              userPicture
+              userPicture[userPictureIndex],
             )
           )
       ),
@@ -130,7 +132,7 @@ class _SignupState extends State<Signup> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            final User user = await signUpWithEmailAndPassword(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
+            User user = await signUpWithEmailAndPassword(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
 
             if (user == null) {
               //_displaySnackBar(context, createUserMessage);
@@ -139,7 +141,7 @@ class _SignupState extends State<Signup> {
             }
 
             user.sendEmailVerification();
-            user.updateProfile();
+
             String uid = user.uid;
             UserC linkUser = new UserC(uid);
 
@@ -148,10 +150,12 @@ class _SignupState extends State<Signup> {
             linkUser.setEmail(emailController.text);
             linkUser.setSchool(getDropDownValue());
             linkUser.setVerified(false);
+            linkUser.setPhotoURL(userPicture[userPictureIndex]);
 
             repository.addUserC(linkUser);
 
             _clearInputs();
+            print(user.photoURL);
             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
         ),
@@ -172,6 +176,54 @@ class _SignupState extends State<Signup> {
             _clearInputs();
             _displaySnackBar(context, "hey");
             Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+
+    final buttonPrev = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          child: Text('Previous', style: TextStyle(color: Colors.white, fontSize: 20)),
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () async {
+            if (userPictureIndex == 0) {
+              userPictureIndex = userPicture.length - 1;
+            } else {
+              userPictureIndex -= 1;
+            }
+            setState(() {
+
+            });
+          },
+        ),
+      ),
+    );
+
+    final buttonNext = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          child: Text('Next', style: TextStyle(color: Colors.white, fontSize: 20)),
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () async {
+            if (userPictureIndex == userPicture.length - 1) {
+              userPictureIndex = 0;
+            } else {
+              userPictureIndex += 1;
+            }
+            setState(() {
+
+            });
           },
         ),
       ),
@@ -231,6 +283,15 @@ class _SignupState extends State<Signup> {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     children: <Widget>[
                       logo,
+                      new ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          buttonMinWidth: 1000,
+                          children: <Widget>[
+                            buttonPrev,
+                            buttonNext,
+                          ]
+                      ),
                       inputUsername,
                       inputPassword,
                       inputConfirmPassword,
