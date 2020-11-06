@@ -151,7 +151,7 @@ class _UserImage extends StatelessWidget {
     return Expanded(
       flex: 1,
       child: CircleAvatar(
-        backgroundImage: AssetImage("assets/defaultuser.png"),
+        backgroundImage: AssetImage("assets/reduser.png"),
       ),
     );
   }
