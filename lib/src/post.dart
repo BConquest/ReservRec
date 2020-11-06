@@ -148,10 +148,11 @@ class _UserImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
     return Expanded(
       flex: 1,
       child: CircleAvatar(
-        backgroundImage: AssetImage("assets/reduser.png"),
+        child: Image.network(postData.auth_pic),
       ),
     );
   }

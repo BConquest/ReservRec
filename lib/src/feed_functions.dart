@@ -22,6 +22,7 @@ class PostModel {
   final DateTime gameTime;
   final int maxPlayers;
   final int minPlayers;
+  final String auth_pic;
 
 
   const PostModel({
@@ -35,7 +36,8 @@ class PostModel {
     this.postTime,
     this.gameTime,
     this.maxPlayers,
-    this.minPlayers
+    this.minPlayers,
+    this.auth_pic
   });
 }
 
@@ -101,6 +103,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
           final gt = posts[i].postTimeSet;
           final max = posts[i].maxPeople;
           final min = posts[i].minPeople;
+          final authP = users[users.indexWhere((element) => (element.userId == posts[i].postUserId))].photoURL;
 
           return PostModel(
           id: id,
@@ -113,7 +116,8 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
           postTime: pt,
           gameTime: gt,
           maxPlayers: max,
-          minPlayers: min
+          minPlayers: min,
+          auth_pic: authP
       );
     },
   );
