@@ -33,6 +33,21 @@ Future<String> getCurrentProfilePicture() async {
   return photoURL;
 }
 
+Future<void> setCurrentProfilePicture(photoURL) async {
+  final User user = _auth.currentUser;
+  final uid = user.uid;
+
+  await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
+    print(value.docs[0]);
+  });
+  await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).
+/*
+  await firestoreInstance.collection('users')
+      .doc()
+      .update({'photoURL': photoURL});*/
+  print(user);
+}
+
 Future<String> getCurrentUsername() async {
   final User user = _auth.currentUser;
   final uid = user.uid;
