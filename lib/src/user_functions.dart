@@ -22,6 +22,17 @@ Future<User> signInWithEmailAndPassword(String email, String password) async {
   return user;
 }
 
+Future<String> getCurrentProfilePicture() async {
+  final User user = _auth.currentUser;
+  final uid = user.uid;
+
+  String photoURL;
+  await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
+    value.docs.forEach((element) {photoURL = element.data()["photoURL"];});
+  });
+  return photoURL;
+}
+
 String getDropDownValue() {
   return dropdownValue;
 }

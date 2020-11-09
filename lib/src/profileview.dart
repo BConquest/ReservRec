@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:reservrec/src/user_functions.dart';
+
+import 'user_functions.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -21,7 +24,19 @@ class _ProfileViewPage extends State<ProfileView> {
           tag: 'hero',
           child: SizedBox(
             height: 160,
-            child: Image.asset('assets/defaultuser.png'),
+            child: new FutureBuilder(
+              future: getCurrentProfilePicture(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    String photoURL = snapshot.data;
+                    return  Center(child: Image.network(
+                      photoURL
+                    ));
+                  }
+                }
+            )
           )
       ),
     );
