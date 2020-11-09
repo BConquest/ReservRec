@@ -3,6 +3,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
+import 'package:reservrec/src/profileview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Feed extends StatefulWidget {
@@ -66,15 +67,20 @@ class _FeedState extends State<Feed> {
                 items: const <BottomNavigationBarItem>[
                   BottomNavigationBarItem(
                     icon: Icon(Icons.add),
-                    label: 'newpost',
+                    label: 'New Post',
+                    backgroundColor: Colors.red,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.sort_rounded),
-                    label: 'sort',
+                    label: 'Sort',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.account_circle),
+                    label: 'Profile',
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.logout),
-                    label: 'logout',
+                    label: 'Log Out',
                   ),
                 ],
                 onTap: (int index) async {
@@ -82,9 +88,9 @@ class _FeedState extends State<Feed> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewPost()));
                   } else if (index == 1) {
                     await grabFeed(cycleFunction());
-                    setState(() {
-
-                    });
+                    setState(() {});
+                  } else if (index == 2) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView()));
                   } else {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     await auth.signOut();
