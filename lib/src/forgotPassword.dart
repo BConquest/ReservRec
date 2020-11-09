@@ -50,22 +50,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>  {
       ),
     );
 
-    final inputPassword = Padding(
-      padding: EdgeInsets.only(bottom: 20),
-      child: TextField(
-        keyboardType: TextInputType.text,
-        controller: emailController,
-        obscureText: true,
-        decoration: InputDecoration(
-            hintText: 'Username',
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0)
-            )
-        ),
-      ),
-    );
-
     final buttonForgotPassword = Padding(
       padding: EdgeInsets.only(bottom: 5),
       child: ButtonTheme(

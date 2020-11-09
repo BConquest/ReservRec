@@ -3,6 +3,7 @@ import 'package:flutter/painting.dart';
 import 'package:reservrec/src/user_functions.dart';
 
 import 'user_functions.dart';
+import 'user_functions.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -43,48 +44,52 @@ class _ProfileViewPage extends State<ProfileView> {
 
     final inputUsername = Padding(
       padding: EdgeInsets.all(5),
-      child: TextField(
-        enabled: false,
-        keyboardType: TextInputType.name,
-        controller: usernameController,
-        decoration: InputDecoration(
+      child: new FutureBuilder(
+          future: getCurrentUsername(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              String username = snapshot.data;
+              return  Center(child: TextField(enabled: false,
+            decoration: InputDecoration(
+              hintText: username,
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0)
+            borderRadius: BorderRadius.circular(50.0)
             )
-        ),
-      ),
-    );
+            ),
+            ),
+              );
+            }
+          }
+      )
 
-    final inputPassword = Padding(
-      padding: EdgeInsets.all(5),
-      child: TextField(
-        enabled: false,
-        keyboardType: TextInputType.text,
-        obscureText: true,
-        controller: passwordController,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0)
-            )
-        ),
-      ),
     );
 
     final inputEmail = Padding(
-      padding: EdgeInsets.all(5),
-      child: TextField(
-        enabled: false,
-        keyboardType: TextInputType.emailAddress,
-        controller: emailController,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0)
-            )
-        ),
-      ),
+        padding: EdgeInsets.all(5),
+        child: new FutureBuilder(
+            future: getCurrentEmail(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              } else {
+                String email = snapshot.data;
+                return  Center(child: TextField(enabled: false,
+                  decoration: InputDecoration(
+                      hintText: email,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50.0)
+                      )
+                  ),
+                ),
+                );
+              }
+            }
+        )
+
     );
 
     return SafeArea(
@@ -97,7 +102,6 @@ class _ProfileViewPage extends State<ProfileView> {
               children: <Widget>[
                 logo,
                 inputUsername,
-                inputPassword,
                 inputEmail
               ],
             ),

@@ -33,6 +33,28 @@ Future<String> getCurrentProfilePicture() async {
   return photoURL;
 }
 
+Future<String> getCurrentUsername() async {
+  final User user = _auth.currentUser;
+  final uid = user.uid;
+
+  String username;
+  await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
+    value.docs.forEach((element) {username = element.data()["user_username"];});
+  });
+  return username;
+}
+
+Future<String> getCurrentEmail() async {
+  final User user = _auth.currentUser;
+  final uid = user.uid;
+
+  String email;
+  await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
+    value.docs.forEach((element) {email = element.data()["user_email"];});
+  });
+  return email;
+}
+
 String getDropDownValue() {
   return dropdownValue;
 }
