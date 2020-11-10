@@ -24,9 +24,9 @@ class _SignupState extends State<Signup> {
   final DataRepository repository = DataRepository();
 
   List userPicture = ['https://i.imgur.com/DfGZewB.png',
-                      'https://i.imgur.com/TwDP9Af.png',
-                      'https://i.imgur.com/PkUksZr.png',
-                      'https://i.imgur.com/V8V8yB8.png'];
+    'https://i.imgur.com/TwDP9Af.png',
+    'https://i.imgur.com/PkUksZr.png',
+    'https://i.imgur.com/V8V8yB8.png'];
   var userPictureIndex = 0;
 
   _clearInputs() {
@@ -34,12 +34,6 @@ class _SignupState extends State<Signup> {
     passwordController.clear();
     confirmPController.clear();
     emailController.clear();
-  }
-
-  _displaySnackBar(BuildContext context, s) {
-    final snackBar = SnackBar(content: Text(s));
-    print(snackBar);
-    //Scaffold.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -50,10 +44,10 @@ class _SignupState extends State<Signup> {
       child: Hero(
           tag: 'hero',
           child: SizedBox(
-            height: 160,
-            child: Image.network(
-              userPicture[userPictureIndex],
-            )
+              height: 160,
+              child: Image.network(
+                userPicture[userPictureIndex],
+              )
           )
       ),
     );
@@ -65,11 +59,11 @@ class _SignupState extends State<Signup> {
         keyboardType: TextInputType.name,
         controller: usernameController,
         decoration: InputDecoration(
-            hintText: 'Username',
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0)
-            ),
+          hintText: 'Username',
+          contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(50.0)
+          ),
         ),
       ),
     );
@@ -135,8 +129,6 @@ class _SignupState extends State<Signup> {
             User user = await signUpWithEmailAndPassword(usernameController.text, passwordController.text, confirmPController.text, emailController.text);
 
             if (user == null) {
-              //_displaySnackBar(context, createUserMessage);
-              print("signup.dart->final buttonSignUp $createUserMessage");
               return;
             }
 
@@ -174,7 +166,6 @@ class _SignupState extends State<Signup> {
           ),
           onPressed: () async {
             _clearInputs();
-            _displaySnackBar(context, "hey");
             Navigator.pop(context);
           },
         ),
@@ -248,24 +239,24 @@ class _SignupState extends State<Signup> {
             });
 
             return DropdownButton(
-                value: dropdownValue,
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                underline: Container(
-                  height: 2,
-                ),
+              value: dropdownValue,
+              icon: Icon(Icons.arrow_downward),
+              iconSize: 24,
+              elevation: 16,
+              underline: Container(
+                height: 2,
+              ),
               onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
+                setState(() {
+                  dropdownValue = newValue;
+                });
               },
               items: list.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value)
-                  );
-                }).toList(),
+                );
+              }).toList(),
             );
           }
         },
@@ -275,42 +266,42 @@ class _SignupState extends State<Signup> {
     final key = new GlobalKey<ScaffoldState>();
     return new Scaffold(
       key: key,
-          body: new Builder(
-              builder: (BuildContext cont) {
-                 return Center(
-                  child: ListView(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    children: <Widget>[
-                      logo,
-                      new ButtonBar(
-                          alignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          buttonMinWidth: 1000,
-                          children: <Widget>[
-                            buttonPrev,
-                            buttonNext,
-                          ]
-                      ),
-                      inputUsername,
-                      inputPassword,
-                      inputConfirmPassword,
-                      inputEmail,
-                      school,
-                      new ButtonBar(
-                          alignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          buttonMinWidth: 1000,
-                          children: <Widget>[
-                            buttonSignUp,
-                            buttonBack,
-                          ]
-                      ),
-                    ],
+      body: new Builder(
+          builder: (BuildContext cont) {
+            return Center(
+              child: ListView(
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                children: <Widget>[
+                  logo,
+                  new ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      buttonMinWidth: 1000,
+                      children: <Widget>[
+                        buttonPrev,
+                        buttonNext,
+                      ]
                   ),
-                );
-              }
-          ),
+                  inputUsername,
+                  inputPassword,
+                  inputConfirmPassword,
+                  inputEmail,
+                  school,
+                  new ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      buttonMinWidth: 1000,
+                      children: <Widget>[
+                        buttonSignUp,
+                        buttonBack,
+                      ]
+                  ),
+                ],
+              ),
+            );
+          }
+      ),
     );
   }
 }

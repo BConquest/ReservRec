@@ -26,7 +26,7 @@ void main() {
 
   group('Email', () {
     test('Temp Test', () {
-      expect(verifyUsername("1234567"), true);
+      expect(validEmail("f@crimson.ua.edu"), true);
     });
   });
 }

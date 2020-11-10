@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firestoreInstance = FirebaseFirestore.instance;
 
-var createUserMessage = "";
 String dropdownValue = 'University of Alabama';
 
 Future<User> signInWithEmailAndPassword(String email, String password) async {
@@ -79,11 +78,9 @@ String getDropDownValue() {
 Future<User> signUpWithEmailAndPassword(String username, String password, String confirmPassword, String email) async {
   User user;
   if (!(await validEmail(email))) {
-    createUserMessage = "Invalid Email";
     return user;
   }
   if (!validPassword(password, confirmPassword)) {
-    createUserMessage = "Invalid Password.";
     return user;
   }
 
@@ -91,11 +88,9 @@ Future<User> signUpWithEmailAndPassword(String username, String password, String
     user = (await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
-    ))
-        .user;
+    )).user;
   } catch (e) {
     print("user_functions->signUpWithEmailAndPassword $e");
-    createUserMessage = e.toString();
     return user;
   }
   return user;
@@ -126,21 +121,17 @@ bool verifyUsername(String username) {
 
 bool verifyPassword(String password, String confirmPassword) {
   RegExp isValid = new RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
-  if (password == confirmPassword && isValid.hasMatch(password)){
-    //print("This is a valid password.");
-    return true;
-  }
-  else {
-    //print("This is not a valid password.");
+  if (password != confirmPassword) {
     return false;
+  } else if (isValid.hasMatch(password)) {
+    return false;
+  } else {
+    return true;
   }
 }
 
 bool validPassword(String password, String confirmPassword) {
   if (!verifyPassword(password, confirmPassword)) {
-    return false;
-  }
-  if (password.length < 2) {
     return false;
   }
   return true;
