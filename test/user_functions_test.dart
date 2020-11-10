@@ -126,8 +126,18 @@ void main() {
       assert(myUser.verified == true);
     });
 
-    test('Json', () {
-      expect(myUser.toJson(), isInstanceOf<Map<String,String>>());
+    test('Other Setter Methods', (){
+      myUser.setSchool("University of Alabama");
+      myUser.setPassword("Password");
+      assert(myUser.userPassword == "Password");
+      assert(myUser.school == "University of Alabama");
+      expect(myUser.school, isInstanceOf<String>());
+    });
+  });
+
+  group('Hashing Password', (){
+    test('Null', (){
+
     });
   });
 }
