@@ -142,7 +142,7 @@ Future<String> newPost(String sport, String description, String location, DateTi
 
   print(id);
 
-  reference.collection('posts').doc(id).collection('cur_users').doc().set({});
+  reference.collection('posts').doc(id).collection('cur_users').doc(_auth.currentUser.uid).set({});
 
   return "true";
 }
