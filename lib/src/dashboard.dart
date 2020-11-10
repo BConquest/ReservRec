@@ -56,9 +56,9 @@ class _FeedState extends State<Feed> {
                 onRefresh: _onRefresh,
                 onLoading: _onLoading,
                 child: ListView.builder(
-                          itemCount: snapshot.data.length,
+                          itemCount: snapshot.data.length as int,
                           itemBuilder: (BuildContext context, int index) {
-                            return PostCard(postData: snapshot.data[index]);
+                            return PostCard(postData: snapshot.data[index] as PostModel);
                           },
                 )
               ),
@@ -87,12 +87,12 @@ class _FeedState extends State<Feed> {
                 ],
                 onTap: (int index) async {
                   if (index == 0) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewPost()));
+                    await Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewPost()));
                   } else if (index == 1) {
                     await grabFeed(cycleFunction());
                     setState(() {});
                   } else if (index == 2) {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView()));
+                    await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView()));
                   } else {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     await auth.signOut();

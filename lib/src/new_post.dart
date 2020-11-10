@@ -40,8 +40,9 @@ class _NewPostState extends State<NewPost> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> list = new List();
-    Map dropDownItemsMap = new Map();
+    List<String> list = List();
+    Map dropDownItemsMap = Map();
+
      return Scaffold(
         body: FutureBuilder(
             future: getTimeDispString(gameTimeSet),
@@ -146,20 +147,19 @@ class _NewPostState extends State<NewPost> {
                       ),
 
                       DropdownButtonHideUnderline(
-                        child: new FutureBuilder(
+                        child: FutureBuilder(
                           future: getSchoolLocations(),
                           builder: (context, AsyncSnapshot snapshot) {
                             if (!snapshot.hasData) {
                               return Center(child: CircularProgressIndicator());
                             } else {
                               snapshot.data.forEach((branchItem) {
-                                print(branchItem);
-                                int index = snapshot.data.indexOf(branchItem);
-                                print("1");
+                                print("new post: $branchItem");
+                                var index = snapshot.data.indexOf(branchItem);
+                                print("FUTURE BUILDER $index");
+                                print("FUTURE BUILDER $dropDownItemsMap[index]");
                                 dropDownItemsMap[index] = branchItem;
-                                print("2");
                                 list.add(snapshot.data[index].toString());
-                                print("3");
                               });
 
                               return DropdownButton(
@@ -178,7 +178,10 @@ class _NewPostState extends State<NewPost> {
                                     });
                                   },
                                 items: list.map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
+                                  print("list.map $value");
+                                  var t = Text(value);
+                                  print("list.map $t");
+                                  return DropdownMenuItem(
                                     value: value,
                                     child: Text(value)
                                   );
@@ -223,13 +226,11 @@ class _NewPostState extends State<NewPost> {
                                   onConfirm: (date) async{
                                     print('confirm $date');
                                     gameDayTemp = date;
-                                    gameTimeSet = new DateTime(
+                                    gameTimeSet = DateTime(
                                         gameDayTemp.year, gameDayTemp.month,
                                         gameDayTemp.day, gameTimeTemp.hour,
                                         gameTimeTemp.minute);
-                                    print('Date_0: ${gameTimeSet.toString()}');
                                     timeDispString = await getTimeDispString(gameTimeSet);
-                                    print('Date_1: $timeDispString');
                                     setState(() {});
                                   },
                                   currentTime: DateTime.now());
@@ -261,13 +262,11 @@ class _NewPostState extends State<NewPost> {
                                   onConfirm: (date) async{
                                     print('confirm $date');
                                     gameTimeTemp = date;
-                                    gameTimeSet = new DateTime(
+                                    gameTimeSet = DateTime(
                                         gameDayTemp.year, gameDayTemp.month,
                                         gameDayTemp.day, gameTimeTemp.hour,
                                         gameTimeTemp.minute);
-                                    print('Time_0: ${gameTimeSet.toString()}');
                                     timeDispString = await getTimeDispString(gameTimeSet);
-                                    print('Time_1: timeDispString');
                                     setState(() {});
                                   },
                                   currentTime: DateTime.now());
@@ -303,7 +302,7 @@ class _NewPostState extends State<NewPost> {
                                       .text));
                               if (message == "true") {
                                 print("newPost");
-                                Navigator.push(context, MaterialPageRoute(
+                                await Navigator.push(context, MaterialPageRoute(
                                     builder: (context) => Feed()));
                               } else {
                                 print(message);

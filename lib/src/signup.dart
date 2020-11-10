@@ -46,7 +46,7 @@ class _SignupState extends State<Signup> {
           child: SizedBox(
               height: 160,
               child: Image.network(
-                userPicture[userPictureIndex],
+                userPicture[userPictureIndex].toString(),
               )
           )
       ),
@@ -132,23 +132,23 @@ class _SignupState extends State<Signup> {
               return;
             }
 
-            user.sendEmailVerification();
+            await user.sendEmailVerification();
 
             String uid = user.uid;
-            UserC linkUser = new UserC(uid);
+            UserC linkUser =  UserC(uid);
 
             linkUser.setUsername(usernameController.text);
             linkUser.setPassword(Sha256(passwordController.text));
             linkUser.setEmail(emailController.text);
             linkUser.setSchool(getDropDownValue());
             linkUser.setVerified(false);
-            linkUser.setPhotoURL(userPicture[userPictureIndex]);
+            linkUser.setPhotoURL(userPicture[userPictureIndex].toString());
 
-            repository.addUserC(linkUser);
+            await repository.addUserC(linkUser);
 
             _clearInputs();
             print(user.photoURL);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+            await Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
           },
         ),
       ),
@@ -220,11 +220,11 @@ class _SignupState extends State<Signup> {
       ),
     );
 
-    List<String> list = new List();
-    Map dropDownItemsMap = new Map();
+    List<String> list = List();
+    Map dropDownItemsMap = Map();
 
-    final school = new DropdownButtonHideUnderline(
-      child: new FutureBuilder(
+    final school = DropdownButtonHideUnderline(
+      child:  FutureBuilder(
         future: getSchools(),
         builder: (context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
@@ -232,7 +232,7 @@ class _SignupState extends State<Signup> {
           } else {
             snapshot.data.forEach((branchItem) {
               //listItemNames.add(branchItem.itemName);
-              int index = snapshot.data.indexOf(branchItem);
+              int index = snapshot.data.indexOf(branchItem) as int;
               dropDownItemsMap[index] = branchItem;
 
               list.add(snapshot.data[index].toString());
@@ -263,10 +263,10 @@ class _SignupState extends State<Signup> {
       ),
     );
 
-    final key = new GlobalKey<ScaffoldState>();
-    return new Scaffold(
+    final key = GlobalKey<ScaffoldState>();
+    return Scaffold(
       key: key,
-      body: new Builder(
+      body: Builder(
           builder: (BuildContext cont) {
             return Center(
               child: ListView(
@@ -274,7 +274,7 @@ class _SignupState extends State<Signup> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 children: <Widget>[
                   logo,
-                  new ButtonBar(
+                  ButtonBar(
                       alignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       buttonMinWidth: 1000,
@@ -288,7 +288,7 @@ class _SignupState extends State<Signup> {
                   inputConfirmPassword,
                   inputEmail,
                   school,
-                  new ButtonBar(
+                  ButtonBar(
                       alignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       buttonMinWidth: 1000,
