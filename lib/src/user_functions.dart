@@ -5,8 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final firestoreInstance = FirebaseFirestore.instance;
 
-String dropdownValue = 'University of Alabama';
-String dropdownLocationValue = 'University of Alabama Student Rec Center';
+String dropdownValue = 'Please Select a Value';
+String dropdownLocationValue = 'Please Select a Value';
 
 Future<User> signInWithEmailAndPassword(String email, String password) async {
   User user;

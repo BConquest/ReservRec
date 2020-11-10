@@ -89,7 +89,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
       return b.curPeople.compareTo(a.curPeople);
     });
   }
-  print (sortMethodIndex);
+  print (sortMethod[sortMethodIndex]);
 
   // Begin spaghetti code, brought to you by Zack Withers (#0 Gayball player in the world btw)
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
