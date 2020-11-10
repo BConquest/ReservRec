@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:reservrec/src/post.dart';
 
 import 'feed_functions.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/post_functions.dart';
 
 class PostPage extends StatefulWidget {
@@ -49,10 +48,13 @@ class _PostPage extends State<PostPage>{
     );
   }
 }
-class _Summary extends State<PostPage> {
+class _Summary extends StatelessWidget {
+  final PostModel postData;
+  const _Summary({Key key, this.postData}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = widget.postData;
+    final PostModel postData = InheritedPostModel.of(context).postData;
     final TextStyle titleTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.5, fontSizeDelta: 1.5, fontWeightDelta: 6);
     final TextStyle locationTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: .9, fontSizeDelta: 1, fontWeightDelta: -1);
     final TextStyle timeTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1, fontSizeDelta: 1, fontWeightDelta: 2, color: Colors.red);
@@ -83,11 +85,13 @@ class _Summary extends State<PostPage> {
   }
 }
 
-class _Body extends State<PostPage> {
+class _Body extends StatelessWidget {
+  final PostModel postData;
+  const _Body({Key key, this.postData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = widget.postData;
+    final PostModel postData = InheritedPostModel.of(context).postData;
     final TextStyle bodyTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.25, fontSizeDelta: 1.5, fontWeightDelta: 1);
 
     final bodyText = postData.desc;
@@ -108,13 +112,15 @@ class _Body extends State<PostPage> {
   }
 }
 
-class _PostAuthorInfo extends State<PostPage> {
+class _PostAuthorInfo extends StatelessWidget {
+  final PostModel postData;
+  const _PostAuthorInfo({Key key, this.postData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
         child: Row(
-            children: <StatefulWidget>[
+            children: <Widget>[
                 UserImage(),
                 UserNameAndEmail(),
                 JoinButton(),
@@ -124,10 +130,13 @@ class _PostAuthorInfo extends State<PostPage> {
   }
 }
 
-class UserImage extends State<PostPage> {
+class UserImage extends StatelessWidget {
+  final PostModel postData;
+  const UserImage({Key key, this.postData}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = widget.postData;
+    final PostModel postData = InheritedPostModel.of(context).postData;
     return Expanded(
       flex: 1,
       child: CircleAvatar(
@@ -137,10 +146,12 @@ class UserImage extends State<PostPage> {
   }
 }
 
-class UserNameAndEmail extends State<PostPage> {
+class UserNameAndEmail extends StatelessWidget {
+  final PostModel postData;
+  const UserNameAndEmail({Key key, this.postData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = widget.postData;
+    final PostModel postData = InheritedPostModel.of(context).postData;
     final TextStyle nameTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1, fontSizeDelta: 1, fontWeightDelta: 1);
     final TextStyle emailTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: .9, fontSizeDelta: 1, fontWeightDelta: 0);
 
@@ -163,24 +174,31 @@ class UserNameAndEmail extends State<PostPage> {
   }
 }
 
-class JoinButton extends State<PostPage> {
+class JoinButton extends StatelessWidget {
+  final PostModel postData;
+  const JoinButton({Key key, this.postData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = widget.postData;
+    final PostModel postData = InheritedPostModel.of(context).postData;
+    List<bool> sel;
     return FutureBuilder(
           future: isInPost(postData.id),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if(!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
               } else {
+                sel = [snapshot.data];
                 return Expanded(
                   flex: 1,
                   child: ToggleButtons(
                     children: <Widget>[Icon(Icons.library_add_check)],
                     onPressed: (int index) {
-                        changeJoinedStatus(postData.id);
+                        changeJoinedStatus(postData.id);/*
+                        setState(() {
+                            sel[index] = !sel[index];
+                        });*/
                     },
-                    isSelected: [snapshot.data],
+                    isSelected: sel,
                   ),
                 );
               }
@@ -193,9 +211,7 @@ class TeamSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = InheritedPostModel
-        .of(context)
-        .postData;
+    final PostModel postData = InheritedPostModel.of(context).postData;
     return Expanded(
       flex: 6,
       child: Row(
