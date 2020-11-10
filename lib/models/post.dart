@@ -10,11 +10,11 @@ class Post {
   String postLocation;
   int maxPeople;
   int minPeople;
+  int curPeople;
 
-  //camel case is wack
 
   DocumentReference reference;
-  Post(this.postUserId, this.postId, {this.postDescription, this.postTimePosted, this.postTimeSet, this.postSport, this.postLocation, this.maxPeople, this.minPeople});
+  Post(this.postUserId, this.postId, {this.postDescription, this.postTimePosted, this.postTimeSet, this.postSport, this.postLocation, this.maxPeople, this.minPeople, this.curPeople});
 
   factory Post.fromJson(Map<dynamic, dynamic> json) => _PostFromJson(json);
 
@@ -57,6 +57,10 @@ class Post {
   void setMinPeople(int u){
     this.minPeople = u;
   }
+
+  void setCurPeople(int u){
+    this.curPeople = u;
+  }
 }
 
 Post _PostFromJson(Map<dynamic, dynamic> json){
@@ -73,6 +77,7 @@ Post _PostFromJson(Map<dynamic, dynamic> json){
     postLocation: json["location"] as String,
     maxPeople: json["max_people"] as int,
     minPeople: json["min_people"] as int,
+    curPeople: json["cur_people"] as int,
   );
 }
 
@@ -87,4 +92,5 @@ Map<String, dynamic> _PostToJson(Post instance) =>
       "location": instance.postLocation,
       "max_people": instance.maxPeople,
       "min_people": instance.minPeople,
+      "cur_people": instance.curPeople,
     };

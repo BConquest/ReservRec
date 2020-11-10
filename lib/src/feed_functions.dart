@@ -22,6 +22,7 @@ class PostModel {
   final DateTime gameTime;
   final int maxPlayers;
   final int minPlayers;
+  final int curPlayers;
   final String auth_pic;
 
 
@@ -37,6 +38,7 @@ class PostModel {
     this.gameTime,
     this.maxPlayers,
     this.minPlayers,
+    this.curPlayers,
     this.auth_pic
   });
 }
@@ -103,6 +105,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
           final gt = posts[i].postTimeSet;
           final max = posts[i].maxPeople;
           final min = posts[i].minPeople;
+          final cur = posts[i].curPeople;
           final authP = users[users.indexWhere((element) => (element.userId == posts[i].postUserId))].photoURL;
 
           return PostModel(
@@ -117,6 +120,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
           gameTime: gt,
           maxPlayers: max,
           minPlayers: min,
+          curPlayers: cur,
           auth_pic: authP
       );
     },
@@ -129,7 +133,7 @@ Future<String> newPost(String sport, String description, String location, DateTi
   int newID = 1 + Post.fromJson(query.docs.first.data()).postId;                              //extracts id and increments, though this creates issues with more than one app adding posts at the same time
   print("newID: $newID");
 
-  Post tempPost = new Post(_auth.currentUser.uid, newID, postSport: sport, postDescription: description, postLocation: location, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min);
+  Post tempPost = new Post(_auth.currentUser.uid, newID, postSport: sport, postDescription: description, postLocation: location, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min, curPeople: 0);
   postsCollection.add(tempPost.toJson());
   return "true";
 }
