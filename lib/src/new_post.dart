@@ -57,7 +57,7 @@ class _NewPostState extends State<NewPost> {
                             tag: 'hero',
                             child: SizedBox(
                               height: 160,
-                              child: Image.asset('assets/defaultuser.png'),
+                              child: Image.asset('assets/logo.png'),
                             )
                         ),
                       ),
