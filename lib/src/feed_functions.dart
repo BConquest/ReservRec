@@ -65,11 +65,12 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   List<Post> posts = new List();
 
   snapshot.docs.forEach((document) async {
-    if(Post.fromJson(document.data()).school == await uf.getCurrentSchool()) {
+    //if(Post.fromJson(document.data()).school == await uf.getCurrentSchool()) {
       posts.add(Post.fromJson(document.data()));
-    }
+    //}
   });
 
+  /*
   if (sortMethodIndex == 0) {
     posts.sort((a, b) {
       return a.postTimeSet.toString().toLowerCase().compareTo(b.postTimeSet.toString().toLowerCase());
@@ -88,7 +89,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     });
   }
   print (sortMethodIndex);
-
+*/
   // Begin spaghetti code, brought to you by Zack Withers (#0 Gayball player in the world btw)
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
   final QuerySnapshot ss = await userCollection.get();
