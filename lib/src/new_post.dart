@@ -3,6 +3,7 @@ import 'package:flutter/painting.dart';
 import 'package:reservrec/src/dashboard.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:reservrec/src/user_functions.dart';
 
 Future<String> getTimeDispString(DateTime time) async{
   print('Func: ${time.toString()}');
@@ -39,6 +40,8 @@ class _NewPostState extends State<NewPost> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> list = new List();
+    Map dropDownItemsMap = new Map();
      return Scaffold(
         body: FutureBuilder(
             future: getTimeDispString(gameTimeSet),
@@ -139,6 +142,45 @@ class _NewPostState extends State<NewPost> {
                                   borderRadius: BorderRadius.circular(50.0)
                               )
                           ),
+                        ),
+                      ),
+
+                      DropdownButtonHideUnderline(
+                        child: new FutureBuilder(
+                          future: getSchoolLocations(dropdownLocationValue),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(child: CircularProgressIndicator());
+                            } else {
+                              snapshot.data.forEach((branchItem) {
+                                print(branchItem);
+                                int index = snapshot.data.indexOf(branchItem);
+                                dropDownItemsMap[index] = branchItem;
+                                list.add(snapshot.data[index].toString());
+                            });
+
+                              return DropdownButton(
+                                  value: dropdownLocationValue,
+                                  icon: Icon(Icons.arrow_downward),
+                                  iconSize: 24,
+                                  elevation: 16,
+                                  underline: Container(
+                                    height: 2,
+                                  ),
+                                  onChanged: (String newValue) {
+                                    setState(() {
+                                      dropdownLocationValue = newValue;
+                                    });
+                                  },
+                                items: list.map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value)
+                                  );
+                                }).toList(),
+                              );
+                            }
+                          },
                         ),
                       ),
 

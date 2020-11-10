@@ -6,6 +6,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final firestoreInstance = FirebaseFirestore.instance;
 
 String dropdownValue = 'University of Alabama';
+String dropdownLocationValue = 'University of Alabama Student Rec Center';
 
 Future<User> signInWithEmailAndPassword(String email, String password) async {
   User user;
@@ -166,6 +167,20 @@ Future<List<String>> getSchools() async {
     );
   });
   return schools;
+}
+
+Future<List<String>> getSchoolLocations(String school) async {
+  CollectionReference userSchool = FirebaseFirestore.instance.collection('schools')
+      .doc(dropdownLocationValue)
+      .collection("validLocations");
+  List<String> locations = new List();
+  await userSchool.get().then((value) {
+    value.docs.forEach((element) {
+      locations.add(element.data()["locationName"]);
+      print(element.data()["locationName"]);
+    });
+  });
+  return locations;
 }
 
 Future<List<String>> getEmails(String school) async {
