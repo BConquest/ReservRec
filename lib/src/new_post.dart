@@ -7,6 +7,7 @@ import 'package:reservrec/src/user_functions.dart';
 
 Future<String> getTimeDispString(DateTime time) async{
   print('Func: ${time.toString()}');
+  assert(time.year >= 0);
   if (time.hour == 12) {
     return "${time.month}/${time.day}/${time.year} - ${(time.hour).toString()
         .padLeft(2, ('0'))}:${time.minute.toString().padLeft(2, ('0'))} PM";

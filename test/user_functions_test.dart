@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/user_functions.dart';
@@ -100,6 +101,19 @@ void main() {
     test('Date 3', () async {
       var overflowWorks = DateTime(3000, 20, 10);
       expect(await getTimeDispString(overflowWorks), "8/10/3001 - 00:00 AM");
+    });
+  });
+
+  group('DateTime3 Test', ()
+  {
+    test('Date 4', () async {
+      var noWork = DateTime(-10, 20, 30);
+      try{
+        await getTimeDispString(noWork);
+        expect(await getTimeDispString(noWork), throwsAssertionError);
+      } catch(e) {
+        expect(e, isInstanceOf<AssertionError>());
+      }
     });
   });
 }
