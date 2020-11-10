@@ -22,6 +22,11 @@ Future<User> signInWithEmailAndPassword(String email, String password) async {
   return user;
 }
 
+Future<String> getDocumentID(final uid) async {
+  print(uid);
+  return "1tOEyOSI3erw9i3DQ8Fv";
+}
+
 Future<String> getCurrentProfilePicture() async {
   final User user = _auth.currentUser;
   final uid = user.uid;
@@ -34,18 +39,11 @@ Future<String> getCurrentProfilePicture() async {
 }
 
 Future<void> setCurrentProfilePicture(photoURL) async {
-  final User user = _auth.currentUser;
-  final uid = user.uid;
+  await firestoreInstance.collection('users').doc(await getDocumentID(_auth.currentUser.uid)).update({'photoURL': photoURL});
+}
 
-  await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
-    print(value.docs[0]);
-  });
-  await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).
-/*
-  await firestoreInstance.collection('users')
-      .doc()
-      .update({'photoURL': photoURL});*/
-  print(user);
+Future<void> setCurrentUsername(username) async {
+  await firestoreInstance.collection('users').doc(await getDocumentID(_auth.currentUser.uid)).update({'user_username': username});
 }
 
 Future<String> getCurrentUsername() async {
