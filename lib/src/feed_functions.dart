@@ -62,7 +62,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   final CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
   final QuerySnapshot snapshot = await postsCollection.orderBy('time_posted', descending: true).get();
 
-  List<Post> posts = new List();
+  List<Post> posts = List();
 
   String f = await uf.getCurrentSchool();
   snapshot.docs.forEach((document) async {
