@@ -71,7 +71,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     }
   });
 
-  /*
+
   if (sortMethodIndex == 0) {
     posts.sort((a, b) {
       return a.postTimeSet.toString().toLowerCase().compareTo(b.postTimeSet.toString().toLowerCase());
@@ -90,12 +90,12 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     });
   }
   print (sortMethodIndex);
-*/
+
   // Begin spaghetti code, brought to you by Zack Withers (#0 Gayball player in the world btw)
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
   final QuerySnapshot ss = await userCollection.get();
 
-  List<UserC> users = new List();
+  List<UserC> users = List();
   ss.docs.forEach((document) async {
     users.add(UserC.fromJson(document.data()));
   });
@@ -144,22 +144,22 @@ Future<String> newPost(String sport, String description, String location, DateTi
 
   String school = await uf.getCurrentSchool();
 
-  Post tempPost = new Post(uid, newID, postSport: sport, postDescription: description, postLocation: location, school: school, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min, curPeople: 1);
-  postsCollection.add(tempPost.toJson());
+  Post tempPost = Post(uid, newID, postSport: sport, postDescription: description, postLocation: location, school: school, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min, curPeople: 1);
+  await postsCollection.add(tempPost.toJson());
 
   String id = await getDocumentID(newID);
 
   print(id);
 
-  reference.collection('posts').doc(id).collection('cur_users').doc(_auth.currentUser.uid).set({});
+  await reference.collection('posts').doc(id).collection('cur_users').doc(_auth.currentUser.uid).set({});
 
   return "true";
 }
 
 Future<String> getDocumentID(final post_id) async {
-  var id;
+  String id;
   await firestoreInstance.collection("posts").where("post_id", isEqualTo:post_id).get().then((value) {
-    id = value.docs[0].id;
+    id = value.docs[0].id.toString();
     print(id);
   });
   return id;
