@@ -160,7 +160,7 @@ Future<String> getDocumentID(final post_id) async {
   String id;
   await firestoreInstance.collection("posts").where("post_id", isEqualTo:post_id).get().then((value) {
     id = value.docs[0].id.toString();
-    print(id);
+    print("(II) getDocumentID $id");
   });
   return id;
 }
