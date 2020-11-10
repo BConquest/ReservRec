@@ -41,7 +41,6 @@ class _FeedState extends State<Feed> {
       body: FutureBuilder(
         future: grabFeed(getSortIndex()),
         builder: (context, AsyncSnapshot snapshot) {
-          print(snapshot.hasData);
           if(!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           } else {
