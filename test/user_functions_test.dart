@@ -1,8 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/user_functions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:reservrec/src/verify_location.dart';
 
 void main() {
@@ -28,32 +26,16 @@ void main() {
     });
   });
 
-  group('Email', () {
-    test('Asynchronous Check', () {
+  group('Async vs. Sync', () {
+    test('Asynchronous Check 1', () {
       //throws exception because nothing was ever awaited
       expect(validEmail("anything@crimson.ua.edu"), throwsException);
     });
 
-    // need to use firebase emulator
-
-    /*
-    test('Crimson Email', () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      await Firebase.initializeApp();
-      expect(await validEmail("anything@crimson.ua.edu"), true);
+    test('Asynchronous Check 2', () {
+      //throws exception because nothing was ever awaited
+      expect(getDocumentID("anything"), throwsException);
     });
-
-    test('Different UA Email', () async {
-      expect(await validEmail("anything@cs.ua.edu"), true);
-    });
-
-    test('Indiana', () async{
-      expect(await validEmail("anything@iowa.edu"), true);
-    });
-
-    test('Anything else is false', () async{
-      expect(validEmail("anything@gmail.com"), false);
-    });*/
   });
 
   group('Password Regex', () {
@@ -101,6 +83,23 @@ void main() {
 
     test('Out of bounds parameters', () {
       expect(() => calcDistance(181,-1000,1000,0), throwsAssertionError);
+    });
+  });
+
+  group('DateTime Test', (){
+    test('Date 1', () async {
+      var millennium = DateTime(2000, 1, 1);
+      expect(await getTimeDispString(millennium), "1/1/2000 - 00:00 AM");
+    });
+
+    test('Date 2', () async {
+      var future = DateTime(2020, 12, 25);
+      expect(await getTimeDispString(future), "12/25/2020 - 00:00 AM");
+    });
+
+    test('Date 3', () async {
+      var overflowWorks = DateTime(3000, 20, 10);
+      expect(await getTimeDispString(overflowWorks), "8/10/3001 - 00:00 AM");
     });
   });
 }

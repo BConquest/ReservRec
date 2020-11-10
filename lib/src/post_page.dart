@@ -6,8 +6,6 @@ import 'feed_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/post_functions.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
-
 class PostPage extends StatelessWidget{
   final PostModel postData;
 
@@ -204,5 +202,23 @@ class JoinButton extends StatelessWidget {
                   ),
               );
           });*/
+  }
+}
+
+class TeamSelection extends StatelessWidget {
+  const TeamSelection({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
+    return Expanded(
+      flex: 6,
+      child: Row(
+        children: <Widget>[
+          Column(),
+          Column(),
+        ],
+      ),
+    );
   }
 }

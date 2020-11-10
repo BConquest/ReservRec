@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage>  {
   final passwordController = TextEditingController();
 
   _displaySnackBar(BuildContext context, s) {
-    final snackBar = SnackBar(content: Text(s));
+    final snackBar = SnackBar(content: Text(s.toString()));
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
@@ -119,8 +119,7 @@ class _LoginPageState extends State<LoginPage>  {
                 }
                 _clearInputs();
               }
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Feed()));
+              await Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
           }
         ),
       ),
@@ -139,7 +138,7 @@ class _LoginPageState extends State<LoginPage>  {
           ),
           onPressed: () async {
             _clearInputs();
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
+            await Navigator.push(context, MaterialPageRoute(builder: (context) => Signup()));
           },
         ),
       ),
@@ -153,7 +152,7 @@ class _LoginPageState extends State<LoginPage>  {
           //final FirebaseAuth _auth = FirebaseAuth.instance;
           _displaySnackBar(context, "Invalid Email or Password");
           //await _auth.sendPasswordResetEmail(email: usernameController.text);
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordPage()));
         }
     );
 
@@ -169,7 +168,7 @@ class _LoginPageState extends State<LoginPage>  {
                     logo,
                     inputEmail,
                     inputPassword,
-                    new ButtonBar(
+                    ButtonBar(
                         alignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         buttonMinWidth: 1000,
