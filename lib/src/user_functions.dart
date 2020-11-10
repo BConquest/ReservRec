@@ -24,7 +24,11 @@ Future<User> signInWithEmailAndPassword(String email, String password) async {
 
 Future<String> getDocumentID(final uid) async {
   print(uid);
-  return "1tOEyOSI3erw9i3DQ8Fv";
+  var id;
+  await firestoreInstance.collection("users").where("user_id", isEqualTo:uid).get().then((value) {
+    id = value.docs[0].id;
+  });
+  return id;
 }
 
 Future<String> getCurrentProfilePicture() async {
