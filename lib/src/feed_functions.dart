@@ -136,7 +136,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   );
 }
 
-Future<String> newPost(String sport, String description, String location, DateTime gameTime, int min, int max) async {
+Future<String> newPost(String sport, String description, String location, DateTime gameTime, int max, int min) async {
   final CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
   QuerySnapshot query = await postsCollection.orderBy("post_id").limitToLast(1).get();          //grabs post with greatest id
   int newID = 1 + Post.fromJson(query.docs.first.data()).postId;                              //extracts id and increments, though this creates issues with more than one app adding posts at the same time
