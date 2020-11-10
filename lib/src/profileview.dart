@@ -20,24 +20,23 @@ class _ProfileViewPage extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO Change To be custom profile picture
     final logo = Padding(
       padding: EdgeInsets.all(20),
       child: Hero(
           tag: 'hero',
           child: SizedBox(
             height: 160,
-            child: new FutureBuilder(
+            child: FutureBuilder(
               future: getCurrentProfilePicture(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    String photoURL = snapshot.data;
+                    String photoURL = snapshot.data.toString();
                     if (userPictureIndex == -1) {
                       return Center(child: Image.network(photoURL));
                     } else {
-                      return Center(child: Image.network(userPicture[userPictureIndex]));
+                      return Center(child: Image.network(userPicture[userPictureIndex].toString()));
                     }
                   }
                 }
@@ -105,7 +104,7 @@ class _ProfileViewPage extends State<ProfileView> {
           ),
           onPressed: () async {
             if (userPictureIndex == -1) { return; }
-            setCurrentProfilePicture(userPicture[userPictureIndex]);
+            await setCurrentProfilePicture(userPicture[userPictureIndex].toString());
             setState(() { });
           },
         ),
@@ -114,13 +113,13 @@ class _ProfileViewPage extends State<ProfileView> {
 
     final inputUsername = Padding(
       padding: EdgeInsets.all(5),
-      child: new FutureBuilder(
+      child: FutureBuilder(
           future: getCurrentUsername(),
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
             } else {
-              String username = snapshot.data;
+              String username = snapshot.data.toString();
               return  Center(child: TextField(
                     enabled: true,
                     keyboardType: TextInputType.name,
@@ -151,7 +150,7 @@ class _ProfileViewPage extends State<ProfileView> {
           ),
           onPressed: () async {
             if(verifyUsername(usernameController.text)) {
-              setCurrentUsername(usernameController.text);
+              await setCurrentUsername(usernameController.text);
             } else {
               print("(II) profileview->156: username not valid");
             }
@@ -162,13 +161,13 @@ class _ProfileViewPage extends State<ProfileView> {
 
     final inputEmail = Padding(
         padding: EdgeInsets.all(5),
-        child: new FutureBuilder(
+        child: FutureBuilder(
             future: getCurrentEmail(),
             builder: (context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               } else {
-                String email = snapshot.data;
+                String email = snapshot.data.toString();
                 return  Center(child: TextField(enabled: false,
                   decoration: InputDecoration(
                       hintText: email,
@@ -211,7 +210,7 @@ class _ProfileViewPage extends State<ProfileView> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               children: <Widget>[
                 logo,
-                new ButtonBar(
+                ButtonBar(
                   alignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   buttonMinWidth: 1000,
