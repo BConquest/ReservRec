@@ -6,10 +6,19 @@ import 'feed_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/post_functions.dart';
 
-class PostPage extends StatelessWidget{
+class PostPage extends StatefulWidget {
   final PostModel postData;
+  PostPage({Key key, this.postData});
 
-  const PostPage({Key key, this.postData}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() {
+    return _PostPage();
+  }
+}
+
+class _PostPage extends State<PostPage>{
+  final PostModel postData;
+  _PostPage({Key key, this.postData});
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +186,7 @@ class JoinButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    return Expanded(
+    /*return Expanded(
       flex: 1,
       child: ToggleButtons(
         children: <Widget>[Icon(Icons.library_add_check)],
@@ -186,8 +195,8 @@ class JoinButton extends StatelessWidget {
         },
         isSelected: [false],
       ),
-    );
-    /*return FutureBuilder(
+    );*/
+    return FutureBuilder(
           future: isInPost(postData.id),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             if(snapshot.hasData) { print(snapshot.data); }
@@ -201,7 +210,7 @@ class JoinButton extends StatelessWidget {
                     isSelected: [snapshot.data],
                   ),
               );
-          });*/
+          });
   }
 }
 
@@ -210,7 +219,9 @@ class TeamSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = InheritedPostModel.of(context).postData;
+    final PostModel postData = InheritedPostModel
+        .of(context)
+        .postData;
     return Expanded(
       flex: 6,
       child: Row(
@@ -220,4 +231,5 @@ class TeamSelection extends StatelessWidget {
         ],
       ),
     );
+  }
 }
