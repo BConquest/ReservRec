@@ -160,8 +160,9 @@ class _NewPostState extends State<NewPost> {
       ),
     );
 
-    /*final timeDisp = Padding(
-      child: FutureBuilder(
+    final timeDisp = Padding(
+        padding: EdgeInsets.all(5),
+        child: FutureBuilder(
         future: getTimeDispString(gameTimeSet),
         builder: (context, AsyncSnapshot snapshot) {
           if(!snapshot.hasData) {
@@ -184,7 +185,7 @@ class _NewPostState extends State<NewPost> {
           }
         }
       )
-    );*/
+    );
 
       final gameTime = Padding(
         padding: EdgeInsets.all(5),
@@ -258,7 +259,6 @@ class _NewPostState extends State<NewPost> {
         ),
       );
 
-
       final buttonAddPost = Padding(
         padding: EdgeInsets.all(5),
         child: ButtonTheme(
@@ -321,7 +321,7 @@ class _NewPostState extends State<NewPost> {
                 maxPlayers,
                 minPlayers,
                 school,
-                //timeDisp,
+                timeDisp,
                 gameTime,
                 gameDate,
                 buttonAddPost,
