@@ -20,6 +20,7 @@ Future<String> getTimeDispString(DateTime time) async{
     return "${time.month}/${time.day}/${time.year} - ${time.hour.toString()
         .padLeft(2, ('0'))}:${time.minute.toString().padLeft(2, ('0'))} AM";
   }
+  return "ERROR: Bad Time";
 }
 
 class NewPost extends StatefulWidget {
@@ -40,15 +41,14 @@ class _NewPostState extends State<NewPost> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> list = List();
-    Map dropDownItemsMap = Map();
+
     final logo = Padding(
       padding: EdgeInsets.all(20),
       child: Hero(
           tag: 'hero',
           child: SizedBox(
             height: 160,
-            child: Image.asset('assets/defaultuser.png'),
+            child: Image.asset('assets/logo.png'),
           )
       ),
     );
@@ -76,21 +76,6 @@ class _NewPostState extends State<NewPost> {
         controller: descriptionController,
         decoration: InputDecoration(
             hintText: 'About',
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0)
-            )
-        ),
-      ),
-    );
-
-    final location = Padding(
-      padding: EdgeInsets.all(5),
-      child: TextField(
-        keyboardType: TextInputType.text,
-        controller: locationController,
-        decoration: InputDecoration(
-            hintText: 'Location of Sport Activity',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)
@@ -129,41 +114,46 @@ class _NewPostState extends State<NewPost> {
       ),
     );
 
+    List<String> list = List();
+    Map dropDownItemsMap = Map();
+
     final school = DropdownButtonHideUnderline(
       child:  FutureBuilder(
         future: getSchoolLocations(),
         builder: (context, AsyncSnapshot snapshot) {
-          if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
-          } else {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Container();
+          } else if (snapshot.hasData) {
+            list.clear();
             snapshot.data.forEach((branchItem) {
               //listItemNames.add(branchItem.itemName);
               int index = snapshot.data.indexOf(branchItem) as int;
               dropDownItemsMap[index] = branchItem;
-
               list.add(snapshot.data[index].toString());
             });
-
             return DropdownButton(
-              value: dropdownLocationValue,
-              icon: Icon(Icons.arrow_downward),
-              iconSize: 24,
-              elevation: 16,
-              underline: Container(
-                height: 2,
-              ),
-              onChanged: (String newValue) {
-                setState(() {
-                  dropdownLocationValue = newValue;
-                });
-              },
-              items: list.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value)
-                );
-              }).toList(),
+                value: dropdownLocationValue,
+                icon: Icon(Icons.arrow_downward),
+                iconSize: 24,
+                elevation: 16,
+                underline: Container(
+                  height: 2,
+                ),
+                onChanged: (String newValue) {
+                  setState(() {
+                    dropdownLocationValue = newValue;
+                  });
+                },
+                items: list.map<DropdownMenuItem<String>>((String v) {
+                  return DropdownMenuItem<String>(
+                      value: v,
+                      child: Text(v)
+                  );
+                }).toList(growable: true)
             );
+          } else {
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),
@@ -283,7 +273,7 @@ class _NewPostState extends State<NewPost> {
               String message = await newPost(sportController
                   .text,
                   descriptionController.text,
-                  locationController.text, gameTimeSet,
+                  dropdownLocationValue, gameTimeSet,
                   int.parse(
                       maxController.text),
                   int.parse(minController
@@ -327,7 +317,6 @@ class _NewPostState extends State<NewPost> {
                 logo,
                 inputSport,
                 inputDescription,
-                location,
                 maxPlayers,
                 minPlayers,
                 school,

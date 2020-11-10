@@ -250,6 +250,7 @@ class _SignupState extends State<Signup> {
                 setState(() {
                   dropdownValue = newValue;
                 });
+                print(dropDownItemsMap);
               },
               items: list.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
