@@ -12,11 +12,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>  {
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
 
-  _displaySnackBar(BuildContext context, s) {
-    final snackBar = SnackBar(content: Text(s));
-    Scaffold.of(context).showSnackBar(snackBar);
-  }
-
   _clearInputs() {
     usernameController.clear();
     emailController.clear();
