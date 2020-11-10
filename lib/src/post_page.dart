@@ -29,7 +29,9 @@ class PostPage extends StatelessWidget {
                         ],
                     ),
                 )
-            )
+            ),
+            Divider(color: Colors.grey),
+            _PostAuthorInfo(),
           ],
         ),
       ),
@@ -111,11 +113,14 @@ class _PostAuthorInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        UserImage(),
-        UserNameAndEmail(),
-      ],
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Row(
+            children: <Widget>[
+                UserImage(),
+                UserNameAndEmail(),
+            ],
+        )
     );
   }
 }
@@ -125,9 +130,11 @@ class UserImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
+    final PostModel postData = InheritedPostModel.of(context).postData;
+    return Expanded(
+      flex: 1,
       child: CircleAvatar(
-        backgroundImage: AssetImage("assets/defaultuser.png"),
+        child: Image.network(postData.auth_pic),
       ),
     );
   }
@@ -143,7 +150,8 @@ class UserNameAndEmail extends StatelessWidget {
     final TextStyle emailTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: .9, fontSizeDelta: 1, fontWeightDelta: 0);
 
 
-    return Align(
+    return Expanded(
+      flex: 6,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Column(
