@@ -8,13 +8,14 @@ class Post {
   DateTime postTimeSet;
   String postSport;
   String postLocation;
+  String school;
   int maxPeople;
   int minPeople;
   int curPeople;
 
 
   DocumentReference reference;
-  Post(this.postUserId, this.postId, {this.postDescription, this.postTimePosted, this.postTimeSet, this.postSport, this.postLocation, this.maxPeople, this.minPeople, this.curPeople});
+  Post(this.postUserId, this.postId, {this.postDescription, this.postTimePosted, this.postTimeSet, this.postSport, this.postLocation, this.school, this.maxPeople, this.minPeople, this.curPeople});
 
   factory Post.fromJson(Map<dynamic, dynamic> json) => _PostFromJson(json);
 
@@ -50,6 +51,10 @@ class Post {
     this.postLocation = u;
   }
 
+  void setSchool(String u) {
+    this.school = u;
+  }
+
   void setMaxPeople(int u){
     this.maxPeople = u;
   }
@@ -75,6 +80,7 @@ Post _PostFromJson(Map<dynamic, dynamic> json){
     postTimeSet: set,
     postSport: json["sport"] as String,
     postLocation: json["location"] as String,
+    school: json["school"] as String,
     maxPeople: json["max_people"] as int,
     minPeople: json["min_people"] as int,
     curPeople: json["cur_people"] as int,
@@ -90,6 +96,7 @@ Map<String, dynamic> _PostToJson(Post instance) =>
       "time_set": instance.postTimeSet,
       "sport": instance.postSport,
       "location": instance.postLocation,
+      "school": instance.school,
       "max_people": instance.maxPeople,
       "min_people": instance.minPeople,
       "cur_people": instance.curPeople,

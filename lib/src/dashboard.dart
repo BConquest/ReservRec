@@ -72,14 +72,17 @@ class _FeedState extends State<Feed> {
                   BottomNavigationBarItem(
                     icon: Icon(Icons.sort_rounded),
                     label: 'Sort',
+                    backgroundColor: Colors.red,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.account_circle),
                     label: 'Profile',
+                    backgroundColor: Colors.red,
                   ),
                   BottomNavigationBarItem(
                     icon: Icon(Icons.logout),
                     label: 'Log Out',
+                    backgroundColor: Colors.red,
                   ),
                 ],
                 onTap: (int index) async {

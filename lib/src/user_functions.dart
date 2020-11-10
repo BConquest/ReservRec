@@ -71,6 +71,17 @@ Future<String> getCurrentEmail() async {
   return email;
 }
 
+Future<String> getCurrentSchool() async {
+  final User user = _auth.currentUser;
+  final uid = user.uid;
+
+  String school;
+  await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
+    value.docs.forEach((element) {school = element.data()["school"];});
+  });
+  return school;
+}
+
 String getDropDownValue() {
   return dropdownValue;
 }
