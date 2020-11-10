@@ -147,7 +147,7 @@ class _NewPostState extends State<NewPost> {
 
                       DropdownButtonHideUnderline(
                         child: new FutureBuilder(
-                          future: getSchoolLocations(dropdownLocationValue),
+                          future: getSchoolLocations(),
                           builder: (context, AsyncSnapshot snapshot) {
                             if (!snapshot.hasData) {
                               return Center(child: CircularProgressIndicator());
@@ -155,9 +155,12 @@ class _NewPostState extends State<NewPost> {
                               snapshot.data.forEach((branchItem) {
                                 print(branchItem);
                                 int index = snapshot.data.indexOf(branchItem);
+                                print("1");
                                 dropDownItemsMap[index] = branchItem;
+                                print("2");
                                 list.add(snapshot.data[index].toString());
-                            });
+                                print("3");
+                              });
 
                               return DropdownButton(
                                   value: dropdownLocationValue,
@@ -169,6 +172,8 @@ class _NewPostState extends State<NewPost> {
                                   ),
                                   onChanged: (String newValue) {
                                     setState(() {
+                                      print("set state");
+                                      print("new value $newValue");
                                       dropdownLocationValue = newValue;
                                     });
                                   },

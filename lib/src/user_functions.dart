@@ -169,9 +169,9 @@ Future<List<String>> getSchools() async {
   return schools;
 }
 
-Future<List<String>> getSchoolLocations(String school) async {
+Future<List<String>> getSchoolLocations() async {
   CollectionReference userSchool = FirebaseFirestore.instance.collection('schools')
-      .doc(dropdownLocationValue)
+      .doc(await getCurrentSchool())
       .collection("validLocations");
   List<String> locations = new List();
   await userSchool.get().then((value) {
