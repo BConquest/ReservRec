@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/user_functions.dart';
 import 'package:reservrec/src/verify_location.dart';
+import 'package:reservrec/models/user.dart';
 
 void main() {
   group('Username', () {
@@ -103,9 +104,9 @@ void main() {
     });
   });
 
-  group('DateTime3 Test', ()
+  group('Testing Assertions', ()
   {
-    test('Date 4', () async {
+    test('Trying DateTime', () async {
       var noWork = DateTime(-10, 20, 30);
       try{
         await getTimeDispString(noWork);
@@ -113,6 +114,20 @@ void main() {
       } catch(e) {
         expect(e, isInstanceOf<AssertionError>());
       }
+    });
+  });
+
+  group('User Testing', ()
+  {
+    UserC myUser = new UserC("id");
+
+    test('Verify Email', () {
+      myUser.setVerified(true);
+      assert(myUser.verified == true);
+    });
+
+    test('Json', () {
+      expect(myUser.toJson(), isInstanceOf<Map<String,String>>());
     });
   });
 }
