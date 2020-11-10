@@ -23,4 +23,10 @@ void main() {
       expect(verifyUsername("123456"), true);
     });
   });
+
+  group('Email', () {
+    test('Temp Test', () {
+      expect(validEmail("f@crimson.ua.edu"), true);
+    });
+  });
 }
