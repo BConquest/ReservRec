@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/src/user_functions.dart';
+import 'package:reservrec/src/user_functions.dart';
 
 void main() {
   group('Username', () {
@@ -27,6 +27,32 @@ void main() {
   group('Email', () {
     test('Temp Test', () {
       expect(validEmail("f@crimson.ua.edu"), true);
+    });
+  });
+
+  group('Password', () {
+    test('Confirm Passwords Are Not Same', () {
+      expect(verifyPassword("password", "password1"), false);
+    });
+
+    test('No uppercase', () {
+      expect(verifyPassword("password1", "password1"), false);
+    });
+
+    test('No lowercase', () {
+      expect(verifyPassword("PASSWORD1", "PASSWORD1"), false);
+    });
+
+    test('No number', () {
+      expect(verifyPassword("Password", "Password"), false);
+    });
+
+    test('Too short', () {
+      expect(verifyPassword("Pass1", "Pass1"), false);
+    });
+
+    test('Working Password', () {
+      expect(verifyPassword("Password1", "Password1"), true);
     });
   });
 }
