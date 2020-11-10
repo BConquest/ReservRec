@@ -15,24 +15,31 @@ class PostPage extends StatelessWidget {
       appBar: AppBar(title: Text(postData.sport)),
       body: InheritedPostModel(
         postData: postData,
-        child: Container(
-          margin: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _Summary(),
-              Divider(color: Colors.grey),
-              SizedBox(height: 10),
-              _Body(),
-              Divider(color: Colors.grey),
-              _PostAuthorInfo(),
-            ],
-          ),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+                child: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          _Summary(),
+                          Divider(color: Colors.grey),
+                          SizedBox(height: 10),
+                          _Body(),
+                        ],
+                    ),
+                )
+            )
+          ],
         ),
       ),
     );
   }
 }
+/*
+                          Divider(color: Colors.grey),
+                          _PostAuthorInfo(),
+ */
 
 class _Summary extends StatelessWidget {
   final PostModel postData;
@@ -51,10 +58,10 @@ class _Summary extends StatelessWidget {
     final DateFormat formatter = DateFormat('h:mm a on EEEE, LLLL d, y');
     final String formatted = formatter.format(postData.gameTime);
 
-    return Expanded(
-      flex: 2,
+    return Align(
+      alignment: Alignment.centerLeft,
       child: Padding(
-        padding: const EdgeInsets.only(left: 4.0),
+        padding: const EdgeInsets.only(left: 8.0, top: 3.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -82,8 +89,8 @@ class _Body extends StatelessWidget {
     final TextStyle bodyTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.25, fontSizeDelta: 1.5, fontWeightDelta: 1);
 
     final bodyText = postData.desc;
-    return Expanded(
-      flex: 10,
+    return Align(
+      alignment: Alignment.centerLeft,
       child: Padding(
         padding: const EdgeInsets.only(left: 8.0),
         child: Column(
@@ -118,8 +125,7 @@ class UserImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 1,
+    return Align(
       child: CircleAvatar(
         backgroundImage: AssetImage("assets/defaultuser.png"),
       ),
@@ -137,8 +143,7 @@ class UserNameAndEmail extends StatelessWidget {
     final TextStyle emailTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: .9, fontSizeDelta: 1, fontWeightDelta: 0);
 
 
-    return Expanded(
-      flex: 5,
+    return Align(
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Column(

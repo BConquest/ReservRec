@@ -179,11 +179,9 @@ class _PostAttendance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    //final int coming = postData.currentPlayers;
     final int max = postData.maxPlayers;
-    // TODO
-    //final int cur = postData.curPlayers;
-    final String formatted = "1 / $max players";//"$coming / $max players"
+    final int cur = postData.curPlayers;
+    final String formatted = "$cur / $max players";
     return Expanded(
       flex: 2,
         child: Text(formatted)
