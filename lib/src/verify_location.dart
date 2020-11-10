@@ -26,7 +26,7 @@ double calcDistance(double lat0, double lat1, double lon0, double lon1) {
   distLon = (lon1 - lon0) * (pi/180);
 
   //Haversine formula
-  a = pow(sin(distLat / 2.0), 2) + cos(lat0R) * cos(lat1R) * pow(sin(distLon / 2.0), 2);
+  a = pow(sin(distLat / 2.0), 2) + cos(lat0R) * cos(lat1R) * pow(sin(distLon / 2.0), 2) as double;
   c = 2 * asin(sqrt(a));
 
   return (c * rEarthMiles);
@@ -41,7 +41,7 @@ class _LocationPageState extends State<LocationPage> {
   LocationData currentLocation;
   // ignore: cancel_subscriptions
   StreamSubscription<LocationData> locationSubscription;
-  Location location = new Location();
+  Location location = Location();
   String error;
 
   //from https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
