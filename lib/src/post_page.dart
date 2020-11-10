@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:reservrec/src/post.dart';
 
 import 'feed_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:reservrec/src/post_functions.dart';
 
-class PostPage extends StatelessWidget {
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
+class PostPage extends StatelessWidget{
   final PostModel postData;
 
-  const PostPage({Key key, @required this.postData}) : super(key: key);
+  const PostPage({Key key, this.postData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +123,7 @@ class _PostAuthorInfo extends StatelessWidget {
             children: <Widget>[
                 UserImage(),
                 UserNameAndEmail(),
+                JoinButton(),
             ],
         )
     );
@@ -151,7 +156,7 @@ class UserNameAndEmail extends StatelessWidget {
 
 
     return Expanded(
-      flex: 6,
+      flex: 5,
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Column(
@@ -165,5 +170,39 @@ class UserNameAndEmail extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class JoinButton extends StatelessWidget {
+  const JoinButton({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
+    return Expanded(
+      flex: 1,
+      child: ToggleButtons(
+        children: <Widget>[Icon(Icons.library_add_check)],
+        onPressed: (int index) {
+          changeJoinedStatus(postData.id);
+        },
+        isSelected: [false],
+      ),
+    );
+    /*return FutureBuilder(
+          future: isInPost(postData.id),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if(snapshot.hasData) { print(snapshot.data); }
+              return Expanded(
+                flex: 1,
+                  child: ToggleButtons(
+                    children: <Widget>[Icon(Icons.library_add_check)],
+                    onPressed: (int index) {
+                      changeJoinedStatus(postData.id);
+                    },
+                    isSelected: [snapshot.data],
+                  ),
+              );
+          });*/
   }
 }
