@@ -42,292 +42,305 @@ class _NewPostState extends State<NewPost> {
   Widget build(BuildContext context) {
     List<String> list = List();
     Map dropDownItemsMap = Map();
-     return Scaffold(
-        body: FutureBuilder(
-            future: getTimeDispString(gameTimeSet),
-            builder: (context, AsyncSnapshot snapshot) {
-              if(!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return ListView(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    children: [
-                      // TODO Change To be custom profile picture
-                      Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Hero(
-                            tag: 'hero',
-                            child: SizedBox(
-                              height: 160,
-                              child: Image.asset('assets/logo.png'),
-                            )
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          controller: sportController,
-                          decoration: InputDecoration(
-                              hintText: 'Sport',
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 20),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                              )
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          controller: descriptionController,
-                          decoration: InputDecoration(
-                              hintText: 'About',
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 20),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                              )
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          controller: locationController,
-                          decoration: InputDecoration(
-                              hintText: 'Location of Sport Activity',
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 20),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                              )
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          controller: minController,
-                          decoration: InputDecoration(
-                              hintText: 'Minimum Amount of Players',
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 20),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                              )
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: TextField(
-                          keyboardType: TextInputType.text,
-                          controller: maxController,
-                          decoration: InputDecoration(
-                              hintText: 'Maximum Amount of Players',
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 20),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                              )
-                          ),
-                        ),
-                      ),
-
-                      DropdownButtonHideUnderline(
-                        child: FutureBuilder(
-                          future: getSchoolLocations(),
-                          builder: (context, AsyncSnapshot snapshot) {
-                            if (!snapshot.hasData) {
-                              return Center(child: CircularProgressIndicator());
-                            } else {
-                              snapshot.data.forEach((branchItem) {
-                                print("new post: $branchItem");
-                                var index = snapshot.data.indexOf(branchItem);
-                                dropDownItemsMap[index] = branchItem;
-                                list.add(snapshot.data[index].toString());
-                              });
-
-                              return DropdownButton(
-                                  value: dropdownLocationValue,
-                                  icon: Icon(Icons.arrow_downward),
-                                  iconSize: 24,
-                                  elevation: 16,
-                                  underline: Container(
-                                    height: 2,
-                                  ),
-                                  onChanged: (String newValue) {
-                                    setState(() {
-                                      print("set state");
-                                      print("new value $newValue");
-                                      dropdownLocationValue = newValue;
-                                    });
-                                  },
-                                items: list.map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value)
-                                  );
-                                }).toList(),
-                              );
-                            }
-                          },
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: TextField(
-                          enabled: false,
-                          decoration: InputDecoration(
-                              hintText: '$timeDispString',
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 25, vertical: 20),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(50.0)
-                              )
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: ButtonTheme(
-                          height: 56,
-                          child: RaisedButton(
-                            color: Colors.red,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                            ),
-                            onPressed: () {
-                              DatePicker.showDatePicker(
-                                  context, showTitleActions: true,
-                                  onChanged: (date) {
-                                    print('change $date in time zone ' +
-                                        date.timeZoneOffset.inHours.toString());
-                                  },
-                                  onConfirm: (date) async{
-                                    print('confirm $date');
-                                    gameDayTemp = date;
-                                    gameTimeSet = DateTime(
-                                        gameDayTemp.year, gameDayTemp.month,
-                                        gameDayTemp.day, gameTimeTemp.hour,
-                                        gameTimeTemp.minute);
-                                    timeDispString = await getTimeDispString(gameTimeSet);
-                                    setState(() {});
-                                  },
-                                  currentTime: DateTime.now());
-                            },
-                            child: Text(
-                                'Select Date',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20)),
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: ButtonTheme(
-                          height: 56,
-                          child: RaisedButton(
-                            color: Colors.red,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                            ),
-                            onPressed: () {
-                              DatePicker.showTime12hPicker(
-                                  context, showTitleActions: true,
-                                  onChanged: (date) {
-                                    print('change $date in time zone ' +
-                                        date.timeZoneOffset.inHours.toString());
-                                  },
-                                  onConfirm: (date) async{
-                                    print('confirm $date');
-                                    gameTimeTemp = date;
-                                    gameTimeSet = DateTime(
-                                        gameDayTemp.year, gameDayTemp.month,
-                                        gameDayTemp.day, gameTimeTemp.hour,
-                                        gameTimeTemp.minute);
-                                    timeDispString = await getTimeDispString(gameTimeSet);
-                                    setState(() {});
-                                  },
-                                  currentTime: DateTime.now());
-                            },
-                            child: Text(
-                                'Select Time',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20)),
-                          ),
-                        ),
-                      ),
-
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: ButtonTheme(
-                          height: 56,
-                          child: RaisedButton(
-                            child: Text('Create Post', style: TextStyle(
-                                color: Colors.white, fontSize: 20)),
-                            color: Colors.red,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                            ),
-                            onPressed: () async {
-                              String message = await newPost(sportController
-                                  .text,
-                                  descriptionController.text,
-                                  locationController.text, gameTimeSet,
-                                  int.parse(
-                                      maxController.text),
-                                  int.parse(minController
-                                      .text));
-                              if (message == "true") {
-                                print("newPost");
-                                await Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => Feed()));
-                              } else {
-                                print(message);
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(5),
-                        child: ButtonTheme(
-                          height: 56,
-                          child: RaisedButton(
-                            child: Text('Back', style: TextStyle(
-                                color: Colors.white, fontSize: 20)),
-                            color: Colors.red,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)
-                            ),
-                            onPressed: () async {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-                      ),
-                    ]
-                );
-              }
-            }
+    final logo = Padding(
+      padding: EdgeInsets.all(20),
+      child: Hero(
+          tag: 'hero',
+          child: SizedBox(
+            height: 160,
+            child: Image.asset('assets/defaultuser.png'),
           )
-        );
+      ),
+    );
+
+
+    final inputSport = Padding(
+      padding: EdgeInsets.all(5),
+      child: TextField(
+        keyboardType: TextInputType.text,
+        controller: sportController,
+        decoration: InputDecoration(
+            hintText: 'Sport',
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.0)
+            )
+        ),
+      ),
+    );
+
+    final inputDescription = Padding(
+      padding: EdgeInsets.all(5),
+      child: TextField(
+        keyboardType: TextInputType.text,
+        controller: descriptionController,
+        decoration: InputDecoration(
+            hintText: 'About',
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.0)
+            )
+        ),
+      ),
+    );
+
+    final location = Padding(
+      padding: EdgeInsets.all(5),
+      child: TextField(
+        keyboardType: TextInputType.text,
+        controller: locationController,
+        decoration: InputDecoration(
+            hintText: 'Location of Sport Activity',
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.0)
+            )
+        ),
+      ),
+    );
+
+    final minPlayers = Padding(
+      padding: EdgeInsets.all(5),
+      child: TextField(
+        keyboardType: TextInputType.text,
+        controller: minController,
+        decoration: InputDecoration(
+            hintText: 'Minimum Amount of Players',
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.0)
+            )
+        ),
+      ),
+    );
+
+    final maxPlayers = Padding(
+      padding: EdgeInsets.all(5),
+      child: TextField(
+        keyboardType: TextInputType.text,
+        controller: maxController,
+        decoration: InputDecoration(
+            hintText: 'Maximum Amount of Players',
+            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50.0)
+            )
+        ),
+      ),
+    );
+
+    final school = DropdownButtonHideUnderline(
+      child:  FutureBuilder(
+        future: getSchoolLocations(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            snapshot.data.forEach((branchItem) {
+              //listItemNames.add(branchItem.itemName);
+              int index = snapshot.data.indexOf(branchItem) as int;
+              dropDownItemsMap[index] = branchItem;
+
+              list.add(snapshot.data[index].toString());
+            });
+
+            return DropdownButton(
+              value: dropdownLocationValue,
+              icon: Icon(Icons.arrow_downward),
+              iconSize: 24,
+              elevation: 16,
+              underline: Container(
+                height: 2,
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  dropdownLocationValue = newValue;
+                });
+              },
+              items: list.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value)
+                );
+              }).toList(),
+            );
+          }
+        },
+      ),
+    );
+
+    /*final timeDisp = Padding(
+      child: FutureBuilder(
+        future: getTimeDispString(gameTimeSet),
+        builder: (context, AsyncSnapshot snapshot) {
+          if(!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            return Padding(
+              padding: EdgeInsets.all(5),
+              child: TextField(
+              enabled: false,
+              decoration: InputDecoration(
+                hintText: '$timeDispString',
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 25, vertical: 20),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(50.0)
+              )
+              ),
+            ),
+            );
+          }
+        }
+      )
+    );*/
+
+      final gameTime = Padding(
+        padding: EdgeInsets.all(5),
+        child: ButtonTheme(
+          height: 56,
+          child: RaisedButton(
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50)
+            ),
+            onPressed: () {
+              DatePicker.showDatePicker(
+                  context, showTitleActions: true,
+                  onChanged: (date) {
+                    print('change $date in time zone ' +
+                        date.timeZoneOffset.inHours.toString());
+                  },
+                  onConfirm: (date) async{
+                    print('confirm $date');
+                    gameDayTemp = date;
+                    gameTimeSet = DateTime(
+                        gameDayTemp.year, gameDayTemp.month,
+                        gameDayTemp.day, gameTimeTemp.hour,
+                        gameTimeTemp.minute);
+                    timeDispString = await getTimeDispString(gameTimeSet);
+                    setState(() {});
+                  },
+                  currentTime: DateTime.now());
+            },
+            child: Text(
+                'Select Date',
+                style: TextStyle(
+                    color: Colors.white, fontSize: 20)),
+          ),
+        ),
+      );
+
+      final gameDate = Padding(
+        padding: EdgeInsets.all(5),
+        child: ButtonTheme(
+          height: 56,
+          child: RaisedButton(
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50)
+            ),
+            onPressed: () {
+              DatePicker.showTime12hPicker(
+                  context, showTitleActions: true,
+                  onChanged: (date) {
+                    print('change $date in time zone ' +
+                        date.timeZoneOffset.inHours.toString());
+                  },
+                  onConfirm: (date) async{
+                    print('confirm $date');
+                    gameTimeTemp = date;
+                    gameTimeSet = DateTime(
+                        gameDayTemp.year, gameDayTemp.month,
+                        gameDayTemp.day, gameTimeTemp.hour,
+                        gameTimeTemp.minute);
+                    timeDispString = await getTimeDispString(gameTimeSet);
+                    setState(() {});
+                  },
+                  currentTime: DateTime.now());
+            },
+            child: Text(
+                'Select Time',
+                style: TextStyle(
+                    color: Colors.white, fontSize: 20)),
+          ),
+        ),
+      );
+
+
+      final buttonAddPost = Padding(
+        padding: EdgeInsets.all(5),
+        child: ButtonTheme(
+          height: 56,
+          child: RaisedButton(
+            child: Text('Create Post', style: TextStyle(
+                color: Colors.white, fontSize: 20)),
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50)
+            ),
+            onPressed: () async {
+              String message = await newPost(sportController
+                  .text,
+                  descriptionController.text,
+                  locationController.text, gameTimeSet,
+                  int.parse(
+                      maxController.text),
+                  int.parse(minController
+                      .text));
+              if (message == "true") {
+                print("newPost");
+                await Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => Feed()));
+              } else {
+                print(message);
+              }
+            },
+          ),
+        ),
+      );
+
+      final buttonBack = Padding(
+        padding: EdgeInsets.all(5),
+        child: ButtonTheme(
+          height: 56,
+          child: RaisedButton(
+            child: Text('Back', style: TextStyle(
+                color: Colors.white, fontSize: 20)),
+            color: Colors.red,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50)
+            ),
+            onPressed: () async {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      );
+    return SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              children: <Widget>[
+                logo,
+                inputSport,
+                inputDescription,
+                location,
+                maxPlayers,
+                minPlayers,
+                school,
+                //timeDisp,
+                gameTime,
+                gameDate,
+                buttonAddPost,
+                buttonBack,
+              ],
+            ),
+
+          ),
+        )
+    );
   }
 }
