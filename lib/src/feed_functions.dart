@@ -63,8 +63,11 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   final QuerySnapshot snapshot = await postsCollection.orderBy('time_posted', descending: true).get();
 
   List<Post> posts = new List();
+
   snapshot.docs.forEach((document) async {
-    posts.add(Post.fromJson(document.data()));
+    if(Post.fromJson(document.data()).school == await uf.getCurrentSchool()) {
+      posts.add(Post.fromJson(document.data()));
+    }
   });
 
   if (sortMethodIndex == 0) {
