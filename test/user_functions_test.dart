@@ -1,5 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:reservrec/src/user_functions.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   group('Username', () {
@@ -25,13 +28,34 @@ void main() {
   });
 
   group('Email', () {
-    test('Temp Test', () {
-      //need await functionality
-      expect(validEmail("f@crimson.ua.edu"), true);
+    test('Asynchronous Check', () {
+      //throws exception because nothing was ever awaited
+      expect(validEmail("anything@crimson.ua.edu"), throwsException);
     });
+
+    // need to use firebase emulator
+
+    /*
+    test('Crimson Email', () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+      expect(await validEmail("anything@crimson.ua.edu"), true);
+    });
+
+    test('Different UA Email', () async {
+      expect(await validEmail("anything@cs.ua.edu"), true);
+    });
+
+    test('Indiana', () async{
+      expect(await validEmail("anything@iowa.edu"), true);
+    });
+
+    test('Anything else is false', () async{
+      expect(validEmail("anything@gmail.com"), false);
+    });*/
   });
 
-  group('Password', () {
+  group('Password Regex', () {
     test('Does Not Match', () {
       expect(validPassword("Password123", "Password12"), false);
     });
