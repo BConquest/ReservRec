@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:reservrec/src/user_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:reservrec/src/verify_location.dart';
 
 void main() {
   group('Username', () {
@@ -78,6 +79,28 @@ void main() {
 
     test('Valid Password', () {
       expect(validPassword("Password123", "Password123"), true);
+    });
+  });
+
+  group('Distance', () {
+    test('Zero distance', () {
+      expect(calcDistance(0,0,0,0), 0);
+    });
+
+    test('Same position', () {
+      expect(calcDistance(10,10,10,10), 0);
+    });
+
+    test('Random coordinates 1', () {
+      expect(calcDistance(13.4,13,12,111), 6595.002306580232);
+    });
+
+    test('Random coordinates 2', () {
+      expect(calcDistance(-10,3,103,14), 6182.122582136241);
+    });
+
+    test('Out of bounds parameters', () {
+      expect(() => calcDistance(181,-1000,1000,0), throwsAssertionError);
     });
   });
 }

@@ -6,6 +6,32 @@ import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 import 'dart:math';
 
+double calcDistance(double lat0, double lat1, double lon0, double lon1) {
+
+  assert(lat0 > -90 && lat0 < 90);
+  assert(lat1 > -90 && lat1 < 90);
+  assert(lat0 > -180 && lat0 < 180);
+  assert(lat0 > -180 && lat0 < 180);
+
+  double distLat;
+  double distLon;
+  double lat0R = lat0 * (pi/180);
+  double lat1R = lat1 * (pi/180);
+  double a;
+  double c;
+  int rEarthMiles = 3956;
+
+  //degrees lat and lon to radians
+  distLat = (lat1 - lat0) * (pi/180);
+  distLon = (lon1 - lon0) * (pi/180);
+
+  //Haversine formula
+  a = pow(sin(distLat / 2.0), 2) + cos(lat0R) * cos(lat1R) * pow(sin(distLon / 2.0), 2);
+  c = 2 * asin(sqrt(a));
+
+  return (c * rEarthMiles);
+}
+
 class LocationPage extends StatefulWidget {
   @override
   _LocationPageState createState() => _LocationPageState();
@@ -19,25 +45,6 @@ class _LocationPageState extends State<LocationPage> {
   String error;
 
   //from https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
-  double calcDistance(double lat0, double lat1, double lon0, double lon1) {
-    double distLat;
-    double distLon;
-    double lat0R = lat0 * (pi/180);
-    double lat1R = lat1 * (pi/180);
-    double a;
-    double c;
-    int rEarthMiles = 3956;
-
-    //degrees lat and lon to radians
-    distLat = (lat1 - lat0) * (pi/180);
-    distLon = (lon1 - lon0) * (pi/180);
-
-    //Haversine formula
-    a = pow(sin(distLat / 2.0), 2) + cos(lat0R) * cos(lat1R) * pow(sin(distLon / 2.0), 2);
-    c = 2 * asin(sqrt(a));
-
-    return (c * rEarthMiles);
-  }
 
   @override
   void initState() {
