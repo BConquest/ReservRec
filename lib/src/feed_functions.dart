@@ -133,7 +133,7 @@ Future<String> newPost(String sport, String description, String location, DateTi
   final CollectionReference postsCollection = FirebaseFirestore.instance.collection('posts');
   QuerySnapshot query = await postsCollection.orderBy("post_id").limitToLast(1).get();          //grabs post with greatest id
   int newID = 1 + Post.fromJson(query.docs.first.data()).postId;                              //extracts id and increments, though this creates issues with more than one app adding posts at the same time
-  print("newID: $newID");
+
 
   Post tempPost = new Post(_auth.currentUser.uid, newID, postSport: sport, postDescription: description, postLocation: location, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min, curPeople: 1);
   postsCollection.add(tempPost.toJson());
