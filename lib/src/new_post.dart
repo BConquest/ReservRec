@@ -42,6 +42,7 @@ class _NewPostState extends State<NewPost> {
   Widget build(BuildContext context) {
     List<String> list = List();
     Map dropDownItemsMap = Map();
+
      return Scaffold(
         body: FutureBuilder(
             future: getTimeDispString(gameTimeSet),
@@ -155,6 +156,8 @@ class _NewPostState extends State<NewPost> {
                               snapshot.data.forEach((branchItem) {
                                 print("new post: $branchItem");
                                 var index = snapshot.data.indexOf(branchItem);
+                                print("FUTURE BUILDER $index");
+                                print("FUTURE BUILDER $dropDownItemsMap[index]");
                                 dropDownItemsMap[index] = branchItem;
                                 list.add(snapshot.data[index].toString());
                               });
@@ -175,7 +178,10 @@ class _NewPostState extends State<NewPost> {
                                     });
                                   },
                                 items: list.map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
+                                  print("list.map $value");
+                                  var t = Text(value);
+                                  print("list.map $t");
+                                  return DropdownMenuItem(
                                     value: value,
                                     child: Text(value)
                                   );
