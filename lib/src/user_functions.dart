@@ -131,7 +131,7 @@ bool verifyUsername(String username) {
 }
 
 bool verifyPassword(String password, String confirmPassword) {
-  RegExp isValid = new RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
+  RegExp isValid = new RegExp(r'^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*)$');
   if (password != confirmPassword) {
     return false;
   } else if (isValid.hasMatch(password)) {
