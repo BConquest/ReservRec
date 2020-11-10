@@ -26,7 +26,7 @@ double calcDistance(double lat0, double lat1, double lon0, double lon1) {
   distLon = (lon1 - lon0) * (pi/180);
 
   //Haversine formula
-  a = pow(sin(distLat / 2.0), 2) + cos(lat0R) * cos(lat1R) * pow(sin(distLon / 2.0), 2);
+  a = pow(sin(distLat / 2.0), 2) + cos(lat0R) * cos(lat1R) * pow(sin(distLon / 2.0), 2) as double;
   c = 2 * asin(sqrt(a));
 
   return (c * rEarthMiles);
