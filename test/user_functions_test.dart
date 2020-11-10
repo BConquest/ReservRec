@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/user_functions.dart';
 import 'package:reservrec/src/verify_location.dart';
 import 'package:reservrec/models/user.dart';
+import 'package:reservrec/models/post.dart';
 import 'package:reservrec/src/hashing.dart';
 
 void main() {
@@ -120,7 +122,7 @@ void main() {
 
   group('User Testing', ()
   {
-    UserC myUser = new UserC("id");
+    UserC myUser = UserC("id");
 
     test('Verify Email', () {
       myUser.setVerified(true);
@@ -139,7 +141,7 @@ void main() {
   group('Hashing Password', (){
     //all values were tested with an independent SHA256 string checker
 
-    test('Null', (){
+    test('Empty String', (){
       expect(Sha256(""), "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"); //this is the value of the null string
     });
 
@@ -149,6 +151,82 @@ void main() {
 
     test('hashing a hash value', (){
       expect(Sha256(Sha256("hello")), "d7914fe546b684688bb95f4f888a92dfc680603a75f23eb823658031fff766d9");
+    });
+  });
+  group('Converting Users to and from json', () {
+    test('Converting User to json', () {
+      UserC testUser = UserC('testid', userUsername: 'foo', userPassword: 'bar', userEmail: 'email@crimson.ua.edu', verified: true, school: 'University of Alabama', photoURL: 'https://i.imgur.com/DfGZewB.png');
+      var testJson = testUser.toJson();
+      expect(testJson['user_id'], 'testid');
+      expect(testJson['user_username'], 'foo');
+      expect(testJson['user_password'], 'bar');
+      expect(testJson['user_email'], 'email@crimson.ua.edu');
+      expect(testJson['verified'], true);
+      expect(testJson['school'], 'University of Alabama');
+      expect(testJson['photoURL'], 'https://i.imgur.com/DfGZewB.png');
+    });
+    test('Converting User From json', () {
+      var testMap = Map();
+      testMap['user_id'] = 'testid';
+      testMap['user_username'] = 'foo';
+      testMap['user_password'] = 'bar';
+      testMap['user_email'] = 'email@crimson.ua.edu';
+      testMap['verified'] = true;
+      testMap['school'] = 'University of Alabama';
+      testMap['photoURL'] = 'https://i.imgur.com/DfGZewB.png';
+      UserC testUser = UserC.fromJson(testMap);
+      expect(testUser.userId, 'testid');
+      expect(testUser.userUsername, 'foo');
+      expect(testUser.userPassword, 'bar');
+      expect(testUser.userEmail, 'email@crimson.ua.edu');
+      expect(testUser.verified, true);
+      expect(testUser.school, 'University of Alabama');
+      expect(testUser.photoURL, 'https://i.imgur.com/DfGZewB.png');
+    });
+  });
+  group('Converting Post to and from json', () {
+    test('Converting Post to json', () {
+      DateTime testTime =  DateTime.now();
+      Post testPost = Post('testUserId', 0, postDescription: 'desc', postTimePosted: testTime, postTimeSet: testTime, postSport: 'sportball', postLocation: 'testLoc', school: 'University of Alabama', maxPeople: 20, minPeople: 5, curPeople: 6);
+      var testJson = testPost.toJson();
+      expect(testJson["user_id"], 'testUserId');
+      expect(testJson["post_id"], 0);
+      expect(testJson["description"], 'desc');
+      expect(testJson["time_posted"], testTime);
+      expect(testJson["time_set"], testTime);
+      expect(testJson["sport"], 'sportball');
+      expect(testJson["location"], 'testLoc');
+      expect(testJson["school"], 'University of Alabama');
+      expect(testJson["max_people"], 20);
+      expect(testJson["min_people"], 5);
+      expect(testJson["cur_people"], 6);
+    });
+    test('Converting Post From json', () {
+      var testMap = Map();
+      Timestamp testTime =  Timestamp.now();
+      testMap["user_id"] = 'testUserId';
+      testMap["post_id"] = 0;
+      testMap["description"] = 'desc';
+      testMap["time_posted"] = testTime;
+      testMap["time_set"] = testTime;
+      testMap["sport"] ='sportball';
+      testMap["location"] = 'testLoc';
+      testMap["school"] = 'University of Alabama';
+      testMap["max_people"] = 20;
+      testMap["min_people"] = 5;
+      testMap["cur_people"] = 6;
+      Post testPost = Post.fromJson(testMap);
+      expect(testPost.postUserId, 'testUserId');
+      expect(testPost.postId, 0);
+      expect(testPost.postDescription, 'desc');
+      expect(testPost.postTimePosted, testTime.toDate());
+      expect(testPost.postTimeSet, testTime.toDate());
+      expect(testPost.postSport, 'sportball');
+      expect(testPost.postLocation, 'testLoc');
+      expect(testPost.school, 'University of Alabama');
+      expect(testPost.maxPeople, 20);
+      expect(testPost.minPeople, 5);
+      expect(testPost.curPeople, 6);
     });
   });
 }
