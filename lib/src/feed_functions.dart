@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 var sortIndex = 0;
-final List sortMethod = ['time', 'people', 'location'];
+final List sortMethod = ['time', 'max-people', '> cur', '< cur'];
 
 class PostModel {
   final int id;
@@ -71,13 +71,15 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     });
   } else if (sortMethodIndex == 1) {
     posts.sort((a, b) {
-      //TODO change to curPlayers
       return a.maxPeople.compareTo(b.maxPeople);
+    });
+  } else if (sortMethodIndex == 2){
+    posts.sort((a, b) {
+      return a.curPeople.compareTo(b.curPeople);
     });
   } else {
     posts.sort((a, b) {
-      //TODO change to curPlayers
-      return a.maxPeople.toString().toLowerCase().compareTo(b.maxPeople.toString().toLowerCase());
+      return b.curPeople.compareTo(a.curPeople);
     });
   }
   print (sortMethodIndex);
@@ -133,7 +135,8 @@ Future<String> newPost(String sport, String description, String location, DateTi
   int newID = 1 + Post.fromJson(query.docs.first.data()).postId;                              //extracts id and increments, though this creates issues with more than one app adding posts at the same time
   print("newID: $newID");
 
-  Post tempPost = new Post(_auth.currentUser.uid, newID, postSport: sport, postDescription: description, postLocation: location, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min, curPeople: 0);
+  Post tempPost = new Post(_auth.currentUser.uid, newID, postSport: sport, postDescription: description, postLocation: location, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min, curPeople: 1);
   postsCollection.add(tempPost.toJson());
+
   return "true";
 }
