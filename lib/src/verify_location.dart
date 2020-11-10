@@ -41,7 +41,7 @@ class _LocationPageState extends State<LocationPage> {
   LocationData currentLocation;
   // ignore: cancel_subscriptions
   StreamSubscription<LocationData> locationSubscription;
-  Location location = new Location();
+  Location location = Location();
   String error;
 
   //from https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.

@@ -28,7 +28,7 @@ Future<String> getDocumentID(final uid) async {
   await firestoreInstance.collection("users").where("user_id", isEqualTo:uid).get().then((value) {
     id = value.docs[0].id;
   });
-  return id;
+  return id.toString();
 }
 
 Future<String> getCurrentProfilePicture() async {
@@ -37,7 +37,7 @@ Future<String> getCurrentProfilePicture() async {
 
   String photoURL;
   await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
-    value.docs.forEach((element) {photoURL = element.data()["photoURL"];});
+    value.docs.forEach((element) {photoURL = element.data()["photoURL"].toString();});
   });
   return photoURL;
 }
@@ -56,7 +56,7 @@ Future<String> getCurrentUsername() async {
 
   String username;
   await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
-    value.docs.forEach((element) {username = element.data()["user_username"];});
+    value.docs.forEach((element) {username = element.data()["user_username"].toString();});
   });
   return username;
 }
@@ -67,7 +67,7 @@ Future<String> getCurrentEmail() async {
 
   String email;
   await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
-    value.docs.forEach((element) {email = element.data()["user_email"];});
+    value.docs.forEach((element) {email = element.data()["user_email"].toString();});
   });
   return email;
 }
@@ -75,10 +75,11 @@ Future<String> getCurrentEmail() async {
 Future<String> getCurrentSchool() async {
   final User user = _auth.currentUser;
   final uid = user.uid;
+  print("user: $uid");
 
   String school;
   await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
-    value.docs.forEach((element) {school = element.data()["school"];});
+    value.docs.forEach((element) {school = element.data()["school"].toString();});
   });
   return school;
 }
@@ -112,7 +113,7 @@ Future<bool> validEmail(String email) async {
   List validEmailEndings = await getEmails(dropdownValue);
 
   for (var i = 0; i < validEmailEndings.length; i++) {
-    if (email.endsWith(validEmailEndings[i])) {
+    if (email.endsWith(validEmailEndings[i].toString())) {
       return true;
     }
   }
@@ -132,7 +133,7 @@ bool verifyUsername(String username) {
 }
 
 bool verifyPassword(String password, String confirmPassword) {
-  RegExp isValid = new RegExp(r'^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*)$');
+  RegExp isValid = RegExp(r'^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*)$');
   if (password != confirmPassword) {
     return false;
   } else if (isValid.hasMatch(password)) {
@@ -153,31 +154,32 @@ Future<String> signInWithUsernameAndPassword(String username, String password) a
   String email;
   await firestoreInstance.collection("users").where("user_username", isEqualTo: username).get().then((value){
     value.docs.forEach((element) {
-      email = element.data()["user_email"];}
+      email = element.data()["user_email"].toString();}
     );
   });
   return email;
 }
 
 Future<List<String>> getSchools() async {
-  List<String> schools = new List();
+  List<String> schools = List();
   await firestoreInstance.collection("schools").get().then((value){
     value.docs.forEach((element) {
-      schools.add(element.data()["name"]);}
+      schools.add(element.data()["name"].toString());}
     );
   });
   return schools;
 }
 
 Future<List<String>> getSchoolLocations() async {
+  final String school = await getCurrentSchool();
   CollectionReference userSchool = FirebaseFirestore.instance.collection('schools')
-      .doc(await getCurrentSchool())
+      .doc(school)
       .collection("validLocations");
-  List<String> locations = new List();
+  List<String> locations = List();
   await userSchool.get().then((value) {
     value.docs.forEach((element) {
-      locations.add(element.data()["locationName"]);
-      print(element.data()["locationName"]);
+      locations.add(element.data()["locationName"].toString());
+      print("func: ${element.data()["locationName"]}");
     });
   });
   return locations;
@@ -188,10 +190,10 @@ Future<List<String>> getEmails(String school) async {
                                 .doc(dropdownValue)
                                 .collection("validEmails");
 
-  List<String> emails = new List();
+  List<String> emails = List();
   await schools.get().then((value) {
     value.docs.forEach((element) {
-      emails.add(element.data()["domain"]);
+      emails.add(element.data()["domain"].toString());
     });
   });
   return emails;
