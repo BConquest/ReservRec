@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
+final reference = FirebaseFirestore.instance;
 var sortIndex = 0;
 final List sortMethod = ['time', 'max-people', '> cur', '< cur'];
 
@@ -134,9 +135,23 @@ Future<String> newPost(String sport, String description, String location, DateTi
   QuerySnapshot query = await postsCollection.orderBy("post_id").limitToLast(1).get();          //grabs post with greatest id
   int newID = 1 + Post.fromJson(query.docs.first.data()).postId;                              //extracts id and increments, though this creates issues with more than one app adding posts at the same time
 
-
   Post tempPost = new Post(_auth.currentUser.uid, newID, postSport: sport, postDescription: description, postLocation: location, postTimeSet: gameTime, postTimePosted: DateTime.now(), maxPeople: max, minPeople: min, curPeople: 1);
   postsCollection.add(tempPost.toJson());
 
+  String id = await getDocumentID(newID);
+
+  print(id);
+
+  reference.collection('posts').doc(id).collection('cur_users').doc().set({});
+
   return "true";
+}
+
+Future<String> getDocumentID(final post_id) async {
+  var id;
+  await firestoreInstance.collection("posts").where("post_id", isEqualTo:post_id).get().then((value) {
+    id = value.docs[0].id;
+    print(id);
+  });
+  return id;
 }
