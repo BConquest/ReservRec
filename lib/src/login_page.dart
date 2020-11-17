@@ -82,6 +82,7 @@ class _LoginPageState extends State<LoginPage>  {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+              bool manager = false;
               String email;
               final User user = await signInWithEmailAndPassword(
                   usernameController.text, passwordController.text);
@@ -117,9 +118,11 @@ class _LoginPageState extends State<LoginPage>  {
                       context, "Your email has not been verified.");
                   return;
                 }
-                _clearInputs();
               }
-              await Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
+              manager = await isManager(usernameController.text);
+              print(manager);
+              _clearInputs();
+              if (!manager) await Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
           }
         ),
       ),
