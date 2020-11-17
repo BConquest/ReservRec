@@ -198,3 +198,11 @@ Future<List<String>> getEmails(String school) async {
   });
   return emails;
 }
+
+void reportPlayer(String uid, String type) async {
+  if(type == "Punctuality") {
+    await FirebaseFirestore.instance.collection('users').doc(await getDocumentID(uid)).update(<String, dynamic>{'punctualityReport': FieldValue.increment(1)});
+  } else {
+    await FirebaseFirestore.instance.collection('users').doc(await getDocumentID(uid)).update(<String, dynamic>{'sportsmanshipReport': FieldValue.increment(1)});
+  }
+}
