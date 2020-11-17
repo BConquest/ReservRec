@@ -21,6 +21,7 @@ class _ProfileViewPage extends State<ProfileView> {
     'https://i.imgur.com/PkUksZr.png',
     'https://i.imgur.com/V8V8yB8.png'];
   var userPictureIndex = -1;
+  String dropdownValue = "Punctuality";
 
   @override
   Widget build(BuildContext context) {
@@ -216,10 +217,35 @@ class _ProfileViewPage extends State<ProfileView> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            print(widget.uid);
+            var f = dropdownValue;
+            reportPlayer(widget.uid.toString(), f);
           },
         ),
       ),
+    );
+
+    final report = DropdownButton<String>(
+      value: dropdownValue,
+      icon: Icon(Icons.arrow_downward),
+      iconSize: 24,
+      elevation: 16,
+      style: TextStyle(color: Colors.deepPurple),
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String newValue) {
+        setState(() {
+          dropdownValue = newValue;
+        });
+      },
+      items: <String>['Punctuality', 'Sportsmanship']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     );
 
     return SafeArea(
@@ -244,6 +270,7 @@ class _ProfileViewPage extends State<ProfileView> {
                 inputUsername,
                 buttonUpdateEmail,
                 inputEmail,
+                report,
                 buttonReport,
                 buttonBack,
               ],
