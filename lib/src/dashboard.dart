@@ -98,7 +98,9 @@ class _FeedState extends State<Feed> {
                     await grabFeed(cycleFunction());
                     setState(() {});
                   } else if (index == 2) {
-                    await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView()));
+                    final auth = FirebaseAuth.instance;
+                    final uid = auth.currentUser.uid;
+                    await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(uid: uid)));
                   } else if (index == 3) {
                     await Navigator.push(context, MaterialPageRoute(builder: (context) => ReportView()));
                   }else {

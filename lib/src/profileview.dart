@@ -5,6 +5,10 @@ import 'package:reservrec/src/user_functions.dart';
 import 'user_functions.dart';
 
 class ProfileView extends StatefulWidget {
+  final String uid;
+
+  const ProfileView ({Key key, this.uid }): super(key: key);
+
   @override
   _ProfileViewPage createState() => _ProfileViewPage();
 }
@@ -201,6 +205,23 @@ class _ProfileViewPage extends State<ProfileView> {
       ),
     );
 
+    final buttonReport = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          child: Text('Report', style: TextStyle(color: Colors.white, fontSize: 20)),
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () async {
+            print(widget.uid);
+          },
+        ),
+      ),
+    );
+
     return SafeArea(
         child: Scaffold(
           body: Center(
@@ -223,6 +244,7 @@ class _ProfileViewPage extends State<ProfileView> {
                 inputUsername,
                 buttonUpdateEmail,
                 inputEmail,
+                buttonReport,
                 buttonBack,
               ],
             ),
