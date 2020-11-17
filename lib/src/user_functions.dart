@@ -206,3 +206,29 @@ void reportPlayer(String uid, String type) async {
     await FirebaseFirestore.instance.collection('users').doc(await getDocumentID(uid)).update(<String, dynamic>{'sportsmanshipReport': FieldValue.increment(1)});
   }
 }
+
+Future <bool> isManager(String username) async {
+  bool verified;
+  await firestoreInstance.collection("users").where("user_username", isEqualTo: username).get().then((value){
+    value.docs.forEach((element) {
+      verified = (element.data()["verified"].toString() == 'true');
+      //print("first");
+      }
+    );
+  });
+
+  if (verified != null) return verified;
+
+  //print(username + "Hello.");
+  //print("third");
+
+  await firestoreInstance.collection("users").where("user_email", isEqualTo: username).get().then((value){
+    value.docs.forEach((element) {
+      verified = (element.data()["verified"].toString() == 'true');
+      //print("second");
+    }
+    );
+  });
+
+  return verified;
+}
