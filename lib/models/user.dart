@@ -11,9 +11,12 @@ class UserC {
   bool verified;
   String school;
   String photoURL;
+  int sportsmanshipReport;
+  int punctualityReport;
+  int gamesPlayed;
 
   DocumentReference reference;
-  UserC(this.userId, {this.userUsername, this.userPassword, this.userEmail, this.verified, this.school, this.reference, this.photoURL});
+  UserC(this.userId, {this.userUsername, this.userPassword, this.userEmail, this.verified, this.school, this.reference, this.photoURL, this.sportsmanshipReport, this.punctualityReport, this.gamesPlayed});
 
   factory UserC.fromJson(Map<dynamic, dynamic> json) => _UserCFromJson(json);
 
@@ -56,7 +59,10 @@ UserC _UserCFromJson(Map<dynamic, dynamic> json){
     userEmail: json['user_email'] as String,
     verified: json['verified'] as bool,
     school: json['school'] as String,
-    photoURL: json['photoURL'] as String
+    photoURL: json['photoURL'] as String,
+    sportsmanshipReport: json['sportsmanshipReport'] as int,
+    punctualityReport: json['punctualityReport'] as int,
+    gamesPlayed: json['gamesPlayed'] as int
   );
 }
 
@@ -69,4 +75,8 @@ Map<String, dynamic> _UserCToJson(UserC instance) =>
       'verified': instance.verified,
       'school': instance.school,
       'photoURL': instance.photoURL,
+      'sportsmanshipReport' : instance.sportsmanshipReport,
+      'punctualityReport' : instance.punctualityReport,
+      'gamesPlayed' : instance.gamesPlayed,
+
   };
