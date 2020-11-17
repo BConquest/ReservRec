@@ -142,6 +142,7 @@ class _SignupState extends State<Signup> {
             linkUser.setEmail(emailController.text);
             linkUser.setSchool(getDropDownValue());
             linkUser.setVerified(false);
+            linkUser.setBanned(false);
             linkUser.setPhotoURL(userPicture[userPictureIndex].toString());
 
             await repository.addUserC(linkUser);

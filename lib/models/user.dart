@@ -43,12 +43,28 @@ class UserC {
     this.verified = u;
   }
 
+  void setBanned(bool u){
+    this.banned = u;
+  }
+
   void setSchool(String u){
     this.school = u;
   }
 
   void setPhotoURL(String u) {
     this.photoURL = u;
+  }
+
+  void setSportsmanshipReport(int u) {
+    this.sportsmanshipReport = u;
+  }
+
+  void setPunctualityReport(int u) {
+    this.punctualityReport = u;
+  }
+
+  void setGamesPlayed(int u) {
+    this.gamesPlayed = u;
   }
 }
 
