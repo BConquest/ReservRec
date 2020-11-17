@@ -9,6 +9,7 @@ class UserC {
   String userPassword;
   String userEmail;
   bool verified;
+  bool banned;
   String school;
   String photoURL;
   int sportsmanshipReport;
@@ -16,7 +17,7 @@ class UserC {
   int gamesPlayed;
 
   DocumentReference reference;
-  UserC(this.userId, {this.userUsername, this.userPassword, this.userEmail, this.verified, this.school, this.reference, this.photoURL, this.sportsmanshipReport, this.punctualityReport, this.gamesPlayed});
+  UserC(this.userId, {this.userUsername, this.userPassword, this.userEmail, this.verified, this.banned, this.school, this.reference, this.photoURL, this.sportsmanshipReport, this.punctualityReport, this.gamesPlayed});
 
   factory UserC.fromJson(Map<dynamic, dynamic> json) => _UserCFromJson(json);
 
@@ -42,12 +43,28 @@ class UserC {
     this.verified = u;
   }
 
+  void setBanned(bool u){
+    this.banned = u;
+  }
+
   void setSchool(String u){
     this.school = u;
   }
 
   void setPhotoURL(String u) {
     this.photoURL = u;
+  }
+
+  void setSportsmanshipReport(int u) {
+    this.sportsmanshipReport = u;
+  }
+
+  void setPunctualityReport(int u) {
+    this.punctualityReport = u;
+  }
+
+  void setGamesPlayed(int u) {
+    this.gamesPlayed = u;
   }
 }
 
@@ -58,6 +75,7 @@ UserC _UserCFromJson(Map<dynamic, dynamic> json){
     userPassword: json['user_password'] as String,
     userEmail: json['user_email'] as String,
     verified: json['verified'] as bool,
+    banned: json['banned'] as bool,
     school: json['school'] as String,
     photoURL: json['photoURL'] as String,
     sportsmanshipReport: json['sportsmanshipReport'] as int,
@@ -73,6 +91,7 @@ Map<String, dynamic> _UserCToJson(UserC instance) =>
       'user_password': instance.userPassword,
       'user_email': instance.userEmail,
       'verified': instance.verified,
+      'banned' : instance.banned,
       'school': instance.school,
       'photoURL': instance.photoURL,
       'sportsmanshipReport' : instance.sportsmanshipReport,
