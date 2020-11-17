@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/user_functions.dart';
 
 import 'user_functions.dart';
@@ -206,6 +207,8 @@ class _ProfileViewPage extends State<ProfileView> {
       ),
     );
 
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
     final buttonReport = Padding(
       padding: EdgeInsets.all(5),
       child: ButtonTheme(
@@ -217,8 +220,9 @@ class _ProfileViewPage extends State<ProfileView> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            var f = dropdownValue;
-            reportPlayer(widget.uid.toString(), f);
+            if (_auth.currentUser.uid != widget.uid) {
+              reportPlayer(widget.uid.toString(), dropdownValue);
+            }
           },
         ),
       ),
@@ -248,36 +252,68 @@ class _ProfileViewPage extends State<ProfileView> {
       }).toList(),
     );
 
-    return SafeArea(
-        child: Scaffold(
-          body: Center(
+    if (_auth.currentUser.uid != widget.uid) {
+      return SafeArea(
+          child: Scaffold(
+            body: Center(
 
-            child: ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              children: <Widget>[
-                logo,
-                ButtonBar(
-                  alignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  buttonMinWidth: 1000,
-                  children: <Widget>[
-                    buttonPrev,
-                    buttonNext,
-                  ],
-                ),
-                buttonChange,
-                inputUsername,
-                buttonUpdateEmail,
-                inputEmail,
-                report,
-                buttonReport,
-                buttonBack,
-              ],
+              child: ListView(
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                children: <Widget>[
+                  logo,
+                  ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    buttonMinWidth: 1000,
+                    children: <Widget>[
+                      buttonPrev,
+                      buttonNext,
+                    ],
+                  ),
+                  buttonChange,
+                  inputUsername,
+                  buttonUpdateEmail,
+                  inputEmail,
+                  report,
+                  buttonReport,
+                  buttonBack,
+                ],
+              ),
+
             ),
+          )
+      );
+    } else {
+      return SafeArea(
+          child: Scaffold(
+            body: Center(
 
-          ),
-        )
-    );
+              child: ListView(
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                children: <Widget>[
+                  logo,
+                  ButtonBar(
+                    alignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    buttonMinWidth: 1000,
+                    children: <Widget>[
+                      buttonPrev,
+                      buttonNext,
+                    ],
+                  ),
+                  buttonChange,
+                  inputUsername,
+                  buttonUpdateEmail,
+                  inputEmail,
+                  buttonBack,
+                ],
+              ),
+
+            ),
+          )
+      );
+    }
   }
 }
