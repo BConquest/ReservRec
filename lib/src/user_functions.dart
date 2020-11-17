@@ -31,10 +31,7 @@ Future<String> getDocumentID(final uid) async {
   return id.toString();
 }
 
-Future<String> getCurrentProfilePicture() async {
-  final User user = _auth.currentUser;
-  final uid = user.uid;
-
+Future<String> getCurrentProfilePicture(uid) async {
   String photoURL;
   await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
     value.docs.forEach((element) {photoURL = element.data()["photoURL"].toString();});
@@ -50,10 +47,7 @@ Future<void> setCurrentUsername(username) async {
   await firestoreInstance.collection('users').doc(await getDocumentID(_auth.currentUser.uid)).update({'user_username': username});
 }
 
-Future<String> getCurrentUsername() async {
-  final User user = _auth.currentUser;
-  final uid = user.uid;
-
+Future<String> getCurrentUsername(uid) async {
   String username;
   await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
     value.docs.forEach((element) {username = element.data()["user_username"].toString();});
@@ -61,10 +55,7 @@ Future<String> getCurrentUsername() async {
   return username;
 }
 
-Future<String> getCurrentEmail() async {
-  final User user = _auth.currentUser;
-  final uid = user.uid;
-
+Future<String> getCurrentEmail(uid) async {
   String email;
   await firestoreInstance.collection('users').where("user_id", isEqualTo: uid).get().then((value){
     value.docs.forEach((element) {email = element.data()["user_email"].toString();});
@@ -198,6 +189,8 @@ Future<List<String>> getEmails(String school) async {
   });
   return emails;
 }
+
+
 
 void reportPlayer(String uid, String type) async {
   if(type == "Punctuality") {

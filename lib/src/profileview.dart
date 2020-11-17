@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/user_functions.dart';
 
 import 'user_functions.dart';
+
+final reference = FirebaseFirestore.instance;
+
 
 class ProfileView extends StatefulWidget {
   final String uid;
@@ -33,7 +37,7 @@ class _ProfileViewPage extends State<ProfileView> {
           child: SizedBox(
             height: 160,
             child: FutureBuilder(
-              future: getCurrentProfilePicture(),
+              future: getCurrentProfilePicture(widget.uid),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
@@ -120,7 +124,7 @@ class _ProfileViewPage extends State<ProfileView> {
     final inputUsername = Padding(
       padding: EdgeInsets.all(5),
       child: FutureBuilder(
-          future: getCurrentUsername(),
+          future: getCurrentUsername(widget.uid),
           builder: (context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
               return Center(child: CircularProgressIndicator());
@@ -168,7 +172,7 @@ class _ProfileViewPage extends State<ProfileView> {
     final inputEmail = Padding(
         padding: EdgeInsets.all(5),
         child: FutureBuilder(
-            future: getCurrentEmail(),
+            future: getCurrentEmail(widget.uid),
             builder: (context, AsyncSnapshot snapshot) {
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
@@ -252,11 +256,26 @@ class _ProfileViewPage extends State<ProfileView> {
       }).toList(),
     );
 
+    final followButton = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          child: Text('Follow', style: TextStyle(color: Colors.white, fontSize: 20)),
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () async {
+          },
+        ),
+      ),
+    );
+
     if (_auth.currentUser.uid != widget.uid) {
       return SafeArea(
           child: Scaffold(
             body: Center(
-
               child: ListView(
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(horizontal: 20),
@@ -264,6 +283,7 @@ class _ProfileViewPage extends State<ProfileView> {
                   logo,
                   inputUsername,
                   inputEmail,
+                  followButton,
                   report,
                   buttonReport,
                   buttonBack,
