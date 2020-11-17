@@ -4,6 +4,7 @@ import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/profileview.dart';
+import 'package:reservrec/src/reportView.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Feed extends StatefulWidget {
@@ -80,6 +81,11 @@ class _FeedState extends State<Feed> {
                     backgroundColor: Colors.red,
                   ),
                   BottomNavigationBarItem(
+                    icon: Icon(Icons.report_problem),
+                    label: 'Report',
+                    backgroundColor: Colors.blue,
+                  ),
+                  BottomNavigationBarItem(
                     icon: Icon(Icons.logout),
                     label: 'Log Out',
                     backgroundColor: Colors.red,
@@ -93,7 +99,9 @@ class _FeedState extends State<Feed> {
                     setState(() {});
                   } else if (index == 2) {
                     await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView()));
-                  } else {
+                  } else if (index == 3) {
+                    await Navigator.push(context, MaterialPageRoute(builder: (context) => ReportView()));
+                  }else {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     await auth.signOut();
                     Navigator.pop(context);
