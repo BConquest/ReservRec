@@ -5,6 +5,7 @@ import 'package:reservrec/src/post.dart';
 
 import 'feed_functions.dart';
 import 'package:reservrec/src/post_functions.dart';
+import 'package:reservrec/src/profileview.dart';
 
 class PostPage extends StatefulWidget {
   final PostModel postData;
@@ -158,8 +159,11 @@ class UserNameAndEmail extends StatelessWidget {
     final TextStyle emailTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: .9, fontSizeDelta: 1, fontWeightDelta: 0);
 
 
-    return Expanded(
-      flex: 5,
+    return InkWell(
+      onTap: () async {
+        var uid = postData.author;
+        await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(uid: uid)));
+      },
       child: Padding(
         padding: const EdgeInsets.all(4.0),
         child: Column(

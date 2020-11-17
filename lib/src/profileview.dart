@@ -262,18 +262,7 @@ class _ProfileViewPage extends State<ProfileView> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 children: <Widget>[
                   logo,
-                  ButtonBar(
-                    alignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    buttonMinWidth: 1000,
-                    children: <Widget>[
-                      buttonPrev,
-                      buttonNext,
-                    ],
-                  ),
-                  buttonChange,
                   inputUsername,
-                  buttonUpdateEmail,
                   inputEmail,
                   report,
                   buttonReport,
