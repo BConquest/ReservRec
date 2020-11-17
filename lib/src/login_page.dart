@@ -4,6 +4,7 @@ import 'package:reservrec/src/dashboard.dart';
 import 'package:reservrec/src/forgotPassword.dart';
 import 'package:reservrec/src/signup.dart';
 import 'package:reservrec/src/user_functions.dart';
+import 'package:reservrec/src/manager.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -120,9 +121,16 @@ class _LoginPageState extends State<LoginPage>  {
                 }
               }
               manager = await isManager(usernameController.text);
-              print(manager);
+
               _clearInputs();
-              if (!manager) await Navigator.push(context, MaterialPageRoute(builder: (context) => Feed()));
+
+              if (!manager) {
+                await Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Feed()));
+              }
+              else{
+                await Navigator.push(context, MaterialPageRoute(builder: (context) => Manager()));
+              }
           }
         ),
       ),
