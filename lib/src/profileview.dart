@@ -20,6 +20,7 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewPage extends State<ProfileView> {
   final usernameController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   List userPicture = ['https://i.imgur.com/DfGZewB.png',
     'https://i.imgur.com/TwDP9Af.png',
@@ -27,6 +28,21 @@ class _ProfileViewPage extends State<ProfileView> {
     'https://i.imgur.com/V8V8yB8.png'];
   var userPictureIndex = -1;
   String dropdownValue = "Punctuality";
+  bool _isButtonDisabled;
+
+  @override
+  void initState() {
+    // TODO: Check if following or not.
+    _isButtonDisabled = false;
+  }
+
+  void follow() async {
+    await reference.collection('users').doc(await getDocumentID(_auth.currentUser.uid)).collection('following').doc(widget.uid).set({});
+    _isButtonDisabled = true;
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,8 +227,6 @@ class _ProfileViewPage extends State<ProfileView> {
       ),
     );
 
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-
     final buttonReport = Padding(
       padding: EdgeInsets.all(5),
       child: ButtonTheme(
@@ -261,13 +275,12 @@ class _ProfileViewPage extends State<ProfileView> {
       child: ButtonTheme(
         height: 56,
         child: RaisedButton(
-          child: Text('Follow', style: TextStyle(color: Colors.white, fontSize: 20)),
+          child: Text(_isButtonDisabled ? "Following" : "Follow", style: TextStyle(color: Colors.white, fontSize: 20)),
           color: Colors.red,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
-          onPressed: () async {
-          },
+          onPressed: _isButtonDisabled ? null : follow,
         ),
       ),
     );
