@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:reservrec/models/user.dart';
 import 'package:reservrec/src/post.dart';
 
 import 'feed_functions.dart';
@@ -36,6 +37,7 @@ class _PostPage extends State<PostPage>{
                           Divider(color: Colors.grey),
                           SizedBox(height: 10),
                           _Body(),
+                          //TeamSelection(),
                         ],
                     ),
                 )
@@ -207,9 +209,48 @@ class JoinButton extends StatelessWidget {
 }
 
 class TeamSelection extends StatelessWidget {
-  const TeamSelection({Key key}) : super(key: key);
+  final PostModel postData;
+  const TeamSelection({Key key, this.postData}) : super(key: key);
 
   @override
+  Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
+    return FutureBuilder(
+        future: getCurUsers(postData.id),
+        builder: (BuildContext context, AsyncSnapshot<List<UserC>> snapshot) {
+          if(!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            return Expanded(
+              flex: 6,
+              child: Row(
+                children: getWidgets(snapshot.data)
+              ),
+            );
+          }
+        });
+  }
+  List<Widget> getWidgets(List<UserC> users) {
+    List<Widget> c1 = List();
+    List<Widget> c2 = List();
+    int i = 0;
+    for (var user in users) {
+      if(i % 2 == 0) {
+        c1.add(Text(user.userUsername));
+      } else {
+        c2.add(Text(user.userUsername));
+      }
+      i++;
+    }
+    var col1 = Column(children: c1);
+    var col2 = Column(children: c2);
+    List<Widget> ret = List();
+    ret.add(col1);
+    ret.add(col2);
+    print(ret.first);
+    return ret;
+  }
+  /*
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
     return Expanded(
@@ -221,5 +262,6 @@ class TeamSelection extends StatelessWidget {
         ],
       ),
     );
-  }
+  }*/
 }
+
