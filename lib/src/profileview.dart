@@ -277,6 +277,7 @@ class _ProfileViewPage extends State<ProfileView> {
         child: RaisedButton(
           child: Text(_isButtonDisabled ? "Following" : "Follow", style: TextStyle(color: Colors.white, fontSize: 20)),
           color: Colors.red,
+          disabledColor: Colors.blueAccent,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
