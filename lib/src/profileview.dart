@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/user_functions.dart';
 
 import 'user_functions.dart';
+import 'dart:core';
 
 final reference = FirebaseFirestore.instance;
 
@@ -30,15 +31,35 @@ class _ProfileViewPage extends State<ProfileView> {
   String dropdownValue = "Punctuality";
   bool _isButtonDisabled;
 
+  void checkFollowStatus() async {
+    final DocumentReference isIn = FirebaseFirestore.instance.collection('users').doc(await getDocumentID(_auth.currentUser.uid)).collection('cur_users').doc(widget.uid);
+    final DocumentSnapshot ss = await isIn.get();
+    if(ss.data() == null) {
+      _isButtonDisabled = false;
+    }
+    _isButtonDisabled =  true;
+    setState(() {
+    });
+  }
+
   @override
   void initState() {
-    // TODO: Check if following or not.
     _isButtonDisabled = false;
+    checkFollowStatus();
   }
 
   void follow() async {
     await reference.collection('users').doc(await getDocumentID(_auth.currentUser.uid)).collection('following').doc(widget.uid).set({});
     _isButtonDisabled = true;
+    setState(() {
+
+    });
+  }
+
+  void unfollow() async {
+    print("Unfollow");
+    await reference.collection('users').doc(await getDocumentID(_auth.currentUser.uid)).collection('following').doc(widget.uid).delete();
+    _isButtonDisabled = false;
     setState(() {
 
     });
@@ -275,12 +296,12 @@ class _ProfileViewPage extends State<ProfileView> {
       child: ButtonTheme(
         height: 56,
         child: RaisedButton(
-          child: Text(_isButtonDisabled ? "Following" : "Follow", style: TextStyle(color: Colors.white, fontSize: 20)),
-          color: Colors.red,
+          child: Text(_isButtonDisabled ? "Unfollow" : "Follow", style: TextStyle(color: Colors.white, fontSize: 20)),
+          color: _isButtonDisabled ? Colors.red : Colors.blue,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
-          onPressed: _isButtonDisabled ? null : follow,
+          onPressed: _isButtonDisabled ? unfollow : follow,
         ),
       ),
     );
