@@ -248,25 +248,6 @@ class _ProfileViewPage extends State<ProfileView> {
       ),
     );
 
-    final buttonReport = Padding(
-      padding: EdgeInsets.all(5),
-      child: ButtonTheme(
-        height: 56,
-        child: RaisedButton(
-          child: Text('Report', style: TextStyle(color: Colors.white, fontSize: 20)),
-          color: Colors.red,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50)
-          ),
-          onPressed: () async {
-            if (_auth.currentUser.uid != widget.uid) {
-              reportPlayer(widget.uid.toString(), dropdownValue);
-            }
-          },
-        ),
-      ),
-    );
-
     final report = DropdownButton<String>(
       value: dropdownValue,
       icon: Icon(Icons.arrow_downward),
@@ -309,6 +290,16 @@ class _ProfileViewPage extends State<ProfileView> {
     if (_auth.currentUser.uid != widget.uid) {
       return SafeArea(
           child: Scaffold(
+            appBar: AppBar(title: Text("Profile")),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                if (_auth.currentUser.uid != widget.uid) {
+                  reportPlayer(widget.uid.toString(), dropdownValue);
+                }
+              },
+              child: Icon(Icons.warning),
+              backgroundColor: Colors.red,
+            ),
             body: Center(
               child: ListView(
                 shrinkWrap: true,
@@ -319,7 +310,6 @@ class _ProfileViewPage extends State<ProfileView> {
                   inputEmail,
                   followButton,
                   report,
-                  buttonReport,
                   buttonBack,
                 ],
               ),
@@ -330,8 +320,8 @@ class _ProfileViewPage extends State<ProfileView> {
     } else {
       return SafeArea(
           child: Scaffold(
+            appBar: AppBar(title: Text("Profile")),
             body: Center(
-
               child: ListView(
                 shrinkWrap: true,
                 padding: EdgeInsets.symmetric(horizontal: 20),
