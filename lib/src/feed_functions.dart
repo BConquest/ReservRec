@@ -50,6 +50,10 @@ int getSortIndex() {
   return sortIndex;
 }
 
+void setSortIndex(final int n) {
+  sortIndex = n;
+}
+
 int cycleFunction() {
   if (sortIndex == sortMethod.length - 1) {
     sortIndex = 0;

@@ -45,9 +45,80 @@ class _FeedState extends State<Feed> {
             return Center(child: CircularProgressIndicator());
           } else {
             return Scaffold(
-              appBar: AppBar(
-                title: Text("Home"),
-
+              appBar: AppBar(title: Text("Home")),
+              drawer: Drawer(
+                child: ListView(
+                  // Important: Remove any padding from the ListView.
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    DrawerHeader(
+                      child: Image.asset('assets/logo.png'),
+                    ),
+                    ListTile(
+                      title: Text('View Profile'),
+                      onTap: () async {
+                        final uid = FirebaseAuth.instance.currentUser.uid;
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(uid: uid)));
+                      },
+                    ),
+                    ListTile(
+                      title: mode ? Text('Show All') : Text('Show Following'),
+                      onTap: () {
+                        mode = mode ? false : true;
+                        print(mode);
+                        Navigator.pop(context);
+                        setState(() {grabFeed(sortIndex);});
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Time"),
+                      onTap: () {
+                        setSortIndex(0);
+                        Navigator.pop(context);
+                        setState(() {grabFeed(sortIndex);});
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Max Amount of People Allowed"),
+                      onTap: () {
+                        setSortIndex(1);
+                        Navigator.pop(context);
+                        setState(() {grabFeed(sortIndex);});
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Most Amount of People Going"),
+                      onTap: () {
+                        setSortIndex(2);
+                        Navigator.pop(context);
+                        setState(() {grabFeed(sortIndex);});
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Least Amount of People Going"),
+                      onTap: () {
+                        setSortIndex(3);
+                        Navigator.pop(context);
+                        setState(() {grabFeed(sortIndex);});
+                      },
+                    ),
+                    ListTile(
+                      title: Text('Log Out'),
+                      onTap: () async {
+                        final FirebaseAuth auth = FirebaseAuth.instance;
+                        await auth.signOut();
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              floatingActionButton: FloatingActionButton(
+                onPressed: () async {
+                  await Navigator.push(context, MaterialPageRoute(builder: (context) => NewPost()));
+                },
+                child: Icon(Icons.add),
+                backgroundColor: Colors.red,
               ),
               body: SmartRefresher(
                 enablePullDown: true,
@@ -62,60 +133,10 @@ class _FeedState extends State<Feed> {
                           },
                 )
               ),
-              bottomNavigationBar: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.add),
-                    label: 'New Post',
-                    backgroundColor: Colors.red,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.sort_rounded),
-                    label: 'Sort',
-                    backgroundColor: Colors.red,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person_add),
-                    label: 'Friend',
-                    backgroundColor: Colors.red,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.account_circle),
-                    label: 'Profile',
-                    backgroundColor: Colors.red,
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.logout),
-                    label: 'Log Out',
-                    backgroundColor: Colors.red,
-                  ),
-                ],
-                onTap: (int index) async {
-                  if (index == 0) {
-                  await Navigator.push(context, MaterialPageRoute(builder: (context) => NewPost()));
-                  } else if (index == 1) {
-                  await grabFeed(cycleFunction());
-                  setState(() {});
-                  } else if (index == 2) {
-                    mode = mode ? false : true;
-                    print(mode);
-                    await grabFeed(sortIndex);
-                    setState(() {});
-                  } else if (index == 3) {
-                    final auth = FirebaseAuth.instance;
-                    final uid = auth.currentUser.uid;
-                    await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(uid: uid)));
-                  }else {
-                    final FirebaseAuth auth = FirebaseAuth.instance;
-                    await auth.signOut();
-                    Navigator.pop(context);
-                  }
-                },
-              ),
             );
           }
         }
-      )
+      ),
     );
   }
 }
