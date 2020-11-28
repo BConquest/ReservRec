@@ -73,6 +73,7 @@ class _FeedState extends State<Feed> {
                       },
                     ),
                     ExpansionTile(
+                      leading: Icon(Icons.sort),
                         title: Text("Sort By"),
                         children: <Widget>[
                           ListTile(
