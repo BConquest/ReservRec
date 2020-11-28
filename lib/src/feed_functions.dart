@@ -11,6 +11,7 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 final reference = FirebaseFirestore.instance;
 var sortIndex = 0;
 var mode = false;
+var seeUserPosts = false;
 final List sortMethod = ['time', 'max-people', '> cur', '< cur'];
 
 class PostModel {
@@ -77,6 +78,12 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   });
 
   List<String> friends =  await getFriendsList(_auth.currentUser.uid);
+
+  if (seeUserPosts) {
+    posts.retainWhere((element) => element.postUserId == _auth.currentUser.uid);
+  } else {
+    posts.removeWhere((element) => element.postUserId == _auth.currentUser.uid);
+  }
 
   if (mode) {
     posts.retainWhere((element) => friends.contains(element.postUserId));

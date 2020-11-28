@@ -64,17 +64,26 @@ class _FeedState extends State<Feed> {
                     ),
                     ListTile(
                       leading: Icon(Icons.person_add),
+                      title: seeUserPosts ? Text('Hide User Posts') : Text('Show User Posts'),
+                      onTap: () {
+                        seeUserPosts = seeUserPosts ? false : true;
+                        Navigator.pop(context);
+                        setState(() {grabFeed(sortIndex);});
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.person_add),
                       title: mode ? Text('Show All') : Text('Show Following'),
                       onTap: () {
+                        seeUserPosts = false;
                         mode = mode ? false : true;
-                        print(mode);
                         Navigator.pop(context);
                         setState(() {grabFeed(sortIndex);});
                       },
                     ),
                     ExpansionTile(
                       leading: Icon(Icons.sort),
-                        title: Text("Sort By"),
+
                         children: <Widget>[
                           ListTile(
                             title: Text("Time"),
