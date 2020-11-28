@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final reference = FirebaseFirestore.instance;
 var sortIndex = 0;
+var mode = false;
 final List sortMethod = ['time', 'max-people', '> cur', '< cur'];
 
 class PostModel {
@@ -73,7 +74,9 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
 
   List<String> friends =  await getFriendsList(_auth.currentUser.uid);
 
-  posts.retainWhere((element) => friends.contains(element.postUserId));
+  if (mode) {
+    posts.retainWhere((element) => friends.contains(element.postUserId));
+  }
 
   if (sortMethodIndex == 0) {
     posts.sort((a, b) {

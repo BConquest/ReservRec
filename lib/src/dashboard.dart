@@ -75,6 +75,11 @@ class _FeedState extends State<Feed> {
                     backgroundColor: Colors.red,
                   ),
                   BottomNavigationBarItem(
+                    icon: Icon(Icons.person_add),
+                    label: 'Friend',
+                    backgroundColor: Colors.red,
+                  ),
+                  BottomNavigationBarItem(
                     icon: Icon(Icons.account_circle),
                     label: 'Profile',
                     backgroundColor: Colors.red,
@@ -87,11 +92,16 @@ class _FeedState extends State<Feed> {
                 ],
                 onTap: (int index) async {
                   if (index == 0) {
-                    await Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewPost()));
+                  await Navigator.push(context, MaterialPageRoute(builder: (context) => NewPost()));
                   } else if (index == 1) {
-                    await grabFeed(cycleFunction());
-                    setState(() {});
+                  await grabFeed(cycleFunction());
+                  setState(() {});
                   } else if (index == 2) {
+                    mode = mode ? false : true;
+                    print(mode);
+                    await grabFeed(sortIndex);
+                    setState(() {});
+                  } else if (index == 3) {
                     final auth = FirebaseAuth.instance;
                     final uid = auth.currentUser.uid;
                     await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(uid: uid)));
