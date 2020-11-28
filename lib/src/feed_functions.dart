@@ -71,7 +71,9 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     }
   });
 
-  getFriendsList(_auth.currentUser.uid);
+  List<String> friends =  await getFriendsList(_auth.currentUser.uid);
+
+  posts.retainWhere((element) => friends.contains(element.postUserId));
 
   if (sortMethodIndex == 0) {
     posts.sort((a, b) {
@@ -177,11 +179,15 @@ Future<String> getDocumentUID(final uid) async {
 
 
 Future<List<String>> getFriendsList(final String uid) async {
-  List<String> friends = List(128);
-  CollectionReference userFollowingCollection = firestoreInstance.collection("users").doc(await getDocumentUID(uid)).collection("following");
+  List<String> friends = List();
+  final String documentID = await getDocumentUID(uid);
+  CollectionReference userFollowingCollection = firestoreInstance.collection("users").doc(documentID).collection("following");
 
   await userFollowingCollection.get().then((value) {
-    print(value);
+    value.docs.forEach((element) {
+      friends.add(element.id);
+    });
   });
-  print(friends);
+
+  return friends;
 }
