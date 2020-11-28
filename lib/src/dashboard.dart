@@ -55,6 +55,7 @@ class _FeedState extends State<Feed> {
                       child: Image.asset('assets/logo.png'),
                     ),
                     ListTile(
+                      leading: Icon(Icons.account_circle),
                       title: Text('View Profile'),
                       onTap: () async {
                         final uid = FirebaseAuth.instance.currentUser.uid;
@@ -62,6 +63,7 @@ class _FeedState extends State<Feed> {
                       },
                     ),
                     ListTile(
+                      leading: Icon(Icons.person_add),
                       title: mode ? Text('Show All') : Text('Show Following'),
                       onTap: () {
                         mode = mode ? false : true;
@@ -70,39 +72,45 @@ class _FeedState extends State<Feed> {
                         setState(() {grabFeed(sortIndex);});
                       },
                     ),
-                    ListTile(
-                      title: Text("Time"),
-                      onTap: () {
-                        setSortIndex(0);
-                        Navigator.pop(context);
-                        setState(() {grabFeed(sortIndex);});
-                      },
+                    ExpansionTile(
+                        title: Text("Sort By"),
+                        children: <Widget>[
+                          ListTile(
+                            title: Text("Time"),
+                            onTap: () {
+                              setSortIndex(0);
+                              Navigator.pop(context);
+                              setState(() {grabFeed(sortIndex);});
+                            },
+                          ),
+                          ListTile(
+                            title: Text("Max Amount of People Allowed"),
+                            onTap: () {
+                              setSortIndex(1);
+                              Navigator.pop(context);
+                              setState(() {grabFeed(sortIndex);});
+                            },
+                          ),
+                          ListTile(
+                            title: Text("Most Amount of People Going"),
+                            onTap: () {
+                              setSortIndex(2);
+                              Navigator.pop(context);
+                              setState(() {grabFeed(sortIndex);});
+                            },
+                          ),
+                          ListTile(
+                            title: Text("Least Amount of People Going"),
+                            onTap: () {
+                              setSortIndex(3);
+                              Navigator.pop(context);
+                              setState(() {grabFeed(sortIndex);});
+                            },
+                          ),
+                        ],
                     ),
                     ListTile(
-                      title: Text("Max Amount of People Allowed"),
-                      onTap: () {
-                        setSortIndex(1);
-                        Navigator.pop(context);
-                        setState(() {grabFeed(sortIndex);});
-                      },
-                    ),
-                    ListTile(
-                      title: Text("Most Amount of People Going"),
-                      onTap: () {
-                        setSortIndex(2);
-                        Navigator.pop(context);
-                        setState(() {grabFeed(sortIndex);});
-                      },
-                    ),
-                    ListTile(
-                      title: Text("Least Amount of People Going"),
-                      onTap: () {
-                        setSortIndex(3);
-                        Navigator.pop(context);
-                        setState(() {grabFeed(sortIndex);});
-                      },
-                    ),
-                    ListTile(
+                      leading: Icon(Icons.logout),
                       title: Text('Log Out'),
                       onTap: () async {
                         final FirebaseAuth auth = FirebaseAuth.instance;
