@@ -6,6 +6,7 @@ import 'package:reservrec/src/post.dart';
 import 'feed_functions.dart';
 import 'package:reservrec/src/post_functions.dart';
 import 'package:reservrec/src/profileview.dart';
+import 'package:reservrec/src/messenger.dart';
 
 class PostPage extends StatefulWidget {
   final PostModel postData;
@@ -118,6 +119,7 @@ class _Body extends StatelessWidget {
 class _PostAuthorInfo extends StatelessWidget {
   final PostModel postData;
   const _PostAuthorInfo({Key key, this.postData}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -127,6 +129,7 @@ class _PostAuthorInfo extends StatelessWidget {
                 UserImage(),
                 UserNameAndEmail(),
                 JoinButton(),
+                ChatButton(),
             ],
         )
     );
@@ -209,6 +212,18 @@ class JoinButton extends StatelessWidget {
                 );
               }
           });
+  }
+}
+
+class ChatButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+        child: Icon(Icons.message_outlined),
+        onPressed: () async {
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => MessengerView()));
+        }
+    );
   }
 }
 
