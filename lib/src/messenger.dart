@@ -80,13 +80,21 @@ class _MessengerViewPage extends State<MessengerView> {
                       child: ListView(
                         children: <Widget>[
                           Container (
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.length as int,
-                              itemBuilder: (BuildContext context, int index) {
-                                return MessageCard(messageData: snapshot.data[index] as MessageModel);
-                              },
-                            ),
+                            //child: SmartRefresher(
+                              //enablePullDown: true,
+                             // enablePullUp: true,
+                             // controller: _refreshController,
+                             // onRefresh: _onRefresh,
+                            //  onLoading: _onLoading,
+                              child: ListView.builder(
+                                physics: ScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.length as int,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return MessageCard(messageData: snapshot.data[index] as MessageModel);
+                                },
+                            //  ),
+                            )
                           ),
                           Container (
                               height: 50,
