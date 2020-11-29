@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:reservrec/src/user_functions.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final reference = FirebaseFirestore.instance;
@@ -37,6 +38,11 @@ Map<String, dynamic> _MessageToJson(MessageModel instance) =>
   "uid": instance.id,
 };
 
+Future<String> getChatInfo(final uid) async {
+  final username = await getCurrentUsername(uid);
+  return username;
+}
+
 Future<List<MessageModel>> loadMessages(final gameId) async {
   final CollectionReference messageCollection = reference.collection('posts').doc(gameId.toString()).collection("chat");
   final QuerySnapshot snapshot = await messageCollection.orderBy('timesent', descending: false).get();
@@ -46,10 +52,6 @@ Future<List<MessageModel>> loadMessages(final gameId) async {
   snapshot.docs.forEach((document) async {
     messages.add(MessageModel.fromJson(document.data()));
   });
-
-  for (var value in messages) {
-    print(value.message);
-  }
 
   return messages;
 }
