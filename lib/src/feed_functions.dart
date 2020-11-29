@@ -106,7 +106,6 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
       return b.curPeople.compareTo(a.curPeople);
     });
   }
-  print (sortMethod[sortMethodIndex]);
 
   // Begin spaghetti code, brought to you by Zack Withers (#0 Gayball player in the world btw)
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
@@ -166,8 +165,6 @@ Future<String> newPost(String sport, String description, String location, DateTi
 
   String id = await getDocumentID(newID);
 
-  print(id);
-
   await reference.collection('posts').doc(id).collection('cur_users').doc(_auth.currentUser.uid).set({});
 
   return "true";
@@ -183,7 +180,6 @@ Future<String> getDocumentID(final post_id) async {
 }
 
 Future<String> getDocumentUID(final uid) async {
-  print(uid);
   var id;
   await firestoreInstance.collection("users").where("user_id", isEqualTo:uid).get().then((value) {
     id = value.docs[0].id;

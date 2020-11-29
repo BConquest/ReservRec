@@ -23,7 +23,6 @@ Future<User> signInWithEmailAndPassword(String email, String password) async {
 }
 
 Future<String> getDocumentID(final uid) async {
-  print(uid);
   var id;
   await firestoreInstance.collection("users").where("user_id", isEqualTo:uid).get().then((value) {
     id = value.docs[0].id;
