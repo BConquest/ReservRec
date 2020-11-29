@@ -221,7 +221,7 @@ class ChatButton extends StatelessWidget {
     return FlatButton(
         child: Icon(Icons.message_outlined),
         onPressed: () async {
-          await Navigator.push(context, MaterialPageRoute(builder: (context) => MessengerView()));
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => MessengerView(gameID: "9bR9dpZ9bywwnWSlrwcf")));
         }
     );
   }

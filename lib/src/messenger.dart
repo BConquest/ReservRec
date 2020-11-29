@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'package:reservrec/src/messengerFunctions.dart';
+
 class MessengerView extends StatefulWidget {
+  final String gameID;
+
+  const MessengerView({Key key, this.gameID}) : super(key: key);
+
   @override
   _MessengerViewPage createState() => _MessengerViewPage();
 }
@@ -25,6 +31,16 @@ class _MessengerViewPage extends State<MessengerView> {
       ),
     );
 
+    final buttonLoad = Padding(
+      padding: EdgeInsets.only(bottom: 20),
+      child: FlatButton(
+        child: Text("Load"),
+        onPressed: () async {
+          loadMessages(widget.gameID);
+        },
+      )
+    );
+
     return SafeArea(
         child: Scaffold(
           appBar: AppBar(
@@ -35,7 +51,7 @@ class _MessengerViewPage extends State<MessengerView> {
             child: Icon(Icons.message_outlined),
             backgroundColor: Colors.red,
             onPressed: () async {
-              print("TODO");
+              sendMessage(chatController, widget.gameID);
             },
           ),
           body: Builder(
@@ -44,6 +60,7 @@ class _MessengerViewPage extends State<MessengerView> {
                   child: ListView(
                     children: [
                       inputMessage,
+                      buttonLoad
                     ],
                   )
                 )
