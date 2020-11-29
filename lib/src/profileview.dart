@@ -31,7 +31,7 @@ class _ProfileViewPage extends State<ProfileView> {
   ];
   var userPictureIndex = -1;
   String dropdownValue = "Punctuality";
-  bool _isButtonDisabled;
+  bool _isButtonDisabled = false;
 
   Future<void> checkFollowStatus() async {
     final docID = await getDocumentUID(_auth.currentUser.uid);
@@ -90,6 +90,7 @@ class _ProfileViewPage extends State<ProfileView> {
                   future: getCurrentProfilePicture(widget.uid),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (!snapshot.hasData) {
+                      checkFollowStatus();
                       return Center(child: CircularProgressIndicator());
                     } else {
                       String photoURL = snapshot.data.toString();
