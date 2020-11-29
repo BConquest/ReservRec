@@ -17,7 +17,7 @@ class _FeedState extends State<Feed> {
   //@override
   //_FeedState({Key key}) : super(key: key);
 
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: true);
 
   void _onRefresh() async{
     // monitor network fetch

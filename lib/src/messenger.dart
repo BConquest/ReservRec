@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:reservrec/src/messengerFunctions.dart';
+import 'package:reservrec/src/messageCard.dart';
 
 class MessengerView extends StatefulWidget {
   final String gameID;
@@ -12,6 +14,18 @@ class MessengerView extends StatefulWidget {
 }
 
 class _MessengerViewPage extends State<MessengerView> {
+  RefreshController _refreshController = RefreshController(initialRefresh: false);
+
+  void _onRefresh() async{
+    await loadMessages(widget.gameID);
+    setState(() {});
+  }
+
+  void _onLoading() async{
+    await loadMessages(widget.gameID);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     var chatController = TextEditingController();
@@ -32,40 +46,61 @@ class _MessengerViewPage extends State<MessengerView> {
     );
 
     final buttonLoad = Padding(
-      padding: EdgeInsets.only(bottom: 20),
-      child: FlatButton(
-        child: Text("Load"),
-        onPressed: () async {
-          loadMessages(widget.gameID);
-        },
-      )
+        padding: EdgeInsets.only(bottom: 20),
+        child: FlatButton(
+          child: Text("Load"),
+          onPressed: () async {
+            await loadMessages(widget.gameID);
+            setState(() {});
+          },
+        )
     );
 
-    return SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("Messenger"),
-            backgroundColor: Colors.red,
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.message_outlined),
-            backgroundColor: Colors.red,
-            onPressed: () async {
-              sendMessage(chatController, widget.gameID);
-            },
-          ),
-          body: Builder(
-            builder: (context) =>
-                Center(
-                  child: ListView(
-                    children: [
-                      inputMessage,
-                      buttonLoad
-                    ],
+    return Scaffold(
+      body: FutureBuilder(
+          future: loadMessages(widget.gameID),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              return SafeArea(
+                  child: Scaffold(
+                      appBar: AppBar(
+                        title: Text("Messenger"),
+                        backgroundColor: Colors.red,
+                      ),
+                      floatingActionButton: FloatingActionButton(
+                        child: Icon(Icons.message_outlined),
+                        backgroundColor: Colors.red,
+                        onPressed: () async {
+                          sendMessage(chatController, widget.gameID);
+                        },
+                      ),
+                      body: Container (
+                      child: ListView(
+                        children: <Widget>[
+                          Container (
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data.length as int,
+                              itemBuilder: (BuildContext context, int index) {
+                                return MessageCard(messageData: snapshot.data[index] as MessageModel);
+                              },
+                            ),
+                          ),
+                          Container (
+                              height: 50,
+                              alignment: AlignmentDirectional.center,
+                              child: inputMessage
+                          )
+                        ]
+                      )
+            )
                   )
-                )
-          )
-        )
+                  );
+            }
+          }
+      ),
     );
   }
 }

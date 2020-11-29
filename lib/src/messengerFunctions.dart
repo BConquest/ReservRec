@@ -57,6 +57,9 @@ Future<List<MessageModel>> loadMessages(final gameId) async {
 void sendMessage(chatController, final gameId) async {
   final CollectionReference messageCollection = reference.collection('posts').doc(gameId.toString()).collection("chat");
   var m = chatController.text;
+  if (m.toString().isEmpty) {
+    return;
+  }
   var newMessage = MessageModel(id:_auth.currentUser.uid,timeSent:DateTime.now(),message:m.toString());
   await messageCollection.add(newMessage.toJson());
   print(m);
