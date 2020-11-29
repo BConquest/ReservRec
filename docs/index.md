@@ -2,11 +2,10 @@
 ## Play any sport, any time.
 A Flutter application.
 
-# SQL Table Layouts
-| USERS             	|               	|        	|             	|               	|             	|
-|-------------------	|---------------	|--------	|-------------	|---------------	|-------------	|
-| username          	| password      	| email  	| picture     	| verified_user 	| school_name 	|
-| primarykey string 	| hashed string 	| string 	| binary blob 	| boolean       	| string      	|
+# Technologies Used
+ - [Flutter](https://flutter.dev/)
+ - [Dart](https://dart.dev/)
+ - [Firebase](https://firebase.google.com/)
 
 # About
 [bryant](./bryant.md) 
