@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
@@ -13,11 +12,9 @@ class addLocation extends StatefulWidget {
   }
 }
 
-final sportController = TextEditingController();
-final descriptionController = TextEditingController();
 final locationController = TextEditingController();
-final minController = TextEditingController();
-final maxController = TextEditingController();
+final latController = TextEditingController();
+final longController = TextEditingController();
 
 class _FeedState extends State<addLocation> {
   @override
@@ -33,14 +30,13 @@ class _FeedState extends State<addLocation> {
       ),
     );
 
-
-    final inputSport = Padding(
+    final locationName = Padding(
       padding: EdgeInsets.all(5),
       child: TextField(
         keyboardType: TextInputType.text,
-        controller: sportController,
+        controller: locationController,
         decoration: InputDecoration(
-            hintText: 'Sport',
+            hintText: 'Name of Location',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)
@@ -49,13 +45,13 @@ class _FeedState extends State<addLocation> {
       ),
     );
 
-    final inputDescription = Padding(
+    final latInt = Padding(
       padding: EdgeInsets.all(5),
       child: TextField(
         keyboardType: TextInputType.text,
-        controller: descriptionController,
+        controller: latController,
         decoration: InputDecoration(
-            hintText: 'About',
+            hintText: 'Latitude',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)
@@ -64,13 +60,13 @@ class _FeedState extends State<addLocation> {
       ),
     );
 
-    final minPlayers = Padding(
+    final longInt = Padding(
       padding: EdgeInsets.all(5),
       child: TextField(
         keyboardType: TextInputType.text,
-        controller: minController,
+        controller: longController,
         decoration: InputDecoration(
-            hintText: 'Minimum Amount of Players',
+            hintText: 'Longitude',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)
@@ -79,17 +75,36 @@ class _FeedState extends State<addLocation> {
       ),
     );
 
-    final maxPlayers = Padding(
+    final buttonAddLocation = Padding(
       padding: EdgeInsets.all(5),
-      child: TextField(
-        keyboardType: TextInputType.text,
-        controller: maxController,
-        decoration: InputDecoration(
-            hintText: 'Maximum Amount of Players',
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50.0)
-            )
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          child: Text('Add Location', style: TextStyle(
+              color: Colors.white, fontSize: 20)),
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () async {}
+        ),
+      ),
+    );
+
+    final buttonBack = Padding(
+      padding: EdgeInsets.all(5),
+      child: ButtonTheme(
+        height: 56,
+        child: RaisedButton(
+          child: Text('Back', style: TextStyle(
+              color: Colors.white, fontSize: 20)),
+          color: Colors.red,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(50)
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
         ),
       ),
     );
@@ -102,13 +117,13 @@ class _FeedState extends State<addLocation> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               children: <Widget>[
                 logo,
-                inputSport,
-                inputDescription,
-                maxPlayers,
-                minPlayers,
+                locationName,
+                latInt,
+                longInt,
+                buttonAddLocation,
+                buttonBack
               ],
             ),
-
           ),
         )
     );
