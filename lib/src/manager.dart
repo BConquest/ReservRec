@@ -5,6 +5,7 @@ import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/profileview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:reservrec/src/addLocation.dart';
 
 class Manager extends StatefulWidget {
   @override
@@ -20,12 +21,6 @@ class _FeedState extends State<Manager> {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   void _onRefresh() async{
-    // monitor network fetch
-    await grabFeed(getSortIndex());
-    setState(() {
-      grabFeed(getSortIndex());
-    });
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 
@@ -65,18 +60,18 @@ class _FeedState extends State<Manager> {
                   bottomNavigationBar: BottomNavigationBar(
                     items: const <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.add),
-                        label: 'New Post',
+                        icon: Icon(Icons.settings),
+                        label: 'School Options',
                         backgroundColor: Colors.red,
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.sort_rounded),
-                        label: 'Sort',
+                        icon: Icon(Icons.delete),
+                        label: 'Delete Post',
                         backgroundColor: Colors.red,
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.account_circle),
-                        label: 'Profile',
+                        icon: Icon(Icons.add_location),
+                        label: 'Add Locations',
                         backgroundColor: Colors.red,
                       ),
                       BottomNavigationBarItem(
@@ -87,14 +82,12 @@ class _FeedState extends State<Manager> {
                     ],
                     onTap: (int index) async {
                       if (index == 0) {
-                        await Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewPost()));
+                        //await Navigator.push(context, MaterialPageRoute(builder: (context) =>  SchoolOptions()));
                       } else if (index == 1) {
                         await grabFeed(cycleFunction());
                         setState(() {});
                       } else if (index == 2) {
-                        final auth = FirebaseAuth.instance;
-                        final uid = auth.currentUser.uid;
-                        await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(uid: uid)));
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) => addLocation()));
                       }else {
                         final FirebaseAuth auth = FirebaseAuth.instance;
                         await auth.signOut();
