@@ -7,6 +7,7 @@ import 'feed_functions.dart';
 import 'package:reservrec/src/post_functions.dart';
 import 'package:reservrec/src/profileview.dart';
 import 'package:reservrec/src/messenger.dart';
+import 'package:reservrec/src/user_functions.dart';
 
 class PostPage extends StatefulWidget {
   final PostModel postData;
@@ -109,6 +110,7 @@ class _Body extends StatelessWidget {
           children: <Widget>[
             Text(bodyText, overflow: TextOverflow.visible, style: bodyTheme),
             SizedBox(height: 2.0),
+            DeleteButton()
           ],
         ),
       ),
@@ -222,6 +224,20 @@ class ChatButton extends StatelessWidget {
         child: Icon(Icons.message_outlined),
         onPressed: () async {
           await Navigator.push(context, MaterialPageRoute(builder: (context) => MessengerView(gameID: "9bR9dpZ9bywwnWSlrwcf")));
+        }
+    );
+  }
+}
+
+class DeleteButton extends StatelessWidget {
+  final PostModel postData;
+  const DeleteButton({Key key, this.postData}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+        child: Icon(Icons.delete_forever),
+        onPressed: () async {
+          await deletePost(postData.id);
         }
     );
   }

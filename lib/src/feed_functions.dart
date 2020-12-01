@@ -170,9 +170,14 @@ Future<String> newPost(String sport, String description, String location, DateTi
   return "true";
 }
 
-Future<String> newLocation(String name, double lat, double long, String school) async {
+void newLocation(String name, double lat, double long, String school) async {
   final CollectionReference locations = FirebaseFirestore.instance.collection('schools').doc(school).collection('validLocations');
   await locations.add({'lat':lat, 'locationName':name, 'long':long});
+}
+
+Future<void> deletePost(final post_id) async {
+  String docid = await getDocumentID(post_id);
+  await firestoreInstance.collection('jobs').doc(docid).delete();
 }
 
 Future<String> getDocumentID(final post_id) async {
