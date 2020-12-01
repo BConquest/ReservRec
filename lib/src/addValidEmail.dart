@@ -49,7 +49,7 @@ class _FeedState extends State<addValidEmail> {
       child: ButtonTheme(
         height: 56,
         child: RaisedButton(
-            child: Text('Add Location', style: TextStyle(
+            child: Text('Add Email', style: TextStyle(
                 color: Colors.white, fontSize: 20)),
             color: Colors.red,
             shape: RoundedRectangleBorder(

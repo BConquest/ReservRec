@@ -7,6 +7,7 @@ import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/profileview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/addLocation.dart';
+import 'package:reservrec/src/reservations.dart';
 
 class Manager extends StatefulWidget {
   @override
@@ -68,7 +69,7 @@ class _FeedState extends State<Manager> {
                     items: const <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
                         icon: Icon(Icons.settings),
-                        label: 'Settings',
+                        label: 'Reservations',
                         backgroundColor: Colors.red,
                       ),
                       BottomNavigationBarItem(
@@ -89,7 +90,7 @@ class _FeedState extends State<Manager> {
                     ],
                     onTap: (int index) async {
                       if (index == 0) {
-                        //await Navigator.push(context, MaterialPageRoute(builder: (context) =>  SchoolOptions()));
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) =>  Reservations()));
                       } else if (index == 1) {
                         await Navigator.push(context, MaterialPageRoute(builder: (context) => addValidEmail()));
                       } else if (index == 2) {
