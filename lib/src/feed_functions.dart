@@ -95,7 +95,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     });
   } else if (sortMethodIndex == 1) {
     posts.sort((a, b) {
-      return a.maxPeople.compareTo(b.maxPeople);
+      return b.maxPeople.compareTo(a.maxPeople);
     });
   } else if (sortMethodIndex == 2){
     posts.sort((a, b) {
