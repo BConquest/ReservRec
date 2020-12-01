@@ -234,6 +234,7 @@ class DeleteButton extends StatelessWidget {
   const DeleteButton({Key key, this.postData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
     return FlatButton(
         child: Icon(Icons.delete_forever),
         onPressed: () async {
