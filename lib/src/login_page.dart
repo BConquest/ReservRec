@@ -5,8 +5,36 @@ import 'package:reservrec/src/forgotPassword.dart';
 import 'package:reservrec/src/signup.dart';
 import 'package:reservrec/src/user_functions.dart';
 import 'package:reservrec/src/manager.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+/// Get the token, save it to the database for current user
+_saveDeviceToken() async {
+  // Get the current user
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  User user = _auth.currentUser;
+  String docid = await getDocumentID(user.uid);
+
+  // Get the token for this device
+  String fcmToken = await _fcm.getToken();
+  print('device token: $fcmToken');
+  // Save it to Firestore
+  if (fcmToken != null) {
+    var tokens = _db
+        .collection('users')
+        .doc(docid)
+        .collection('tokens')
+        .doc(fcmToken);
+
+    await tokens.set({
+      'token': fcmToken,
+      'createdAt': FieldValue.serverTimestamp(), // optional
+    });
+  }
+}
 
 class LoginPage extends StatefulWidget {
   @override
@@ -123,7 +151,7 @@ class _LoginPageState extends State<LoginPage>  {
               manager = await isManager(usernameController.text);
 
               _clearInputs();
-
+              _saveDeviceToken();
               if (!manager) {
                 await Navigator.push(
                     context, MaterialPageRoute(builder: (context) => Feed()));
