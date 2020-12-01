@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:reservrec/src/addValidEmail.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
@@ -71,8 +72,8 @@ class _FeedState extends State<Manager> {
                         backgroundColor: Colors.red,
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.delete_forever),
-                        label: 'Delete Post',
+                        icon: Icon(Icons.mail),
+                        label: 'Add Valid Email',
                         backgroundColor: Colors.red,
                       ),
                       BottomNavigationBarItem(
@@ -90,8 +91,7 @@ class _FeedState extends State<Manager> {
                       if (index == 0) {
                         //await Navigator.push(context, MaterialPageRoute(builder: (context) =>  SchoolOptions()));
                       } else if (index == 1) {
-                        await grabFeed(cycleFunction());
-                        setState(() {});
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) => addValidEmail()));
                       } else if (index == 2) {
                         await Navigator.push(context, MaterialPageRoute(builder: (context) => addLocation()));
                       }else {

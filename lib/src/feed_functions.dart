@@ -175,6 +175,11 @@ void newLocation(String name, double lat, double long, String school) async {
   await locations.add({'lat':lat, 'locationName':name, 'long':long});
 }
 
+void newEmail(String domain, String school) async {
+  final CollectionReference locations = FirebaseFirestore.instance.collection('schools').doc(school).collection('validEmails');
+  await locations.add({'domain': domain});
+}
+
 Future<void> deletePost(final post_id) async {
   String docid = await getDocumentID(post_id);
   print("Doc id is: " + docid);

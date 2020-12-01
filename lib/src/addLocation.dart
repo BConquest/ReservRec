@@ -3,7 +3,7 @@ import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/post.dart';
 import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/profileview.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:reservrec/src/user_functions.dart';
 
 class addLocation extends StatefulWidget {
   @override
@@ -96,13 +96,14 @@ class _FeedState extends State<addLocation> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
+            String s = await getCurrentSchool();
             if(!isNumeric(latController.text) || !isNumeric(longController.text)){
               //if they grief with lat and long then we need some sort of error message here
             }
             else {
               await newLocation(
                   locationController.text, double.parse(latController.text),
-                  double.parse(longController.text), "University of Alabama");
+                  double.parse(longController.text), s);
             }
               Navigator.pop(context);
           }
