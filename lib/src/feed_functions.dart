@@ -99,11 +99,11 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     });
   } else if (sortMethodIndex == 2){
     posts.sort((a, b) {
-      return a.curPeople.compareTo(b.curPeople);
+      return b.curPeople.compareTo(a.curPeople);
     });
   } else {
     posts.sort((a, b) {
-      return b.curPeople.compareTo(a.curPeople);
+      return a.curPeople.compareTo(b.curPeople);
     });
   }
 
