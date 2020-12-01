@@ -9,25 +9,19 @@ import 'package:reservrec/src/profileview.dart';
 import 'package:reservrec/src/messenger.dart';
 
 class Reservations extends StatefulWidget {
-  final PostModel postData;
-  const Reservations({Key key, this.postData}): super(key: key);
-
   @override
   State<StatefulWidget> createState() {
-    return _PostPage();
+    return _FeedState();
   }
 }
 
-class _PostPage extends State<Reservations>{
-  final PostModel postData;
-  _PostPage({Key key, this.postData});
+class _FeedState extends State<Reservations>{
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.postData.sport)),
+      appBar: AppBar(title: Text("Reservations")),
       body: InheritedPostModel(
-        postData: widget.postData,
         child: Column(
           children: <Widget>[
             Expanded(
@@ -52,21 +46,15 @@ class _PostPage extends State<Reservations>{
   }
 }
 class _Summary extends StatelessWidget {
-  final PostModel postData;
-  const _Summary({Key key, this.postData}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = InheritedPostModel.of(context).postData;
     final TextStyle titleTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.5, fontSizeDelta: 1.5, fontWeightDelta: 6);
     final TextStyle locationTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: .9, fontSizeDelta: 1, fontWeightDelta: -1);
     final TextStyle timeTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1, fontSizeDelta: 1, fontWeightDelta: 2, color: Colors.red);
 
-    final String title = postData.sport;
-    final String location = postData.loc;
-
-    final DateFormat formatter = DateFormat('h:mm a on EEEE, LLLL d, y');
-    final String formatted = formatter.format(postData.gameTime);
+    final String title = "REC CENTER 1";
+    final String location = "University of Alabama";
+    final String formatted = "Showing Times:";
 
     return Align(
       alignment: Alignment.centerLeft,
@@ -78,7 +66,7 @@ class _Summary extends StatelessWidget {
           children: <Widget>[
             Text(title, overflow: TextOverflow.ellipsis, style: titleTheme),
             SizedBox(height: 2.0),
-            Text('at $location', overflow: TextOverflow.ellipsis, style: locationTheme),
+            Text(location, overflow: TextOverflow.ellipsis, style: locationTheme),
             SizedBox(height: 8.0),
             Text(formatted, overflow: TextOverflow.ellipsis,style: timeTheme),
           ],
@@ -89,15 +77,12 @@ class _Summary extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  final PostModel postData;
-  const _Body({Key key, this.postData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final PostModel postData = InheritedPostModel.of(context).postData;
     final TextStyle bodyTheme = DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.25, fontSizeDelta: 1.5, fontWeightDelta: 1);
 
-    final bodyText = postData.desc;
+    final bodyText = "10:00AM - 2:00PM";
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
