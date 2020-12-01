@@ -177,7 +177,8 @@ void newLocation(String name, double lat, double long, String school) async {
 
 Future<void> deletePost(final post_id) async {
   String docid = await getDocumentID(post_id);
-  await firestoreInstance.collection('jobs').doc(docid).delete();
+  print("Doc id is: " + docid);
+  await firestoreInstance.collection('posts').doc(docid).delete();
 }
 
 Future<String> getDocumentID(final post_id) async {

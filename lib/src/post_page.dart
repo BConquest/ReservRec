@@ -239,6 +239,7 @@ class DeleteButton extends StatelessWidget {
         child: Icon(Icons.delete_forever),
         onPressed: () async {
           await deletePost(postData.id);
+          Navigator.pop(context);
         }
     );
   }

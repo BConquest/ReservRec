@@ -21,6 +21,10 @@ class _FeedState extends State<Manager> {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   void _onRefresh() async{
+    await grabFeed(getSortIndex());
+    setState(() {
+      grabFeed(getSortIndex());
+    });
     _refreshController.refreshCompleted();
   }
 
