@@ -12,6 +12,15 @@ class addLocation extends StatefulWidget {
   }
 }
 
+//thank you SO
+
+bool isNumeric(String s) {
+  if(s == null) {
+    return false;
+  }
+  return double.parse(s, (e) => null) != null;
+}
+
 final locationController = TextEditingController();
 final latController = TextEditingController();
 final longController = TextEditingController();
@@ -86,7 +95,14 @@ class _FeedState extends State<addLocation> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(50)
           ),
-          onPressed: () async {}
+          onPressed: () async {
+            if(!isNumeric(latController.text) || !isNumeric(longController.text)) print("Yikes");
+            else {
+              await newLocation(
+                  locationController.text, double.parse(latController.text),
+                  double.parse(longController.text), "University of Alabama");
+            }
+          }
         ),
       ),
     );
