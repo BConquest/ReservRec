@@ -40,7 +40,13 @@ Map<String, dynamic> _MessageToJson(MessageModel instance) =>
 
 Future<String> getChatInfo(final uid) async {
   final username = await getCurrentUsername(uid);
-  return username;
+  final isMan = await isManager(username.toString());
+  if(isMan){
+    return username + " [Admin]";
+  }
+  else {
+    return username;
+  }
 }
 
 Future<List<MessageModel>> loadMessages(final gameId) async {
