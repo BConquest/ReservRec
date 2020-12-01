@@ -7,7 +7,6 @@ import 'feed_functions.dart';
 import 'package:reservrec/src/post_functions.dart';
 import 'package:reservrec/src/profileview.dart';
 import 'package:reservrec/src/messenger.dart';
-import 'package:reservrec/src/user_functions.dart';
 
 class PostPage extends StatefulWidget {
   final PostModel postData;
@@ -218,12 +217,17 @@ class JoinButton extends StatelessWidget {
 }
 
 class ChatButton extends StatelessWidget {
+  final PostModel postData;
+  const ChatButton({Key key, this.postData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final PostModel postData = InheritedPostModel.of(context).postData;
     return FlatButton(
         child: Icon(Icons.message_outlined),
         onPressed: () async {
-          await Navigator.push(context, MaterialPageRoute(builder: (context) => MessengerView(gameID: "9bR9dpZ9bywwnWSlrwcf")));
+          String s;
+          s = await getDocumentID(postData.id);
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => MessengerView(gameID: s)));
         }
     );
   }
