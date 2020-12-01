@@ -229,4 +229,24 @@ void main() {
       expect(testPost.curPeople, 6);
     });
   });
+
+  group('Post Testing', ()
+  {
+    Post myPost = Post("uid", 0);
+
+    test('Verify Email', () {
+      myPost.setUserId("newuid");
+      assert(myPost.postUserId == "newuid");
+    });
+
+    test('Other Setter Methods', (){
+      myPost.setDescription("University of Alabama");
+      myPost.setMaxPeople(10);
+      myPost.setMinPeople(2);
+      assert(myPost.school == "University of Alabama");
+      assert(myPost.maxPeople == 10);
+      assert(myPost.minPeople == 2);
+      expect(myPost.minPeople, isInstanceOf<int>());
+    });
+  });
 }
