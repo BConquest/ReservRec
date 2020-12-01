@@ -58,14 +58,16 @@ class _FeedState extends State<Manager> {
                       )
                   ),
                   bottomNavigationBar: BottomNavigationBar(
+                    //otherwise labels do not show up
+                    type: BottomNavigationBarType.fixed,
                     items: const <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
                         icon: Icon(Icons.settings),
-                        label: 'School Options',
+                        label: 'Settings',
                         backgroundColor: Colors.red,
                       ),
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.delete),
+                        icon: Icon(Icons.delete_forever),
                         label: 'Delete Post',
                         backgroundColor: Colors.red,
                       ),

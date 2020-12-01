@@ -96,12 +96,15 @@ class _FeedState extends State<addLocation> {
               borderRadius: BorderRadius.circular(50)
           ),
           onPressed: () async {
-            if(!isNumeric(latController.text) || !isNumeric(longController.text)) print("Yikes");
+            if(!isNumeric(latController.text) || !isNumeric(longController.text)){
+              //if they grief with lat and long then we need some sort of error message here
+            }
             else {
               await newLocation(
                   locationController.text, double.parse(latController.text),
                   double.parse(longController.text), "University of Alabama");
             }
+              Navigator.pop(context);
           }
         ),
       ),
@@ -144,5 +147,4 @@ class _FeedState extends State<addLocation> {
         )
     );
   }
-
 }
