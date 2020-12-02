@@ -61,8 +61,10 @@ class _FeedState extends State<Reservations> {
                     child: ListView.builder(
                       itemCount: snapshot.data.length as int,
                       itemBuilder: (BuildContext context, int index) {
-                        return PostCard(
-                            postData: snapshot.data[index] as PostModel);
+                        return Row(
+                          children: <Widget>[
+                          ],
+                        );
                       },
                     )
                 ),
