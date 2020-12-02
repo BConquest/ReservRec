@@ -90,20 +90,27 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     posts.retainWhere((element) => friends.contains(element.postUserId));
   }
 
-  if (sortMethodIndex == -1){
+  if (sortMethodIndex == -1 && posts.length > 1){
+    int flag = 0;
     List<Post> temp = List();
     List<Post> sublist = List();
     int count = 0;
     posts.sort((a, b) {
       return a.postLocation.toString().toLowerCase().compareTo(b.postLocation.toString().toLowerCase());
     });
-    for(int i = 0; i < posts.length; i++){
-      if(posts[i].postLocation == posts[i+1].postLocation) {
+    for(int i = 0; i < posts.length; i++) print(posts[i].postSport + " " + posts[i].postLocation);
+    for(int i = 0; i < posts.length - 1; i++){
+      if(posts[i].postLocation == posts[i+1].postLocation && i != posts.length-2) {
         count++;
         continue;
       }
       else {
+        if(i == posts.length-2 && posts[i].postLocation == posts[i+1].postLocation){
+          count += 2;
+          flag = 1;
+        }
         sublist = posts.sublist(i - count, i + 1);
+        for(int j = 0; j < sublist.length; j++) print(sublist[j].postSport + " " + sublist[j].postLocation + " " + count.toString());
         if(sublist.length > 1) {
           sublist.sort((a, b) {
             return a.postTimeSet.toString().toLowerCase().compareTo(
@@ -111,6 +118,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
           });
         }
         temp.addAll(sublist);
+        if(flag == 0) temp.add(posts[posts.length-1]);
       }
     }
     posts = temp;
