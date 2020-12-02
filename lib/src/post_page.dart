@@ -7,6 +7,7 @@ import 'feed_functions.dart';
 import 'package:reservrec/src/post_functions.dart';
 import 'package:reservrec/src/profileview.dart';
 import 'package:reservrec/src/messenger.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PostPage extends StatefulWidget {
   final PostModel postData;
@@ -16,6 +17,47 @@ class PostPage extends StatefulWidget {
   State<StatefulWidget> createState() {
     return _PostPage();
   }
+}
+
+confirmationPopup(BuildContext dialogContext, int toDelete) async{
+  var alertStyle = AlertStyle(
+    animationType: AnimationType.grow,
+    overlayColor: Colors.black87,
+    isCloseButton: true,
+    isOverlayTapDismiss: true,
+    titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    descStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+    animationDuration: Duration(milliseconds: 400),
+  );
+
+  await Alert(
+      context: dialogContext,
+      style: alertStyle,
+      title: "Confirm Delete",
+      desc: "Do you really want to delete this post?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Cancel",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () {
+            Navigator.pop(dialogContext);
+          },
+          color: Colors.blue,
+        ),
+        DialogButton(
+          child: Text(
+            "Delete",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () {
+            deletePost(toDelete);
+            Navigator.pop(dialogContext);
+          },
+          color: Colors.blue,
+        )
+      ]).show();
 }
 
 class _PostPage extends State<PostPage>{
@@ -242,7 +284,7 @@ class DeleteButton extends StatelessWidget {
     return FlatButton(
         child: Icon(Icons.delete_forever),
         onPressed: () async {
-          await deletePost(postData.id);
+          await confirmationPopup(context, postData.id);
           Navigator.pop(context);
         }
     );

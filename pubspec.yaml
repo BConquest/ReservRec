@@ -26,6 +26,7 @@ dependencies:
   path:
   sqflite:
   csv: ^4.0.3
+  rflutter_alert: ^1.0.3
   path_provider: ^1.6.18
   crypto: ^2.1.5
   firebase_core: "^0.5.0+1"

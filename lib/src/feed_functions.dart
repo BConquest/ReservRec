@@ -107,7 +107,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     });
   }
 
-  // Begin spaghetti code, brought to you by Zack Withers (#0 Gayball player in the world btw)
+  // Begin spaghetti code, brought to you by Zack Withers
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
   final QuerySnapshot ss = await userCollection.get();
 

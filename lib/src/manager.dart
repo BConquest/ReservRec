@@ -23,16 +23,18 @@ class _FeedState extends State<Manager> {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   void _onRefresh() async{
-    await grabFeed(getSortIndex());
+    await grabFeed(0);
+    seeUserPosts = true;
     setState(() {
-      grabFeed(getSortIndex());
+      grabFeed(0);
     });
     _refreshController.refreshCompleted();
   }
 
   void _onLoading() async{
     // monitor network fetch
-    await grabFeed(getSortIndex());
+    await grabFeed(0);
+    seeUserPosts = true;
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     _refreshController.loadComplete();
   }
@@ -40,7 +42,7 @@ class _FeedState extends State<Manager> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder(
-            future: grabFeed(getSortIndex()),
+            future: grabFeed(0),
             builder: (context, AsyncSnapshot snapshot) {
               if(!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
