@@ -98,14 +98,18 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
       return a.postLocation.toString().toLowerCase().compareTo(b.postLocation.toString().toLowerCase());
     });
     for(int i = 0; i < posts.length; i++){
-      if(posts[i] == posts[i+1]) {
+      if(posts[i].postLocation == posts[i+1].postLocation) {
         count++;
+        continue;
       }
-      for(int j = 0; j < count; j++){
-        sublist = posts.sublist(i-count, i+1);
-        sublist.sort((a,b){
-          return a.postTimeSet.toString().toLowerCase().compareTo(b.postTimeSet.toString().toLowerCase());
-        });
+      else {
+        sublist = posts.sublist(i - count, i + 1);
+        if(sublist.length > 1) {
+          sublist.sort((a, b) {
+            return a.postTimeSet.toString().toLowerCase().compareTo(
+                b.postTimeSet.toString().toLowerCase());
+          });
+        }
         temp.addAll(sublist);
       }
     }
