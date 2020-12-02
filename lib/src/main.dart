@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'dart:async';
+import 'dart:io';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:reservrec/src/login_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -9,9 +11,23 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MessageHandler());
+  runApp(MyApp());
 }
 
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ReservRec Login Page',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: Scaffold(
+        body: MessageHandler(),
+      ),
+    );
+  }
+}
 
 class MessageHandler extends StatefulWidget {
   @override
@@ -24,13 +40,25 @@ class _MessageHandlerState extends State<MessageHandler> {
 
   @override
   void initState() {
+    super.initState();
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        final snackbar = SnackBar(
-          content: Text(message['notification']['title'] as String)
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title'] as String),
+              subtitle: Text(message['notification']['body'] as String),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
         );
-        Scaffold.of(context).showSnackBar(snackbar);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
@@ -44,14 +72,8 @@ class _MessageHandlerState extends State<MessageHandler> {
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ReservRec Login Page',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: Scaffold(
-        body: LoginPage(),
-      ),
+    return Scaffold(
+      body: LoginPage(),
     );
   }
 }
