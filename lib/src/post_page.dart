@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:reservrec/models/user.dart';
 import 'package:reservrec/src/post.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'feed_functions.dart';
 import 'package:reservrec/src/post_functions.dart';
 import 'package:reservrec/src/profileview.dart';
@@ -290,18 +290,22 @@ class DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    return Container(
-      width: 75,
-      decoration: Decoration(),
-      child: FlatButton(
-          minWidth: 75,
-          child: Text("Delete"),
-          onPressed: () async {
-            await confirmationPopup(context, postData.id);
-            Navigator.pop(context);
-          }
-      )
-    );
+    if (postData.author == FirebaseAuth.instance.currentUser.uid) {
+      return Container(
+          width: 75,
+          decoration: Decoration(),
+          child: FlatButton(
+              minWidth: 75,
+              child: Text("Delete"),
+              onPressed: () async {
+                await confirmationPopup(context, postData.id);
+                Navigator.pop(context);
+              }
+          )
+      );
+    } else {
+      return Container();
+    }
   }
 }
 
