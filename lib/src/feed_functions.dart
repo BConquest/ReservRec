@@ -1,6 +1,7 @@
 // Thanks https://ptyagicodecamp.github.io/persisting-data-in-local-db-for-flutter-android-ios.html
 
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:reservrec/models/post.dart';
 import 'package:reservrec/models/user.dart';
 import 'package:reservrec/src/user_functions.dart' as uf;
@@ -87,6 +88,28 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
 
   if (mode) {
     posts.retainWhere((element) => friends.contains(element.postUserId));
+  }
+
+  if (sortMethodIndex == -1){
+    List<Post> temp = List();
+    List<Post> sublist = List();
+    int count = 0;
+    posts.sort((a, b) {
+      return a.postLocation.toString().toLowerCase().compareTo(b.postLocation.toString().toLowerCase());
+    });
+    for(int i = 0; i < posts.length; i++){
+      if(posts[i] == posts[i+1]) {
+        count++;
+      }
+      for(int j = 0; j < count; j++){
+        sublist = posts.sublist(i-count, i+1);
+        sublist.sort((a,b){
+          return a.postTimeSet.toString().toLowerCase().compareTo(b.postTimeSet.toString().toLowerCase());
+        });
+        temp.addAll(sublist);
+      }
+    }
+    posts = temp;
   }
 
   if (sortMethodIndex == 0) {
