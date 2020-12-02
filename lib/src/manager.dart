@@ -12,6 +12,7 @@ import 'package:reservrec/src/reservations.dart';
 class Manager extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    seeUserPosts = true;
     return _FeedState();
   }
 }
