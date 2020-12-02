@@ -79,8 +79,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   });
 
   List<String> friends =  await getFriendsList(_auth.currentUser.uid);
-
-  if (seeUserPosts) {
+  if (seeUserPosts || sortMethodIndex < 0) {
     posts.retainWhere((element) => element.postUserId == _auth.currentUser.uid);
   } else {
     posts.removeWhere((element) => element.postUserId == _auth.currentUser.uid);
@@ -129,7 +128,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     posts.addAll(temp);
   }
 
-  else if (sortMethodIndex == 0) {
+  else if (sortMethodIndex == 0 || sortMethodIndex == -2) {
     posts.sort((a, b) {
       return a.postTimeSet.toString().toLowerCase().compareTo(b.postTimeSet.toString().toLowerCase());
     });
