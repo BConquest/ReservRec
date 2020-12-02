@@ -11,7 +11,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 class PostPage extends StatefulWidget {
   final PostModel postData;
-  const PostPage({Key key, this.postData}): super(key: key);
+  final bool manager;
+  const PostPage({Key key, this.postData, this.manager}): super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -71,7 +72,8 @@ confirmationPopup(BuildContext dialogContext, int toDelete) async{
 
 class _PostPage extends State<PostPage>{
   final PostModel postData;
-  _PostPage({Key key, this.postData});
+  final bool manager;
+  _PostPage({Key key, this.postData, this.manager});
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +81,7 @@ class _PostPage extends State<PostPage>{
       appBar: AppBar(title: Text(widget.postData.sport)),
       body: InheritedPostModel(
         postData: widget.postData,
+        manager: widget.manager,
         child: Column(
           children: <Widget>[
             Expanded(
@@ -142,7 +145,8 @@ class _Summary extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final PostModel postData;
-  const _Body({Key key, this.postData}) : super(key: key);
+  final bool manager;
+  const _Body({Key key, this.postData, this.manager}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -286,11 +290,14 @@ class ChatButton extends StatelessWidget {
 
 class DeleteButton extends StatelessWidget {
   final PostModel postData;
-  const DeleteButton({Key key, this.postData}) : super(key: key);
+  final bool manager;
+  const DeleteButton({Key key, this.postData, this.manager}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    if (postData.author == FirebaseAuth.instance.currentUser.uid) {
+    final bool manager = InheritedPostModel.of(context).manager;
+    if (postData.author == FirebaseAuth.instance.currentUser.uid || manager) {
       return Container(
           width: 75,
           decoration: Decoration(),
@@ -348,7 +355,6 @@ class TeamSelection extends StatelessWidget {
     List<Widget> ret = List();
     ret.add(col1);
     ret.add(col2);
-    print(ret.first);
     return ret;
   }
   /*

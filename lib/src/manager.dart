@@ -3,8 +3,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:reservrec/src/addValidEmail.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/post.dart';
-import 'package:reservrec/src/new_post.dart';
-import 'package:reservrec/src/profileview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/addLocation.dart';
 import 'package:reservrec/src/reservations.dart';
@@ -21,7 +19,7 @@ class _FeedState extends State<Manager> {
   //@override
   //_FeedState({Key key}) : super(key: key);
 
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+  RefreshController _refreshController = RefreshController(initialRefresh: true);
 
   void _onRefresh() async{
     seeUserPosts = true;
@@ -62,7 +60,7 @@ class _FeedState extends State<Manager> {
                       child: ListView.builder(
                         itemCount: snapshot.data.length as int,
                         itemBuilder: (BuildContext context, int index) {
-                          return PostCard(postData: snapshot.data[index] as PostModel);
+                          return PostCard(postData: snapshot.data[index] as PostModel, manager: true);
                         },
                       )
                   ),

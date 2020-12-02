@@ -82,7 +82,6 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
   } else {
     posts.removeWhere((element) => element.postUserId == _auth.currentUser.uid);
   }
-
   if (mode && seeUserPosts == false) {
     posts.retainWhere((element) => friends.contains(element.postUserId));
   }

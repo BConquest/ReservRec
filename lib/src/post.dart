@@ -16,8 +16,8 @@ BoxDecoration Decoration() {
 
 class PostCard extends StatelessWidget {
   final PostModel postData;
-
-  const PostCard({Key key, this.postData}) : super(key: key);
+  final bool manager;
+  const PostCard({Key key, this.postData, this.manager}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class PostCard extends StatelessWidget {
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
           builder: (BuildContext context) {
-            return PostPage(postData: postData);
+            return PostPage(postData: postData, manager: manager);
           }
         ));
       },
@@ -39,6 +39,7 @@ class PostCard extends StatelessWidget {
             decoration: Decoration(),
             child: InheritedPostModel(
               postData: postData,
+                manager: manager,
                 child: Column(
                   children: <Widget>[
                     _Post(),
@@ -57,7 +58,8 @@ class PostCard extends StatelessWidget {
 
 class _Post extends StatelessWidget {
   final PostModel postData;
-  const _Post({Key key, this.postData}) : super(key: key);
+  final bool manager;
+  const _Post({Key key, this.postData, this.manager}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -204,11 +206,13 @@ class _PostAttendance extends StatelessWidget {
 
 class InheritedPostModel extends InheritedWidget {
   final PostModel postData;
+  final bool manager;
   final Widget child;
 
   InheritedPostModel({
     Key key,
     @required this.postData,
+    @required this.manager,
     this.child,
   }) : super(key: key, child: child);
 
