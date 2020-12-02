@@ -31,13 +31,13 @@ class _MessengerViewPage extends State<MessengerView> {
     var chatController = TextEditingController();
 
     final inputMessage = Padding(
-      padding: EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(top: 5, bottom: 12, left: 2, right: 2),
       child: TextField(
         keyboardType: TextInputType.text,
         controller: chatController,
         decoration: InputDecoration(
             hintText: 'Message',
-            contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 7),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(50.0)
             )

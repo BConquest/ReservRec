@@ -23,8 +23,8 @@ class _FeedState extends State<Manager> {
   RefreshController _refreshController = RefreshController(initialRefresh: false);
 
   void _onRefresh() async{
-    await grabFeed(0);
     seeUserPosts = true;
+    await grabFeed(0);
     setState(() {
       grabFeed(0);
     });
@@ -33,8 +33,8 @@ class _FeedState extends State<Manager> {
 
   void _onLoading() async{
     // monitor network fetch
-    await grabFeed(0);
     seeUserPosts = true;
+    await grabFeed(0);
     // if failed,use loadFailed(),if no data return,use LoadNodata()
     _refreshController.loadComplete();
   }
