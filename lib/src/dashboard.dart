@@ -147,7 +147,7 @@ class _FeedState extends State<Feed> {
                 child: ListView.builder(
                           itemCount: snapshot.data.length as int,
                           itemBuilder: (BuildContext context, int index) {
-                            return PostCard(postData: snapshot.data[index] as PostModel);
+                            return PostCard(postData: snapshot.data[index] as PostModel, manager: false);
                           },
                 )
               ),
