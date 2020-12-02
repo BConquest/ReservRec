@@ -13,12 +13,13 @@ class ReservationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: AspectRatio(
-          aspectRatio: 12 / 3,
+          aspectRatio: 10/3,
           child: Card(
             elevation: 3,
             child: Container(
               margin: const EdgeInsets.all(3.0),
               padding: const EdgeInsets.all(3.0),
+                decoration: Decoration(),
               child: InheritedPostModel(
                   postData: postData,
                   child: Column(
@@ -60,7 +61,7 @@ class UserWhoReserved extends StatelessWidget {
     return Expanded(
       flex: 5,
       child: Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(2.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,10 +81,18 @@ class TimeReserved extends StatelessWidget {
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
     final DateFormat formatter = DateFormat('h:mm a on MM-dd-yyyy');
-    final String formatted = postData.loc + "\n" + formatter.format(postData.gameTime);
+    final String formatted = postData.loc + "\n" + postData.sport + "\n" + formatter.format(postData.gameTime);
     return Align(
         alignment: Alignment.topLeft,
         child: Text(formatted)
     );
   }
+}
+
+BoxDecoration Decoration() {
+  return BoxDecoration(
+    border: Border.all(
+      width: 1,
+    ),
+  );
 }

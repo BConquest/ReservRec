@@ -4,6 +4,16 @@ import 'package:reservrec/src/post_page.dart';
 
 import 'feed_functions.dart';
 
+BoxDecoration Decoration() {
+  return BoxDecoration(
+    borderRadius: BorderRadius.circular(7),
+    border: Border.all(
+      color: Colors.black26,
+      width: 2,
+    ),
+  );
+}
+
 class PostCard extends StatelessWidget {
   final PostModel postData;
 
@@ -26,6 +36,7 @@ class PostCard extends StatelessWidget {
           child: Container(
             margin: const EdgeInsets.all(4.0),
             padding: const EdgeInsets.all(4.0),
+            decoration: Decoration(),
             child: InheritedPostModel(
               postData: postData,
                 child: Column(

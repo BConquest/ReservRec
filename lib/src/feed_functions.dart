@@ -118,6 +118,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
           });
         }
         temp.addAll(sublist);
+        count = 0;
         if(flag == 0) temp.add(posts[posts.length-1]);
       }
     }

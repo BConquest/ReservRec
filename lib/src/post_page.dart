@@ -19,6 +19,15 @@ class PostPage extends StatefulWidget {
   }
 }
 
+BoxDecoration Decoration() {
+  return BoxDecoration(
+    border: Border.all(
+      width: 1,
+      color: Colors.black12
+    ),
+  );
+}
+
 confirmationPopup(BuildContext dialogContext, int toDelete) async{
   var alertStyle = AlertStyle(
     animationType: AnimationType.grow,
@@ -150,8 +159,8 @@ class _Body extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(bodyText, overflow: TextOverflow.visible, style: bodyTheme),
-            SizedBox(height: 2.0),
-            DeleteButton()
+            SizedBox(height: 5.0),
+            DeleteButton(),
           ],
         ),
       ),
@@ -281,12 +290,17 @@ class DeleteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
-    return FlatButton(
-        child: Icon(Icons.delete_forever),
-        onPressed: () async {
-          await confirmationPopup(context, postData.id);
-          Navigator.pop(context);
-        }
+    return Container(
+      width: 75,
+      decoration: Decoration(),
+      child: FlatButton(
+          minWidth: 75,
+          child: Text("Delete"),
+          onPressed: () async {
+            await confirmationPopup(context, postData.id);
+            Navigator.pop(context);
+          }
+      )
     );
   }
 }
