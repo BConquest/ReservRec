@@ -25,13 +25,17 @@ By using our app, students across the nation can create, enjoy, and play any spo
  [x] Only Verified People can Join
    - This is done through firebase authentication and regex parsing to make sure the email has a valid ending.
    - Valid endings can be added with Managers.
+   
  [x] Have it work for different locations
-   - Each school is a different colection in firebase
-   - Each school has valid locations for activites to happen and valid email endings
+   - Each school is a different colection in firebase.
+   - Each school has valid locations for activites to happen and valid email endings.
+   
  [ ] Coordination with Rec-Center
    - This was not done, due to covid and not having enough time.
    - If this was done we could try to work with them to use an api to reserve different fields.
+   
  [ ] Different Notifications
    - This was partly done but to be able to subscribe to a sport we would have to limit the sports to only system defined ones. Another option would have been to have sport specific notifcations but this would have been hard due to different spellings and names.
+   
  [x] Separate UI for manager vs users
    - This was done and allows for managers to see all the posts that have been made but does not allow them to create post. The opposite is true for players.
