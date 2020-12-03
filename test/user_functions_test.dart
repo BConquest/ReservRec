@@ -272,6 +272,10 @@ void main() {
       assert(myPost.curPeople == 1);
       assert(myPost.postLocation == "University of Alabama");
     });
+    test('DateTime', (){
+      myPost.setTimePosted(DateTime(2020, 12, 25));
+      assert(myPost.postTimePosted == DateTime(2020, 12, 25));
+    });
   });
 
   group('Is Numeric Test', ()
