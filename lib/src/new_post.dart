@@ -25,7 +25,7 @@ Future<String> getTimeDispString(DateTime time) async{
   return "ERROR: Bad Time";
 }
 
-confirmationPopup(BuildContext dialogContext) async{
+confirmationPopup1(BuildContext dialogContext) async{
   var alertStyle = AlertStyle(
     animationType: AnimationType.grow,
     overlayColor: Colors.black87,
@@ -41,6 +41,36 @@ confirmationPopup(BuildContext dialogContext) async{
       style: alertStyle,
       title: "Error",
       desc: "Please Select a Value",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () {
+            Navigator.pop(dialogContext);
+          },
+          color: Colors.blue,
+        )
+      ]).show();
+}
+
+confirmationPopup2(BuildContext dialogContext) async{
+  var alertStyle = AlertStyle(
+    animationType: AnimationType.grow,
+    overlayColor: Colors.black87,
+    isCloseButton: true,
+    isOverlayTapDismiss: true,
+    titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    descStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+    animationDuration: Duration(milliseconds: 400),
+  );
+
+  await Alert(
+      context: dialogContext,
+      style: alertStyle,
+      title: "Error",
+      desc: "The minimum amount of players cannot exceed the maximum.",
       buttons: [
         DialogButton(
           child: Text(
@@ -303,7 +333,10 @@ class _NewPostState extends State<NewPost> {
             ),
             onPressed: () async {
               if(dropdownLocationValue == "Please Select a Value"){
-                confirmationPopup(context);
+                confirmationPopup1(context);
+              }
+              else if(int.parse(minController.text) > int.parse(maxController.text)){
+                confirmationPopup2(context);
               }
               else {
                 String message = await newPost(sportController
