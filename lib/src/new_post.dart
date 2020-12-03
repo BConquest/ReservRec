@@ -281,8 +281,9 @@ class _NewPostState extends State<NewPost> {
                       .text));
               if (message == "true") {
                 print("newPost");
-                await Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => Feed()));
+                //await Navigator.push(context, MaterialPageRoute(
+                //   builder: (context) => Feed()));
+                Navigator.pop(context);
               } else {
                 print(message);
               }
