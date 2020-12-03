@@ -307,5 +307,9 @@ void main() {
     test('Numbers AND letters, wow', (){
       expect(isNumeric("123abc.d"), false);
     });
+
+    test('This is just a test to see if I can still push to the database', (){
+      expect(isNumeric(isNumeric("true").toString()), false);
+    });
   });
 }
