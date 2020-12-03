@@ -74,6 +74,7 @@ class _MessengerViewPage extends State<MessengerView> {
                         backgroundColor: Colors.red,
                         onPressed: () async {
                           sendMessage(chatController, widget.gameID);
+                          Navigator.pop(context);
                         },
                       ),
                       body: Container (
