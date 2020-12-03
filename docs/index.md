@@ -11,13 +11,13 @@ A Flutter application.
 [Deliverables](https://bconquest.github.io/ReservRec/deliverables)
 
 # About
-[bryant](./bryant.md) 
+[Bryant](./bryant.md) 
 
-[zach](./zach.md)
+[Zach](./zach.md)
 
-[philip](./philip.md)
+[Philip](./philip.md)
 
-[ryan](./ryan.md)
+[Ryan](./ryan.md)
 
 # Our Mission
 At ReserveRec, we want to help connect students to create more enjoyable and memorable experiences on the field.
