@@ -6,6 +6,7 @@ import 'package:reservrec/src/post.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/addLocation.dart';
 import 'package:reservrec/src/reservations.dart';
+import 'package:reservrec/src/map.dart';
 
 class Manager extends StatefulWidget {
   @override
@@ -95,7 +96,7 @@ class _FeedState extends State<Manager> {
                       } else if (index == 1) {
                         await Navigator.push(context, MaterialPageRoute(builder: (context) => addValidEmail()));
                       } else if (index == 2) {
-                        await Navigator.push(context, MaterialPageRoute(builder: (context) => addLocation()));
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) => MapSample()));
                       }else {
                         final FirebaseAuth auth = FirebaseAuth.instance;
                         await auth.signOut();
