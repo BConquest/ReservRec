@@ -151,7 +151,10 @@ class _LoginPageState extends State<LoginPage>  {
               manager = await isManager(usernameController.text);
 
               _clearInputs();
+
+              final FirebaseMessaging _fcm = FirebaseMessaging();
               _saveDeviceToken();
+              _fcm.subscribeToTopic('posts');
               if (!manager) {
                 await Navigator.push(
                     context, MaterialPageRoute(builder: (context) => Feed()));

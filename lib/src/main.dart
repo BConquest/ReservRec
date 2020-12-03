@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// From https://github.com/fireship-io/192-flutter-fcm-push-notifications/blob/master/lib/main.dart#L23
 class MessageHandler extends StatefulWidget {
   @override
   _MessageHandlerState createState() => _MessageHandlerState();
