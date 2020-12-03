@@ -330,7 +330,7 @@ class _TeamSelectionState extends State<TeamSelection> {
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
     return FutureBuilder(
-        future: getCurUsers(postData.id),
+        future: getCurUsers2(postData.id),
         builder: (BuildContext context, AsyncSnapshot<List<UserC>> snapshot) {
           print('above if');
           if(!snapshot.hasData) {
