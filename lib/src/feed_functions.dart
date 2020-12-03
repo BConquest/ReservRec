@@ -131,10 +131,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
     posts.addAll(temp);
   } else if (sortMethodIndex == 0 || sortMethodIndex == -2) {
     posts.sort((a, b) {
-      return a.postTimeSet
-          .toString()
-          .toLowerCase()
-          .compareTo(b.postTimeSet.toString().toLowerCase());
+      return a.postTimeSet.compareTo(b.postTimeSet);
     });
   } else if (sortMethodIndex == 1) {
     posts.sort((a, b) {
