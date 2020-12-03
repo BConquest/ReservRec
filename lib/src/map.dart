@@ -72,7 +72,7 @@ class PickerDemoState extends State<PickerDemo> {
         height: 56,
         child: RaisedButton(
           child:
-          Text('Pick Delivery location', style: TextStyle(color: Colors.white, fontSize: 20)),
+          Text('Pick New Location', style: TextStyle(color: Colors.white, fontSize: 20)),
           color: Colors.red,
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
