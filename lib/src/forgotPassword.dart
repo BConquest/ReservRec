@@ -39,6 +39,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>  {
             hintText: 'Email',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
+
                 borderRadius: BorderRadius.circular(50.0)
             )
         ),
@@ -84,6 +85,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>  {
 
     return SafeArea(
         child: Scaffold(
+          appBar: AppBar(title: Text("Forgot Password")),
           body: Builder(
               builder: (context) =>
                   Center(

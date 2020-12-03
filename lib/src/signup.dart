@@ -268,6 +268,7 @@ class _SignupState extends State<Signup> {
     final key = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: key,
+      appBar: AppBar(title: Text("Signup")),
       body: Builder(
           builder: (BuildContext cont) {
             return Center(

@@ -203,6 +203,16 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
 
 Future<String> newPost(String sport, String description, String location,
     DateTime gameTime, int max, int min) async {
+  final f = await FirebaseFirestore.instance.collection('users').doc(await getDocumentUID(_auth.currentUser.uid)).get();
+  int totalReports = int.parse(f["punctualityReport"].toString()) + int.parse(f["sportsmanshipReport"].toString());
+
+  if (totalReports > 100) {
+    await reference
+        .collection('banned')
+        .doc(_auth.currentUser.uid).set({});
+    return "f";
+  }
+
   final CollectionReference postsCollection =
       FirebaseFirestore.instance.collection('posts');
   QuerySnapshot query = await postsCollection
