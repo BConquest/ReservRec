@@ -48,12 +48,17 @@ class _ProfileViewPage extends State<ProfileView> {
     });
 
     friends.retainWhere((element) => element == widget.uid);
+    print(friends);
 
     if (friends.isEmpty) {
-      _isButtonDisabled = true;
-    } else {
       _isButtonDisabled = false;
+    } else {
+      _isButtonDisabled = true;
     }
+
+    setState(() {
+
+    });
   }
 
   void follow() async {

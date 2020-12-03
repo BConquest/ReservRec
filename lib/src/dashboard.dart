@@ -36,6 +36,94 @@ class _FeedState extends State<Feed> {
     _refreshController.loadComplete();
   }
 
+  Widget drawer() {
+    return Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Image.asset('assets/logo.png'),
+          ),
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('View Profile'),
+            onTap: () async {
+              final uid = FirebaseAuth.instance.currentUser.uid;
+              await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(uid: uid)));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.person_add),
+            title: seeUserPosts ? Text('Hide User Posts') : Text('Show User Posts'),
+            onTap: () {
+              seeUserPosts = seeUserPosts ? false : true;
+              Navigator.pop(context);
+              setState(() {grabFeed(sortIndex);});
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.person_add),
+            title: mode ? Text('Show All') : Text('Show Following'),
+            onTap: () {
+              seeUserPosts = false;
+              mode = mode ? false : true;
+              Navigator.pop(context);
+              setState(() {grabFeed(sortIndex);});
+            },
+          ),
+          ExpansionTile(
+            leading: Icon(Icons.sort),
+            title: Text("Sort"),
+            children: <Widget>[
+              ListTile(
+                title: Text("Time"),
+                onTap: () {
+                  setSortIndex(0);
+                  Navigator.pop(context);
+                  setState(() {grabFeed(sortIndex);});
+                },
+              ),
+              ListTile(
+                title: Text("Max Amount of People Allowed"),
+                onTap: () {
+                  setSortIndex(1);
+                  Navigator.pop(context);
+                  setState(() {grabFeed(sortIndex);});
+                },
+              ),
+              ListTile(
+                title: Text("Most Amount of People Going"),
+                onTap: () {
+                  setSortIndex(2);
+                  Navigator.pop(context);
+                  setState(() {grabFeed(sortIndex);});
+                },
+              ),
+              ListTile(
+                title: Text("Least Amount of People Going"),
+                onTap: () {
+                  setSortIndex(3);
+                  Navigator.pop(context);
+                  setState(() {grabFeed(sortIndex);});
+                },
+              ),
+            ],
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Log Out'),
+            onTap: () async {
+              final FirebaseAuth auth = FirebaseAuth.instance;
+              await auth.signOut();
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
@@ -46,91 +134,7 @@ class _FeedState extends State<Feed> {
           } else {
             return Scaffold(
               appBar: AppBar(title: Text("Home")),
-              drawer: Drawer(
-                child: ListView(
-                  // Important: Remove any padding from the ListView.
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    DrawerHeader(
-                      child: Image.asset('assets/logo.png'),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.account_circle),
-                      title: Text('View Profile'),
-                      onTap: () async {
-                        final uid = FirebaseAuth.instance.currentUser.uid;
-                        await Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileView(uid: uid)));
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.person_add),
-                      title: seeUserPosts ? Text('Hide User Posts') : Text('Show User Posts'),
-                      onTap: () {
-                        seeUserPosts = seeUserPosts ? false : true;
-                        Navigator.pop(context);
-                        setState(() {grabFeed(sortIndex);});
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.person_add),
-                      title: mode ? Text('Show All') : Text('Show Following'),
-                      onTap: () {
-                        seeUserPosts = false;
-                        mode = mode ? false : true;
-                        Navigator.pop(context);
-                        setState(() {grabFeed(sortIndex);});
-                      },
-                    ),
-                    ExpansionTile(
-                      leading: Icon(Icons.sort),
-                      title: Text("Sort"),
-                        children: <Widget>[
-                          ListTile(
-                            title: Text("Time"),
-                            onTap: () {
-                              setSortIndex(0);
-                              Navigator.pop(context);
-                              setState(() {grabFeed(sortIndex);});
-                            },
-                          ),
-                          ListTile(
-                            title: Text("Max Amount of People Allowed"),
-                            onTap: () {
-                              setSortIndex(1);
-                              Navigator.pop(context);
-                              setState(() {grabFeed(sortIndex);});
-                            },
-                          ),
-                          ListTile(
-                            title: Text("Most Amount of People Going"),
-                            onTap: () {
-                              setSortIndex(2);
-                              Navigator.pop(context);
-                              setState(() {grabFeed(sortIndex);});
-                            },
-                          ),
-                          ListTile(
-                            title: Text("Least Amount of People Going"),
-                            onTap: () {
-                              setSortIndex(3);
-                              Navigator.pop(context);
-                              setState(() {grabFeed(sortIndex);});
-                            },
-                          ),
-                        ],
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.logout),
-                      title: Text('Log Out'),
-                      onTap: () async {
-                        final FirebaseAuth auth = FirebaseAuth.instance;
-                        await auth.signOut();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
-              ),
+              drawer: drawer(),
               floatingActionButton: FloatingActionButton(
                 onPressed: () async {
                   await Navigator.push(context, MaterialPageRoute(builder: (context) => NewPost()));
@@ -147,7 +151,7 @@ class _FeedState extends State<Feed> {
                 child: ListView.builder(
                           itemCount: snapshot.data.length as int,
                           itemBuilder: (BuildContext context, int index) {
-                            return PostCard(postData: snapshot.data[index] as PostModel);
+                            return PostCard(postData: snapshot.data[index] as PostModel, manager: false);
                           },
                 )
               ),
