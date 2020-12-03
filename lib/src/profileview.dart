@@ -68,6 +68,12 @@ class _ProfileViewPage extends State<ProfileView> {
         .collection('following')
         .doc(widget.uid)
         .set({});
+    await reference
+        .collection('users')
+        .doc(await getDocumentUID(widget.uid))
+        .collection('followers')
+        .doc(_auth.currentUser.uid)
+        .set({});
     _isButtonDisabled = true;
     setState(() {});
   }
@@ -78,6 +84,12 @@ class _ProfileViewPage extends State<ProfileView> {
         .doc(await getDocumentUID(_auth.currentUser.uid))
         .collection('following')
         .doc(widget.uid)
+        .delete();
+    await reference
+        .collection('users')
+        .doc(await getDocumentUID(widget.uid))
+        .collection('followers')
+        .doc(_auth.currentUser.uid)
         .delete();
     _isButtonDisabled = false;
     setState(() {});
