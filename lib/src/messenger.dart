@@ -3,6 +3,38 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:reservrec/src/messengerFunctions.dart';
 import 'package:reservrec/src/messageCard.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+confirmationPopup(BuildContext dialogContext) async{
+  var alertStyle = AlertStyle(
+    animationType: AnimationType.grow,
+    overlayColor: Colors.black87,
+    isCloseButton: true,
+    isOverlayTapDismiss: true,
+    titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    descStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+    animationDuration: Duration(milliseconds: 400),
+  );
+
+  await Alert(
+      context: dialogContext,
+      style: alertStyle,
+      title: "Confirmation",
+      desc: "Message Sent.",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () {
+            Navigator.pop(dialogContext);
+          },
+          color: Colors.blue,
+        )
+      ]).show();
+}
+
 
 class MessengerView extends StatefulWidget {
   final String gameID;
@@ -74,6 +106,7 @@ class _MessengerViewPage extends State<MessengerView> {
                         backgroundColor: Colors.red,
                         onPressed: () async {
                           sendMessage(chatController, widget.gameID);
+                          await confirmationPopup(context);
                           Navigator.pop(context);
                         },
                       ),
