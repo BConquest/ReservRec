@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/new_post.dart';
 import 'package:reservrec/src/user_functions.dart';
 import 'package:reservrec/src/verify_location.dart';
@@ -38,14 +40,9 @@ void main() {
   });
 
   group('Async vs. Sync', () {
-    test('Asynchronous Check 1', () {
+    test('Asynchronous Check', () {
       //throws exception because nothing was ever awaited
       expect(validEmail("anything@crimson.ua.edu"), throwsException);
-    });
-
-    test('Asynchronous Check 2', () {
-      //throws exception because nothing was ever awaited
-      expect(getDocumentID("anything"), throwsException);
     });
   });
 
@@ -310,6 +307,29 @@ void main() {
 
     test('This is just a test to see if I can still push to the database', (){
       expect(isNumeric(isNumeric("true").toString()), false);
+    });
+  });
+
+  group('Sorting function equivalence', (){
+    test('Sorting four ways',(){
+      assert(sortMethod.length == 4);
+    });
+
+    test('Can set sort index',(){
+      setSortIndex(1);
+      assert(getSortIndex() == 1);
+    });
+
+    test('Cycling', (){
+      setSortIndex(0);
+      cycleFunction();
+      assert(getSortIndex() == 1);
+    });
+
+    test('Modular Arithmetic !', (){
+      setSortIndex(3);
+      cycleFunction();
+      assert(getSortIndex() == 0);
     });
   });
 }
