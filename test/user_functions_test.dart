@@ -6,6 +6,7 @@ import 'package:reservrec/src/verify_location.dart';
 import 'package:reservrec/models/user.dart';
 import 'package:reservrec/models/post.dart';
 import 'package:reservrec/src/hashing.dart';
+import 'package:reservrec/src/addLocation.dart';
 
 void main() {
   group('Username', () {
@@ -270,6 +271,37 @@ void main() {
       assert(myPost.postDescription == "Football with friends");
       assert(myPost.curPeople == 1);
       assert(myPost.postLocation == "University of Alabama");
+    });
+  });
+
+  group('Is Numeric Test', ()
+  {
+    test('Integer', (){
+      expect(isNumeric("1"), true);
+    });
+
+    test('Double', (){
+      expect(isNumeric("0.1234"), true);
+    });
+
+    test('Negative number',(){
+      expect(isNumeric("-17"), true);
+    });
+
+    test('Random letters', (){
+      expect(isNumeric("this is not a number"), false);
+    });
+
+    test('Hash Code',(){
+      expect(isNumeric(Sha256("")), false);
+    });
+
+    test('Emoji', (){
+      expect(isNumeric("😀"), false);
+    });
+
+    test('Numbers AND letters, wow', (){
+      expect(isNumeric("123abc.d"), false);
     });
   });
 }
