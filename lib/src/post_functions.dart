@@ -25,24 +25,50 @@ void changeJoinedStatus(int pid) async {
     await FirebaseFirestore.instance.collection('posts').doc(await getDocumentID(pid)).update(<String, dynamic>{'cur_people': FieldValue.increment(1)});
   }
 }
-
+// DONT TOUCH BREAK
 Future<List<UserC>> getCurUsers(int pid) async {
   String post_id = await getDocumentID(pid);
   final CollectionReference userCollection = FirebaseFirestore.instance.collection('posts').doc(post_id).collection('cur_users');
   final QuerySnapshot ss = await userCollection.get();
-  print('here lmoa');
   List<UserC> users = List();
   sleep(const Duration(seconds:5));
   ss.docs.forEach((document) {
     firestoreInstance.collection('users').where("user_id", isEqualTo: document.id).get().then((value){
       value.docs.forEach((element) {
         users.add(UserC.fromJson(element.data()));
-        print('user in func: $users');
       });
     });
   });
-  print('in func: $users');
   return users;
 
+}
+
+Future<List<String>> getCurrentUsersIDs(int pid) async {
+  List<String> users = List();
+  String post_id = await getDocumentID(pid);
+
+  CollectionReference currentUsers = FirebaseFirestore.instance.collection('posts').doc(post_id).collection('cur_users');
+  await currentUsers.get().then((value) {
+    value.docs.forEach((element) {
+      users.add(element.id.toString());
+    });
+  });
+  return users;
+}
+
+Future<List<UserC>> getCurUsers2(int pid) async {
+  String post_id = await getDocumentID(pid);
+  List<String> userIDs = await getCurrentUsersIDs(pid);
+
+  List<UserC> users = List();
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
+  final QuerySnapshot ss = await userCollection.get();
+
+  ss.docs.forEach((document) async {
+      users.add(UserC.fromJson(document.data()));
+  });
+  users.retainWhere((element) => userIDs.contains(element.userId));
+
+  return users;
 }
 
