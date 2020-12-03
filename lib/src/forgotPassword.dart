@@ -39,6 +39,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>  {
             hintText: 'Email',
             contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             border: OutlineInputBorder(
+
                 borderRadius: BorderRadius.circular(50.0)
             )
         ),
