@@ -157,14 +157,23 @@ class _Body extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
-        padding: const EdgeInsets.only(left: 8.0),
+        padding: const EdgeInsets.only(left: 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(bodyText, overflow: TextOverflow.visible, style: bodyTheme),
+            Container(
+              padding: EdgeInsets.only(left: 8),
+              child: Text(bodyText, overflow: TextOverflow.visible, style: bodyTheme),
+            ),
             SizedBox(height: 5.0),
-            DeleteButton(),
+            Container(
+              padding: EdgeInsets.only(left: 8),
+              child: DeleteButton(),
+            ),
+            //SizedBox(height: 5),
+            Divider(color: Colors.grey),
+            //SizedBox(height: 5),
             TeamSelection(),
           ],
         ),
@@ -341,8 +350,8 @@ class _TeamSelectionState extends State<TeamSelection> {
           } else {
             print('postData.id: ${postData.id}');
             var users = snapshot.data;
-            String c1 = "";
-            String c2 = "";
+            String c1 = "Team 1: \n";
+            String c2 = "Team 2: \n";
             int i = 0;
             print('len: ${users.length}');
             for (int j = 0; j < users.length; j++){
@@ -355,7 +364,22 @@ class _TeamSelectionState extends State<TeamSelection> {
               }
               i++;
             }
-            var ret = Text(c1);
+            if (c1.length > c2.length) {
+              c2 = c2 + '\n';
+            }
+            var ret = Container(
+                  //decoration: Decoration(),
+                  padding: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
+                  child: IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: Text(c1)),
+                        Expanded(child: Text(c2)),
+                      ],
+                    ),
+                  ),
+                );
             return ret;
           }
         });
