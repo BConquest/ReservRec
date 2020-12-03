@@ -24,13 +24,25 @@ exports.notifyOnNewPost = functions.firestore.document('/posts/{post_id}')
 exports.followerNotification = functions.firestore.document('/posts/{post_id}')
   .onCreate(async (snapshot, context) => {
     post = snapshot.data();
-    console.log('admin firestore: ' + admin.firestore())
+    console.log('admin firestore: ' + admin.firestore());
     const db = admin.firestore();
-    const querySnapshot = db
-      .collection('users')
+    const userRefs = db.collection('users');
+
+    const userSnap = await userRefs.get();
+
+    if (userSnap.empty) {
+       console.log('NO');
+       return;
+    }
+
+    userSnap.forEach(doc => {
+        console.log(doc.id, '=>', doc.data());
+    });
+
     console.log('querySnapshot: ' + typeof querySnapshot);
-    console.log('post.user_id: ' + post.user_id)
-    console.log('query doc: ' + typeof querySnapshot.doc)
+    console.log('post.user_id: ' + post.user_id);
+    console.log('query doc: ' + typeof querySnapshot.doc);
+
     querySnapshot.forEach(doc => {
       console.log('forEach: ' + doc.user_id);
     });
@@ -43,6 +55,6 @@ exports.followerNotification = functions.firestore.document('/posts/{post_id}')
         body: post.description.toString(),
       }
     };
-    console.log('Sent Notification')
-    return admin.messaging().sendToTopic(post.user_id, notificationContent)
+    console.log('Sent Notification');
+    return admin.messaging().sendToTopic(post.user_id, notificationContent);
     });
