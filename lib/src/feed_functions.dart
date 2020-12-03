@@ -264,6 +264,18 @@ void newEmail(String domain, String school) async {
 Future<void> deletePost(final post_id) async {
   String docid = await getDocumentID(post_id);
   print("Doc id is: " + docid);
+  QuerySnapshot data = await firestoreInstance.collection('posts').doc(docid).collection('cur_users').get();
+  QuerySnapshot data2 = await firestoreInstance.collection('posts').doc(docid).collection('chat').get();
+  if(data.size != 0) {
+    for (int i = 0; i < data.size; i++) {
+      await firestoreInstance.collection('posts').doc(docid).collection('cur_users').doc(data.docs[i].id.toString()).delete();
+    }
+  }
+  if(data2.size != 0) {
+    for (int i = 0; i < data2.size; i++) {
+      await firestoreInstance.collection('posts').doc(docid).collection('chat').doc(data2.docs[i].id.toString()).delete();
+    }
+  }
   await firestoreInstance.collection('posts').doc(docid).delete();
 }
 
