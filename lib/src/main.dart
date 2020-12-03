@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
       ),
       home: Scaffold(
-        appBar: AppBar(title: Text("ReservRec")),
+        appBar: AppBar(title: Text("ReserveRec")),
         body: MessageHandler(),
       ),
     );
