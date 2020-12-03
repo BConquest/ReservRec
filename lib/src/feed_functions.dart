@@ -115,10 +115,7 @@ Future<List<PostModel>> grabFeed(int sortMethodIndex) async {
 
         if (sublist.length > 1) {
           sublist.sort((a, b) {
-            return a.postTimeSet
-                .toString()
-                .toLowerCase()
-                .compareTo(b.postTimeSet.toString().toLowerCase());
+            return a.postTimeSet.compareTo(b.postTimeSet);
           });
         }
         temp.addAll(sublist);

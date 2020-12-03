@@ -4,6 +4,7 @@ import 'package:reservrec/src/dashboard.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:reservrec/src/user_functions.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 Future<String> getTimeDispString(DateTime time) async{
   print('Func: ${time.toString()}');
@@ -22,6 +23,36 @@ Future<String> getTimeDispString(DateTime time) async{
         .padLeft(2, ('0'))}:${time.minute.toString().padLeft(2, ('0'))} AM";
   }
   return "ERROR: Bad Time";
+}
+
+confirmationPopup(BuildContext dialogContext) async{
+  var alertStyle = AlertStyle(
+    animationType: AnimationType.grow,
+    overlayColor: Colors.black87,
+    isCloseButton: true,
+    isOverlayTapDismiss: true,
+    titleStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    descStyle: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+    animationDuration: Duration(milliseconds: 400),
+  );
+
+  await Alert(
+      context: dialogContext,
+      style: alertStyle,
+      title: "Error",
+      desc: "Please Select a Value",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "OK",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () {
+            Navigator.pop(dialogContext);
+          },
+          color: Colors.blue,
+        )
+      ]).show();
 }
 
 class NewPost extends StatefulWidget {
@@ -271,21 +302,26 @@ class _NewPostState extends State<NewPost> {
                 borderRadius: BorderRadius.circular(50)
             ),
             onPressed: () async {
-              String message = await newPost(sportController
-                  .text,
-                  descriptionController.text,
-                  dropdownLocationValue, gameTimeSet,
-                  int.parse(
-                      maxController.text),
-                  int.parse(minController
-                      .text));
-              if (message == "true") {
-                print("newPost");
-                //await Navigator.push(context, MaterialPageRoute(
-                //   builder: (context) => Feed()));
-                Navigator.pop(context);
-              } else {
-                print(message);
+              if(dropdownLocationValue == "Please Select a Value"){
+                confirmationPopup(context);
+              }
+              else {
+                String message = await newPost(sportController
+                    .text,
+                    descriptionController.text,
+                    dropdownLocationValue, gameTimeSet,
+                    int.parse(
+                        maxController.text),
+                    int.parse(minController
+                        .text));
+                if (message == "true") {
+                  print("newPost");
+                  //await Navigator.push(context, MaterialPageRoute(
+                  //   builder: (context) => Feed()));
+                  Navigator.pop(context);
+                } else {
+                  print(message);
+                }
               }
             },
           ),
