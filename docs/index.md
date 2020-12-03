@@ -15,7 +15,7 @@ A Flutter application.
 
 [zach](./zach.md)
 
-[phillip](./phillip.md)
+[philip](./philip.md)
 
 [ryan](./ryan.md)
 
@@ -42,3 +42,4 @@ By using our app, students across the nation can create, enjoy, and play any spo
    
  [x] Separate UI for manager vs users
    - This was done and allows for managers to see all the posts that have been made but does not allow them to create post. The opposite is true for players.
+   - However, managers can add locations and valid emails to their specific school, see all the times reserved, and delete any posts made by a player.
