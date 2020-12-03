@@ -240,13 +240,21 @@ void main() {
     });
 
     test('Other Setter Methods', (){
-      myPost.setDescription("University of Alabama");
       myPost.setMaxPeople(10);
       myPost.setMinPeople(2);
-      assert(myPost.school == "University of Alabama");
       assert(myPost.maxPeople == 10);
       assert(myPost.minPeople == 2);
       expect(myPost.minPeople, isInstanceOf<int>());
     });
+    test('Even More Setters', (){
+      myPost.setCurPeople(1);
+      myPost.setLocation("University of Alabama");
+      myPost.setDescription("Football with friends");
+      assert(myPost.postDescription == "Football with friends");
+      assert(myPost.curPeople == 1);
+      assert(myPost.postLocation == "University of Alabama");
+    });
+    test('Testing Datetimes', (){
+    })
   });
 }
