@@ -154,7 +154,7 @@ class _LoginPageState extends State<LoginPage>  {
 
               final FirebaseMessaging _fcm = FirebaseMessaging();
               _saveDeviceToken();
-              _fcm.unsubscribeFromTopic('posts');
+              await _fcm.unsubscribeFromTopic('posts');
               if (!manager) {
                 await Navigator.push(
                     context, MaterialPageRoute(builder: (context) => Feed()));

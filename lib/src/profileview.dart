@@ -4,6 +4,8 @@ import 'package:flutter/painting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:reservrec/src/user_functions.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'user_functions.dart';
 import 'dart:core';
@@ -22,6 +24,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewPage extends State<ProfileView> {
   final usernameController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
 
   List userPicture = [
     'https://i.imgur.com/DfGZewB.png',
@@ -62,6 +65,7 @@ class _ProfileViewPage extends State<ProfileView> {
   }
 
   void follow() async {
+    await _fcm.subscribeToTopic(widget.uid);
     await reference
         .collection('users')
         .doc(await getDocumentUID(_auth.currentUser.uid))
@@ -79,6 +83,7 @@ class _ProfileViewPage extends State<ProfileView> {
   }
 
   void unfollow() async {
+    await _fcm.unsubscribeFromTopic(widget.uid);
     await reference
         .collection('users')
         .doc(await getDocumentUID(_auth.currentUser.uid))
