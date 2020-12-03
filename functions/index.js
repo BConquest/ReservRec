@@ -28,30 +28,23 @@ exports.followerNotification = functions.firestore.document('/posts/{post_id}')
     const db = admin.firestore();
     const userRefs = db.collection('users');
 
-    const userSnap = await userRefs.get();
+    const userSnap = await userRefs.where('user_id', '==', post.user_id).get();
 
     if (userSnap.empty) {
        console.log('NO');
        return;
     }
-
+    var user;
+    var username
     userSnap.forEach(doc => {
         console.log(doc.id, '=>', doc.data());
+        username = doc.get("user_username");
     });
-
-    console.log('querySnapshot: ' + typeof querySnapshot);
-    console.log('post.user_id: ' + post.user_id);
-    console.log('query doc: ' + typeof querySnapshot.doc);
-
-    querySnapshot.forEach(doc => {
-      console.log('forEach: ' + doc.user_id);
-    });
-    console.log('user: ' + user.username.toString());
-
-
+    console.log('user: ' + user);
+    console.log('username: ' + username);
     const notificationContent = {
       notification: {
-        title: 'New post from ' + user.username.toString(),
+        title: 'New post from ' + username,
         body: post.description.toString(),
       }
     };

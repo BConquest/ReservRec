@@ -165,6 +165,7 @@ class _Body extends StatelessWidget {
             Text(bodyText, overflow: TextOverflow.visible, style: bodyTheme),
             SizedBox(height: 5.0),
             DeleteButton(),
+            TeamSelection(),
           ],
         ),
       ),
@@ -316,46 +317,48 @@ class DeleteButton extends StatelessWidget {
   }
 }
 
-class TeamSelection extends StatelessWidget {
+class TeamSelection extends StatefulWidget {
   final PostModel postData;
   const TeamSelection({Key key, this.postData}) : super(key: key);
+  @override
+  State<StatefulWidget> createState() {
+    return _TeamSelectionState();
+  }}
 
+class _TeamSelectionState extends State<TeamSelection> {
   @override
   Widget build(BuildContext context) {
     final PostModel postData = InheritedPostModel.of(context).postData;
     return FutureBuilder(
         future: getCurUsers(postData.id),
         builder: (BuildContext context, AsyncSnapshot<List<UserC>> snapshot) {
+          print('above if');
           if(!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError){
+            print('snap error ${snapshot.error}');
+            return Center(child: CircularProgressIndicator());
           } else {
-            return Expanded(
-              flex: 6,
-              child: Row(
-                children: getWidgets(snapshot.data)
-              ),
-            );
+            print('postData.id: ${postData.id}');
+            var users = snapshot.data;
+            String c1 = "";
+            String c2 = "";
+            int i = 0;
+            print('len: ${users.length}');
+            for (int j = 0; j < users.length; j++){
+              if(i % 2 == 0) {
+                c1 = c1 + '\n' + users[j].userUsername;
+                print('c1: $c1');
+              } else {
+                c2 = c2 + '\n' + users[j].userUsername;
+                print('c2: $c2');
+              }
+              i++;
+            }
+            var ret = Text(c1);
+            return ret;
           }
         });
-  }
-  List<Widget> getWidgets(List<UserC> users) {
-    List<Widget> c1 = List();
-    List<Widget> c2 = List();
-    int i = 0;
-    for (var user in users) {
-      if(i % 2 == 0) {
-        c1.add(Text(user.userUsername));
-      } else {
-        c2.add(Text(user.userUsername));
-      }
-      i++;
-    }
-    var col1 = Column(children: c1);
-    var col2 = Column(children: c2);
-    List<Widget> ret = List();
-    ret.add(col1);
-    ret.add(col2);
-    return ret;
   }
   /*
   Widget build(BuildContext context) {

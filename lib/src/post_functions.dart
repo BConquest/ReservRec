@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:reservrec/models/user.dart';
 import 'package:reservrec/src/feed_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,16 +27,21 @@ void changeJoinedStatus(int pid) async {
 }
 
 Future<List<UserC>> getCurUsers(int pid) async {
-  final CollectionReference userCollection = FirebaseFirestore.instance.collection('posts').doc(await getDocumentID(pid)).collection('cur_users');
+  String post_id = await getDocumentID(pid);
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('posts').doc(post_id).collection('cur_users');
   final QuerySnapshot ss = await userCollection.get();
-
+  print('here lmoa');
   List<UserC> users = List();
-  ss.docs.forEach((document) async {
-    await firestoreInstance.collection('users').where("user_id", isEqualTo: document.id).get().then((value){
-      value.docs.forEach((element) {users.add(UserC.fromJson(element.data()));});
+  sleep(const Duration(seconds:5));
+  ss.docs.forEach((document) {
+    firestoreInstance.collection('users').where("user_id", isEqualTo: document.id).get().then((value){
+      value.docs.forEach((element) {
+        users.add(UserC.fromJson(element.data()));
+        print('user in func: $users');
+      });
     });
   });
-
+  print('in func: $users');
   return users;
 
 }
