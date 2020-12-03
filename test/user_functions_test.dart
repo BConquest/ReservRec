@@ -28,6 +28,12 @@ void main() {
     test('Numbers', () {
       expect(verifyUsername("123456"), true);
     });
+
+    //two in one deal!
+
+    test('Hash Code', (){
+      expect(verifyUsername(Sha256("")), false);
+    });
   });
 
   group('Async vs. Sync', () {
