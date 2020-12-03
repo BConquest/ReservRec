@@ -24,20 +24,22 @@ exports.notifyOnNewPost = functions.firestore.document('/posts/{post_id}')
 exports.followerNotification = functions.firestore.document('/posts/{post_id}')
   .onCreate(async (snapshot, context) => {
     post = snapshot.data();
-    const db = admin.database().ref('/users/');
-    console.log('user_id: ' + post.user_id);
-    const userSnapshot = await db.where('user_id', '==', post.user_id).get();
-    if (userSnapshot.empty) {
-      console.log('No matching documents.');
-      return;
-    }
-    userSnapshot.forEach(doc => {
-      console.log('Doc found: ' + doc.user_id);
+    console.log('admin firestore: ' + admin.firestore())
+    const db = admin.firestore();
+    const querySnapshot = db
+      .collection('users')
+    console.log('querySnapshot: ' + typeof querySnapshot);
+    console.log('post.user_id: ' + post.user_id)
+    console.log('query doc: ' + typeof querySnapshot.doc)
+    querySnapshot.forEach(doc => {
+      console.log('forEach: ' + doc.user_id);
     });
+    console.log('user: ' + user.username.toString());
+
 
     const notificationContent = {
       notification: {
-        title: 'New post from ' + post.user_id,
+        title: 'New post from ' + user.username.toString(),
         body: post.description.toString(),
       }
     };
