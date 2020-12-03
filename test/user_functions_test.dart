@@ -136,6 +136,17 @@ void main() {
       assert(myUser.school == "University of Alabama");
       expect(myUser.school, isInstanceOf<String>());
     });
+
+    test('Yet again', (){
+      myUser.setBanned(true);
+      myUser.setGamesPlayed(4);
+      myUser.setSportsmanshipReport(0);
+      myUser.setPunctualityReport(1);
+      assert(myUser.banned);
+      assert(myUser.gamesPlayed == 4);
+      assert(myUser.sportsmanshipReport == 0);
+      assert(myUser.punctualityReport == 1);
+    });
   });
 
   group('Hashing Password', (){
@@ -254,7 +265,5 @@ void main() {
       assert(myPost.curPeople == 1);
       assert(myPost.postLocation == "University of Alabama");
     });
-    test('Testing Datetimes', (){
-    })
   });
 }
