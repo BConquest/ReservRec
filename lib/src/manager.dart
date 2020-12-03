@@ -96,7 +96,7 @@ class _FeedState extends State<Manager> {
                       } else if (index == 1) {
                         await Navigator.push(context, MaterialPageRoute(builder: (context) => addValidEmail()));
                       } else if (index == 2) {
-                        await Navigator.push(context, MaterialPageRoute(builder: (context) => MapSample()));
+                        await Navigator.push(context, MaterialPageRoute(builder: (context) => PickerDemo()));
                       }else {
                         final FirebaseAuth auth = FirebaseAuth.instance;
                         await auth.signOut();

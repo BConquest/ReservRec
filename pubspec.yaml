@@ -35,6 +35,7 @@ dependencies:
   pull_to_refresh: ^1.6.1
   flutter_datetime_picker: ^1.4.0
   google_maps_flutter: ^1.0.6
+  place_picker: any
   firebase_messaging:
 
   image_picker: ^0.6.7+12
@@ -42,7 +43,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
-  location: ^3.0.0
+  location: any
 flutter_icons:
    android: true
    ios: true

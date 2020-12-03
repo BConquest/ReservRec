@@ -6,6 +6,7 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="reservrec"
@@ -48,6 +49,6 @@
             android:value="2" />
         <meta-data
             android:name = "com.google.android.geo.API_KEY"
-            android:value="AIzaSyDVsgw5K4g-qHqU6Y9fdpJ6Mtpg-10P8Qk"/>
+            android:value="AIzaSyBCMPFwcO9MJT-OK_dYwLOVrzp_-Bj-FOs"/>
     </application>
 </manifest>

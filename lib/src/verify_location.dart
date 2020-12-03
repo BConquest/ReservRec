@@ -46,6 +46,7 @@ class _LocationPageState extends State<LocationPage> {
 
   //from https://www.geeksforgeeks.org/program-distance-two-points-earth/#:~:text=For%20this%20divide%20the%20values,is%20the%20radius%20of%20Earth.
 
+  /* Commented out by the man ryan on 12/03/2020
   @override
   void initState() {
     super.initState();
@@ -56,7 +57,7 @@ class _LocationPageState extends State<LocationPage> {
         currentLocation = result;
       });
     });
-  }
+  }*/
 
   // Button to Calc Distance between points
   Widget build(BuildContext context) {

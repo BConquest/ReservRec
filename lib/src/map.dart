@@ -1,47 +1,34 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:place_picker/place_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
 
-class MapSample extends StatefulWidget {
+class PickerDemo extends StatefulWidget {
   @override
-  State<MapSample> createState() => MapSampleState();
+  State<StatefulWidget> createState() => PickerDemoState();
 }
 
-class MapSampleState extends State<MapSample> {
-  Completer<GoogleMapController> _controller = Completer();
-
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-
+class PickerDemoState extends State<PickerDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: Text('To the lake!'),
-        icon: Icon(Icons.directions_boat),
+      appBar: AppBar(title: const Text('Picker Example')),
+      body: Center(
+        child: FlatButton(
+          child: Text("Pick Delivery location"),
+          onPressed: () {
+            showPlacePicker();
+          },
+        ),
       ),
     );
   }
 
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+  void showPlacePicker() async {
+    LocationResult result = await Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => PlacePicker("AIzaSyBCMPFwcO9MJT-OK_dYwLOVrzp_-Bj-FOs")));
+    // Handle the result in your way
+    print(result);
   }
 }
