@@ -7,6 +7,9 @@ A Flutter application.
  - [Dart](https://dart.dev/)
  - [Firebase](https://firebase.google.com/)
 
+# Deliverables
+[Deliverables](https://bconquest.github.io/ReservRec/deliverables)
+
 # About
 [bryant](./bryant.md) 
 
