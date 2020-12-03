@@ -370,13 +370,16 @@ class _TeamSelectionState extends State<TeamSelection> {
             var ret = Container(
                   //decoration: Decoration(),
                   padding: EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
-                  child: Row(
-                    children: [
-                      Expanded(child: Text(c1)),
-                      Expanded(child: Text(c2)),
-                ],
-              ),
-            );
+                  child: IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: Text(c1)),
+                        Expanded(child: Text(c2)),
+                      ],
+                    ),
+                  ),
+                );
             return ret;
           }
         });
