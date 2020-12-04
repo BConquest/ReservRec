@@ -126,6 +126,15 @@ class _FeedState extends State<Feed> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("Home")),
+      drawer: drawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Navigator.push(context, MaterialPageRoute(builder: (context) => NewPost()));
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Colors.red,
+      ),
       body: FutureBuilder(
         future: grabFeed(getSortIndex()),
         builder: (context, AsyncSnapshot snapshot) {
@@ -133,15 +142,6 @@ class _FeedState extends State<Feed> {
             return Center(child: CircularProgressIndicator());
           } else {
             return Scaffold(
-              appBar: AppBar(title: Text("Home")),
-              drawer: drawer(),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () async {
-                  await Navigator.push(context, MaterialPageRoute(builder: (context) => NewPost()));
-                },
-                child: Icon(Icons.add),
-                backgroundColor: Colors.red,
-              ),
               body: SmartRefresher(
                 enablePullDown: true,
                 enablePullUp: true,

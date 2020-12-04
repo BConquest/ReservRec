@@ -6,6 +6,7 @@ import 'package:reservrec/models/user.dart';
 import 'package:reservrec/src/user_functions.dart' as uf;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:math';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final reference = FirebaseFirestore.instance;
@@ -214,9 +215,8 @@ Future<String> newPost(String sport, String description, String location,
       .orderBy("post_id")
       .limitToLast(1)
       .get(); //grabs post with greatest id
-  int newID = 1 +
-      Post.fromJson(query.docs.first.data())
-          .postId; //extracts id and increments, though this creates issues with more than one app adding posts at the same time
+  final rand = Random.secure();
+  int newID = rand.nextInt(1000000000); //extracts id and increments, though this creates issues with more than one app adding posts at the same time
   final uid = _auth.currentUser.uid;
 
   String school = await uf.getCurrentSchool();
@@ -262,21 +262,30 @@ void newEmail(String domain, String school) async {
 }
 
 Future<void> deletePost(final post_id) async {
-  String docid = await getDocumentID(post_id);
-  print("Doc id is: " + docid);
-  QuerySnapshot data = await firestoreInstance.collection('posts').doc(docid).collection('cur_users').get();
-  QuerySnapshot data2 = await firestoreInstance.collection('posts').doc(docid).collection('chat').get();
-  if(data.size != 0) {
-    for (int i = 0; i < data.size; i++) {
-      await firestoreInstance.collection('posts').doc(docid).collection('cur_users').doc(data.docs[i].id.toString()).delete();
+    String docid = await getDocumentID(post_id);
+    print("Doc id is: " + docid);
+    QuerySnapshot data = await firestoreInstance.collection('posts')
+        .doc(docid)
+        .collection('cur_users')
+        .get();
+    QuerySnapshot data2 = await firestoreInstance.collection('posts')
+        .doc(docid)
+        .collection('chat')
+        .get();
+    if (data.size != 0) {
+      for (int i = 0; i < data.size; i++) {
+        await firestoreInstance.collection('posts').doc(docid).collection(
+            'cur_users').doc(data.docs[i].id.toString()).delete();
+      }
     }
-  }
-  if(data2.size != 0) {
-    for (int i = 0; i < data2.size; i++) {
-      await firestoreInstance.collection('posts').doc(docid).collection('chat').doc(data2.docs[i].id.toString()).delete();
+    if (data2.size != 0) {
+      for (int i = 0; i < data2.size; i++) {
+        await firestoreInstance.collection('posts').doc(docid).collection(
+            'chat').doc(data2.docs[i].id.toString()).delete();
+      }
     }
-  }
-  await firestoreInstance.collection('posts').doc(docid).delete();
+    await firestoreInstance.collection('posts').doc(docid).delete();
+
 }
 
 Future<String> getDocumentID(final post_id) async {
