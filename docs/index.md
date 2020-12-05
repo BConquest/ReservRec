@@ -9,6 +9,7 @@ A Flutter application.
 
 # Deliverables
 [Deliverables](https://bconquest.github.io/ReservRec/deliverables)
+[Video](https://youtu.be/RLMt4MaLcek)
 
 # About
 [Bryant](./bryant.md) 
