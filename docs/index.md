@@ -12,13 +12,13 @@ A Flutter application.
 - [Video](https://youtu.be/RLMt4MaLcek)
 
 # About
-[Bryant](./bryant.md) 
+- [Bryant](./bryant.md) 
 
-[Zach](./zach.md)
+- [Zach](./zach.md)
 
-[Philip](./philip.md)
+- [Philip](./philip.md)
 
-[Ryan](./ryan.md)
+- [Ryan](./ryan.md)
 
 # Our Mission
 At ReserveRec, we want to help connect students to create more enjoyable and memorable experiences on the field.
