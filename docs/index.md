@@ -8,7 +8,7 @@ A Flutter application.
  - [Firebase](https://firebase.google.com/)
 
 # Deliverables
-- [Deliverables](https://bconquest.github.io/ReservRec/deliverables)
+- [Deliverables](https://bconquest.github.io/ReserveRec/deliverables)
 - [Video](https://youtu.be/RLMt4MaLcek)
 
 # About
