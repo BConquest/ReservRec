@@ -20,7 +20,7 @@
 
 
 ## Sprint 3
-[Presentation]("")
+[Presentation]("https://github.com/BConquest/ReserveRec/blob/master/docs/deliverables/Sprint%203%20Pres.pdf")
 
 [Sprint 3 Daily Journal]("https://github.com/BConquest/ReserveRec/blob/master/docs/deliverables/Sprint%203%20Retrospective.pdf")
 
